@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "582245771418",
+    "firebase_url": "https://lkarnet.firebaseio.com",
+    "project_id": "lkarnet",
+    "storage_bucket": "lkarnet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582245771418:android:13087e03037d926da1d723",
+        "android_client_info": {
+          "package_name": "com.dev.bourheem.Lkarnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582245771418-josst9p3k22889mccdq35nifdjgjqnst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.bourheem.Lkarnet",
+            "certificate_hash": "4ead86eed00265fcb3971dd54008544e2ddea202"
+          }
+        },
+        {
+          "client_id": "582245771418-9nm60kvfqfkq903gfmps0758bhl0rtkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLYhlbO7nGg1ru201xVzfk5QKwne60ziw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582245771418-9nm60kvfqfkq903gfmps0758bhl0rtkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
