@@ -2,10 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthState {}
-
 class Unauthenticated extends AuthState {}
-
-class Authenticated extends AuthState {}
+class Authenticated extends AuthState {
+  final User user;
+  Authenticated(this.user);
+}
 
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -15,7 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (user == null) {
         emit(Unauthenticated());
       } else {
-        emit(Authenticated());
+        emit(Authenticated(user));
       }
     });
   }
