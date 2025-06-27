@@ -1,21 +1,13 @@
 part of 'payments_bloc.dart';
 
-enum PaymentsStatus {
-  initial,
-  loading,
-  loaded,
-  error,
-  added,
-  updated,
-  deleted,
-}
+enum PaymentsStatus { initial, loading, loaded, error, added, updated, deleted }
 
 class PaymentsState extends Equatable {
   final PaymentsStatus status;
   final List<PaymentModel> payments;
   final PaymentModel? payment;
   final String error;
-  PaymentsState({
+  const PaymentsState({
     required this.status,
     required this.payments,
     this.payment,

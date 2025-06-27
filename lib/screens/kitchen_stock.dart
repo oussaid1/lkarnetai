@@ -16,23 +16,26 @@ import '../widgets/charts.dart';
 import 'tabs/kitchen_element_detailed.dart';
 
 class KitchenStockHomeView extends StatelessWidget {
-  const KitchenStockHomeView({Key? key}) : super(key: key);
+  const KitchenStockHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => KitchenElementBloc(GetIt.I<DatabaseOperations>())
-            ..add(GetKitchenElementsEvent()),
+          create: (context) =>
+              KitchenElementBloc(GetIt.I<DatabaseOperations>())
+                ..add(GetKitchenElementsEvent()),
         ),
         BlocProvider(
-          create: (context) => KitchenItemBloc(GetIt.I<DatabaseOperations>())
-            ..add(GetKitchenItemsEvent()),
+          create: (context) =>
+              KitchenItemBloc(GetIt.I<DatabaseOperations>())
+                ..add(GetKitchenItemsEvent()),
         ),
         BlocProvider<DateFilterBloc>(
-          create: (context) => DateFilterBloc()
-            ..add(ChangeDateFilterEvent(dateFilter: DateFilter.all)),
+          create: (context) =>
+              DateFilterBloc()
+                ..add(ChangeDateFilterEvent(dateFilter: DateFilter.all)),
         ),
       ],
       child: KitchenStockWidget(),
@@ -41,7 +44,7 @@ class KitchenStockHomeView extends StatelessWidget {
 }
 
 class KitchenStockWidget extends StatelessWidget {
-  const KitchenStockWidget({Key? key}) : super(key: key);
+  const KitchenStockWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return BluredContainer(
@@ -49,77 +52,77 @@ class KitchenStockWidget extends StatelessWidget {
       end: 0,
       borderColorOpacity: 0,
       child: BlocBuilder<KitchenItemBloc, KitchenItemState>(
-          builder: (context, kItemsState) {
-        return BlocBuilder<KitchenElementBloc, KitchenElementState>(
+        builder: (context, kItemsState) {
+          return BlocBuilder<KitchenElementBloc, KitchenElementState>(
             builder: (context, kElmntsState) {
-          if (kItemsState.kitchenItems.isNotEmpty ||
-              kElmntsState.kitchenElements.isNotEmpty) {
-            List<KitchenElementModel> _kitchenElements =
-                kElmntsState.kitchenElements;
-            List<KitchenItemModel> _kitchenItems = kItemsState.kitchenItems;
-            KitchenElementsData? _kitchenElementsData = KitchenElementsData(
-              kitchenElementList: _kitchenElements,
-              kitchenItems: _kitchenItems,
-            );
-            //  log('KitchenStockHome: _kitchenElementsData: ${kElmntsState.status}');
-            //kitchenElements = KitchenElement.fakeKitchenElements;
-            return Scaffold(
-              backgroundColor: Colors.transparent,
+              if (kItemsState.kitchenItems.isNotEmpty ||
+                  kElmntsState.kitchenElements.isNotEmpty) {
+                List<KitchenElementModel> kitchenElements =
+                    kElmntsState.kitchenElements;
+                List<KitchenItemModel> kitchenItems = kItemsState.kitchenItems;
+                KitchenElementsData? kitchenElementsData = KitchenElementsData(
+                  kitchenElementList: kitchenElements,
+                  kitchenItems: kitchenItems,
+                );
+                //  log('KitchenStockHome: _kitchenElementsData: ${kElmntsState.status}');
+                //kitchenElements = KitchenElement.fakeKitchenElements;
+                return Scaffold(
+                  backgroundColor: Colors.transparent,
 
-              appBar: AppBar(
-                actions: [
-                  /// add kitchenEle to database
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AddKitchenElement(),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.add_box_outlined),
-                  )
-                  // NotificationsIconButton(
-                  //   ref: ref,
-                  // ),
-                ],
-                leading: Icon(Icons.kitchen_outlined, color: Colors.black),
-                title: Text(
-                  'Kitchen Stock',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                elevation: 0,
-                shadowColor: Colors.transparent,
-                excludeHeaderSemantics: true,
-                toolbarHeight: 40,
-                backgroundColor: AppConstants.whiteOpacity,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(AppConstants.radius),
-                    bottom: Radius.circular(AppConstants.radius),
+                  appBar: AppBar(
+                    actions: [
+                      /// add kitchenEle to database
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => AddKitchenElement(),
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.add_box_outlined),
+                      ),
+                      // NotificationsIconButton(
+                      //   ref: ref,
+                      // ),
+                    ],
+                    leading: Icon(Icons.kitchen_outlined, color: Colors.black),
+                    title: Text(
+                      'Kitchen Stock',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    excludeHeaderSemantics: true,
+                    toolbarHeight: 40,
+                    backgroundColor: AppConstants.whiteOpacity,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(AppConstants.radius),
+                        bottom: Radius.circular(AppConstants.radius),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              // Next, create a SliverList
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    _buildBarChartWidget(_kitchenElements),
-                    const SizedBox(height: 20),
-                    _buildGridView(context, _kitchenElementsData),
-                    const SizedBox(height: 50),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
-      }),
+                  // Next, create a SliverList
+                  body: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        _buildBarChartWidget(kitchenElements),
+                        const SizedBox(height: 20),
+                        _buildGridView(context, kitchenElementsData),
+                        const SizedBox(height: 50),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -138,15 +141,18 @@ class KitchenStockWidget extends StatelessWidget {
         ),
       ),
       child: BluredContainer(
-          margin: EdgeInsets.all(8),
-          width: 400,
-          height: 220,
-          child: ColumnChartKitchenElWidget(kitchenElements)),
+        margin: EdgeInsets.all(8),
+        width: 400,
+        height: 220,
+        child: ColumnChartKitchenElWidget(kitchenElements),
+      ),
     );
   }
 
   _buildGridView(
-      BuildContext context, KitchenElementsData _kitchenElementsData) {
+    BuildContext context,
+    KitchenElementsData kitchenElementsData,
+  ) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4),
       // height: 440,
@@ -155,14 +161,15 @@ class KitchenStockWidget extends StatelessWidget {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.4,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12),
-        itemCount: _kitchenElementsData.allKitchenElementData.length,
+          crossAxisCount: 2,
+          childAspectRatio: 1.4,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+        ),
+        itemCount: kitchenElementsData.allKitchenElementData.length,
         itemBuilder: (context, index) {
           final KitchenElementDataModel kitchenElement =
-              _kitchenElementsData.allKitchenElementData[index];
+              kitchenElementsData.allKitchenElementData[index];
           return KitchenItemSquareTile(
             onTap: () {
               Navigator.push(
@@ -184,10 +191,10 @@ class KitchenStockWidget extends StatelessWidget {
 
 class KitchenItemSquareTile extends StatelessWidget {
   const KitchenItemSquareTile({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.kitchenElement,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final KitchenElementDataModel kitchenElement;
@@ -235,12 +242,12 @@ class KitchenItemSquareTile extends StatelessWidget {
                       ],
                     ),
                   ),
+
                   // buildKitchenItemDetail(context,
                   //     title: 'Status: ',
                   //     digitWidget: ProgressWidget(
                   //       kitchenElement: kitchenElement,
                   //     )),
-
                   const SizedBox(height: 4),
                   _buildDetails(context),
                 ],
@@ -273,7 +280,7 @@ class KitchenItemSquareTile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              '${kitchenElement.kitchenElement.category!.trim()}',
+                              kitchenElement.kitchenElement.category!.trim(),
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
@@ -302,29 +309,38 @@ class KitchenItemSquareTile extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildKitchenItemDetail(context,
-                title: 'Last Bought: ',
-                digitWidget: Text(
-                  kitchenElement.lastTimeBought,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontFamily: 'Montserrat',
-                      color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6)),
-                )),
-            buildKitchenItemDetail(context,
-                title: 'Times Bought: ',
-                digitWidget: Text(
-                  kitchenElement.timesBought.toString(),
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6)),
-                )),
+            buildKitchenItemDetail(
+              context,
+              title: 'Last Bought: ',
+              digitWidget: Text(
+                kitchenElement.lastTimeBought,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  fontFamily: 'Montserrat',
+                  color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
+                ),
+              ),
+            ),
+            buildKitchenItemDetail(
+              context,
+              title: 'Times Bought: ',
+              digitWidget: Text(
+                kitchenElement.timesBought.toString(),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
+                ),
+              ),
+            ),
           ],
         ),
       ],
     );
   }
 
-  Padding buildKitchenItemDetail(BuildContext context,
-      {String? title, Widget? digitWidget}) {
+  Padding buildKitchenItemDetail(
+    BuildContext context, {
+    String? title,
+    Widget? digitWidget,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Column(
@@ -333,10 +349,9 @@ class KitchenItemSquareTile extends StatelessWidget {
         children: [
           Text(
             title ?? '',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Colors.white.withOpacity(0.3)),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Colors.white.withOpacity(0.3),
+            ),
           ),
           digitWidget ?? SizedBox.shrink(),
         ],

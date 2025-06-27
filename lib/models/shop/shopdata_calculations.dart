@@ -18,9 +18,11 @@ class ShopDataCalculations {
   }
 
   int get countItems {
-    int _x = 0;
-    items.forEach((element) => _x += element.count);
-    return _x;
+    int x = 0;
+    for (var element in items) {
+      x += element.count;
+    }
+    return x;
   }
 
   double get paymentsSum {
@@ -28,38 +30,40 @@ class ShopDataCalculations {
   }
 
   int get countPayments {
-    int _x = 0;
-    payments.forEach((element) => _x += element.count);
-    return _x;
+    int x = 0;
+    for (var element in payments) {
+      x += element.count;
+    }
+    return x;
   }
 
   // get percentage between paymentsSum and itemsSum
   double get spendingsUnitinterval {
-    double _percentage = 0;
+    double percentage = 0;
     if (itemsSum > 0) {
-      _percentage = paymentsSum / itemsSum;
+      percentage = paymentsSum / itemsSum;
     }
-    if (_percentage > 1) {
+    if (percentage > 1) {
       return 1.0;
     }
-    if (_percentage < 0) {
+    if (percentage < 0) {
       return 0;
     }
-    return _percentage;
+    return percentage;
   }
 
   double get spendingsPecentage {
-    double _percentage = 0;
+    double percentage = 0;
     if (itemsSum > 0) {
-      _percentage = (paymentsSum * 100) / itemsSum;
+      percentage = (paymentsSum * 100) / itemsSum;
     }
-    _percentage;
-    if (_percentage > 100) {
+    percentage;
+    if (percentage > 100) {
       return 1.0;
     }
-    if (_percentage < 0) {
+    if (percentage < 0) {
       return 0;
     }
-    return _percentage.toPrecision(2);
+    return percentage.toPrecision(2);
   }
 }

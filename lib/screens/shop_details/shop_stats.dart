@@ -6,7 +6,7 @@ import 'shop_stats_charts.dart';
 
 class ShopStatsPage extends StatefulWidget {
   final ShopData? shopData;
-  const ShopStatsPage({Key? key, required this.shopData}) : super(key: key);
+  const ShopStatsPage({super.key, required this.shopData});
   @override
   State<ShopStatsPage> createState() => _ShopStatsPageState();
 }

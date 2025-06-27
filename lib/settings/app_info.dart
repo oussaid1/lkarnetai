@@ -5,15 +5,14 @@ import '../components.dart';
 import '../utils.dart';
 
 final packageInfoProvider = FutureProvider<InfoModel>((ref) async {
-  return await PackageInfo.fromPlatform()
-      .then((value) => InfoModel(packageInfo: value));
+  return await PackageInfo.fromPlatform().then(
+    (value) => InfoModel(packageInfo: value),
+  );
 });
 
 class InfoModel {
   PackageInfo packageInfo;
-  InfoModel({
-    required this.packageInfo,
-  });
+  InfoModel({required this.packageInfo});
 
   String get appName => packageInfo.appName;
   String get packageName => packageInfo.packageName;
@@ -22,7 +21,7 @@ class InfoModel {
 }
 
 class AppInfoWidget extends ConsumerWidget {
-  const AppInfoWidget({Key? key}) : super(key: key);
+  const AppInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,8 +36,10 @@ class AppInfoWidget extends ConsumerWidget {
       ),
       trailing: const Icon(Icons.keyboard_arrow_right),
       onTap: () {
-        GlobalFunctions.showSnackBar(context,
-            '${info.value!.packageName}+\n${info.value!.version}+\n${info.value!.buildNumber}');
+        GlobalFunctions.showSnackBar(
+          context,
+          '${info.value!.packageName}+\n${info.value!.version}+\n${info.value!.buildNumber}',
+        );
       },
     );
   }

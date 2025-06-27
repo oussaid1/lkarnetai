@@ -11,7 +11,7 @@ class GlassContainer extends StatelessWidget {
   final double borderOpacity;
   final Color backgroundColor;
   const GlassContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.backgroundColor = Colors.transparent,
     this.blurSygmaX = 43,
@@ -19,7 +19,7 @@ class GlassContainer extends StatelessWidget {
     this.borderOpacity = 0.1,
     this.start = 0.4,
     this.end = 0.2,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,9 @@ class GlassContainer extends StatelessWidget {
               begin: AlignmentDirectional.topStart,
               end: AlignmentDirectional.bottomEnd,
             ),
-            borderRadius:
-                BorderRadius.all(Radius.circular(AppConstants.radius)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppConstants.radius),
+            ),
             border: Border.all(
               width: 1.5,
               color: Colors.white.withOpacity(borderOpacity),
@@ -65,7 +66,7 @@ class BluredContainer extends StatelessWidget {
   final double borderColorOpacity;
 
   const BluredContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.start = 0.15,
     this.end = 0.15,
@@ -73,7 +74,7 @@ class BluredContainer extends StatelessWidget {
     this.height,
     this.margin,
     this.borderColorOpacity = 0.3,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +87,9 @@ class BluredContainer extends StatelessWidget {
           width: width ?? MediaQuery.of(context).size.width,
           height: height ?? MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.all(Radius.circular(AppConstants.radius)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppConstants.radius),
+            ),
             gradient: LinearGradient(
               colors: [
                 Colors.white.withOpacity(start),
@@ -117,15 +119,12 @@ class GlassMaterial extends StatelessWidget {
 
   final List<Widget> circleWidgets;
   const GlassMaterial({
-    Key? key,
+    super.key,
     required this.centerWidget,
     this.alignment = Alignment.center,
-    this.gradientColors = const [
-      Color(0xD52A76DA),
-      Color(0xBDD43FCD),
-    ],
+    this.gradientColors = const [Color(0xD52A76DA), Color(0xBDD43FCD)],
     required this.circleWidgets,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,20 +133,15 @@ class GlassMaterial extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: gradientColors),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: gradientColors,
+          ),
         ),
         child: Stack(
           children: [
-            Stack(
-              fit: StackFit.expand,
-              children: circleWidgets,
-            ),
-            Align(
-              alignment: alignment,
-              child: centerWidget,
-            ),
+            Stack(fit: StackFit.expand, children: circleWidgets),
+            Align(alignment: alignment, child: centerWidget),
           ],
         ),
       ),
@@ -157,13 +151,13 @@ class GlassMaterial extends StatelessWidget {
 
 class FrostedContainer extends StatelessWidget {
   const FrostedContainer({
-    Key? key,
+    super.key,
     required this.child,
     required this.color,
     required this.blurSygmaX,
     required this.blurSygmaY,
     required this.borderOpacity,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final Color color;
@@ -180,10 +174,7 @@ class FrostedContainer extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              color.withOpacity(0.4),
-              color.withOpacity(0.4),
-            ],
+            colors: [color.withOpacity(0.4), color.withOpacity(0.4)],
           ),
           borderRadius: BorderRadius.circular(6),
           boxShadow: [

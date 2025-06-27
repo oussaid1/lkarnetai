@@ -5,6 +5,8 @@ import 'package:lkarnet/screens/add/add_payment.dart';
 import 'package:lkarnet/screens/add/add_shop.dart';
 
 class AddTab extends StatelessWidget {
+  const AddTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -16,10 +18,9 @@ class AddTab extends StatelessWidget {
           flexibleSpace: TabBar(
             indicatorPadding: EdgeInsets.only(left: 8),
             indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  12.0,
-                ),
-                color: Theme.of(context).colorScheme.secondary),
+              borderRadius: BorderRadius.circular(12.0),
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             labelColor: Colors.white,
             unselectedLabelColor: Theme.of(context).dividerColor,
             tabs: [
@@ -39,12 +40,7 @@ class AddTab extends StatelessWidget {
         ),
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
-          children: [
-            AddShop(),
-            AddItem(),
-            AddCategory(),
-            AddPayment(),
-          ],
+          children: [AddShop(), AddItem(), AddCategory(), AddPayment()],
         ),
       ),
     );
@@ -62,12 +58,12 @@ class AddTab extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
             height: 500,
-            child: SizedBox.expand(child: AddPayment()),
             margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(6),
             ),
+            child: SizedBox.expand(child: AddPayment()),
           ),
         );
       },

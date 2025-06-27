@@ -16,10 +16,7 @@ import '../../widgets/search_by_widget.dart';
 
 class ViewPaymentsList extends StatelessWidget {
   final List<PaymentModel>? lista;
-  ViewPaymentsList({
-    Key? key,
-    this.lista,
-  }) : super(key: key);
+  const ViewPaymentsList({super.key, this.lista});
 
   @override
   Widget build(BuildContext context) {
@@ -33,51 +30,57 @@ class ViewPaymentsList extends StatelessWidget {
                   builder: (context, filterState) {
                     //////////////////////////////////////////////////////
                     //////////////////////////////////////////////////////
-                    List<ItemModel> _items = itemsState.items;
-                    List<PaymentModel> _payments = paymentsState.payments;
-                    List<ShopModel> _shops = shopsState.shops;
+                    List<ItemModel> items = itemsState.items;
+                    List<PaymentModel> payments = paymentsState.payments;
+                    List<ShopModel> shops = shopsState.shops;
                     //////////////////////////////////////////////////////
 
-                    DataSink _dataSink = DataSink(
-                      items: _items,
-                      payments: _payments,
-                      shops: _shops,
+                    DataSink dataSink = DataSink(
+                      items: items,
+                      payments: payments,
+                      shops: shops,
                     );
-                    List<ShopData> _shopsDataList = _dataSink.allShopsData;
+                    List<ShopData> shopsDataList = dataSink.allShopsData;
 
                     return Container(
                       margin: EdgeInsets.only(
-                          top: 10, left: 4, right: 4, bottom: 8),
+                        top: 10,
+                        left: 4,
+                        right: 4,
+                        bottom: 8,
+                      ),
                       child: ListView.builder(
-                        itemCount: _shopsDataList.length,
+                        itemCount: shopsDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          ShopData shopsData = _shopsDataList[index];
-                          return new ExpansionTile(
+                          ShopData shopsData = shopsDataList[index];
+                          return ExpansionTile(
                             title: Text('${shopsData.shop.shopName}'),
                             trailing: Text(
-                                '${shopsData.shopDataCalculations.paymentsSum}'),
+                              '${shopsData.shopDataCalculations.paymentsSum}',
+                            ),
                             leading: CircleAvatar(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.secondary,
                               child: const Icon(
                                 Icons.account_circle,
                                 size: 40,
                                 color: Colors.grey,
                               ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
                             ),
                             expandedCrossAxisAlignment:
                                 CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 300,
                                 width: 400,
                                 child: ListView.builder(
                                   itemCount: lista!.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    PaymentModel payment = lista![index];
-                                    return PaymentTile(payment: payment);
-                                  },
+                                        PaymentModel payment = lista![index];
+                                        return PaymentTile(payment: payment);
+                                      },
                                 ),
                               ),
                             ],
@@ -98,10 +101,7 @@ class ViewPaymentsList extends StatelessWidget {
 
 class PaymentsList extends StatefulWidget {
   final List<PaymentModel> lista;
-  PaymentsList({
-    Key? key,
-    required this.lista,
-  }) : super(key: key);
+  const PaymentsList({super.key, required this.lista});
   @override
   State<PaymentsList> createState() => _PaymentsListState();
 }
@@ -114,25 +114,33 @@ class _PaymentsListState extends State<PaymentsList> {
     switch (_filterType) {
       case "date":
         return lista
-            .where((item) =>
-                item.datePaid.ddmmyyyy().contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.datePaid.ddmmyyyy().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       case "price":
         return lista
             .where(
-                (item) => item.paidAmount.toString().contains(_filterPattern))
+              (item) => item.paidAmount.toString().contains(_filterPattern),
+            )
             .toList();
       case "category":
         return lista
-            .where((item) => item.besoinTitle!
-                .toLowerCase()
-                .contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.besoinTitle!.toLowerCase().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       case "shop":
         return lista
-            .where((item) => item.paidShopName!
-                .toLowerCase()
-                .contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.paidShopName!.toLowerCase().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       default:
     }

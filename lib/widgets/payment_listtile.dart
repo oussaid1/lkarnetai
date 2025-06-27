@@ -11,10 +11,10 @@ import 'price_curency_widget.dart';
 
 class PaymentTile extends StatelessWidget {
   const PaymentTile({
-    Key? key,
+    super.key,
     required this.payment,
     this.withActions = false,
-  }) : super(key: key);
+  });
   final bool withActions;
   final PaymentModel payment;
 
@@ -26,16 +26,16 @@ class PaymentTile extends StatelessWidget {
               motion: ScrollMotion(),
               children: [
                 SlidableAction(
-                    backgroundColor: Colors.transparent,
-                    icon: Icons.mode_edit,
-                    label: 'Edit',
-                    onPressed: (context) {
-                      Dialogs.botomUpDialog(
-                          context,
-                          AddPayment(
-                            payment: payment,
-                          ));
-                    }),
+                  backgroundColor: Colors.transparent,
+                  icon: Icons.mode_edit,
+                  label: 'Edit',
+                  onPressed: (context) {
+                    Dialogs.botomUpDialog(
+                      context,
+                      AddPayment(payment: payment),
+                    );
+                  },
+                ),
               ],
             ),
             endActionPane: ActionPane(
@@ -46,60 +46,58 @@ class PaymentTile extends StatelessWidget {
                   label: 'Delete',
                   backgroundColor: Colors.transparent,
                   onPressed: (context2) {
-                    Dialogs.dialogSimple(context,
-                        title: 'Are you sure !!?',
-                        widgets: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 120,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      'Cancel',
-                                    ),
-                                    onPressed: () => Navigator.pop(context),
-                                    style: MThemeData.raisedButtonStyleCancel,
+                    Dialogs.dialogSimple(
+                      context,
+                      title: 'Are you sure !!?',
+                      widgets: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 120,
+                                child: ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  style: MThemeData.raisedButtonStyleCancel,
+                                  child: Text('Cancel'),
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              SizedBox(
+                                width: 120,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    BlocProvider.of<PaymentsBloc>(
+                                      context,
+                                    ).add(DeletePaymentEvent(payment));
+                                    Navigator.pop(context);
+                                  },
+                                  style: MThemeData.raisedButtonStyleSave,
+                                  child: Text(
+                                    'Ok',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.displaySmall,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  width: 120,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      'Ok',
-                                      style:
-                                          Theme.of(context).textTheme.displaySmall,
-                                    ),
-                                    onPressed: () {
-                                      BlocProvider.of<PaymentsBloc>(context)
-                                          .add(DeletePaymentEvent(payment));
-                                      Navigator.pop(context);
-                                    },
-                                    style: MThemeData.raisedButtonStyleSave,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ]);
+                        ),
+                      ],
+                    );
                   },
                 ),
               ],
             ),
-            child: PaymentListTileOnly(payment: payment))
+            child: PaymentListTileOnly(payment: payment),
+          )
         : PaymentListTileOnly(payment: payment);
   }
 }
 
 class PaymentListTileOnly extends StatelessWidget {
-  const PaymentListTileOnly({
-    Key? key,
-    required this.payment,
-  }) : super(key: key);
+  const PaymentListTileOnly({super.key, required this.payment});
 
   final PaymentModel payment;
 
@@ -108,10 +106,7 @@ class PaymentListTileOnly extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.radius),
-        side: BorderSide(
-          color: AppConstants.whiteOpacity,
-          width: 1,
-        ),
+        side: BorderSide(color: AppConstants.whiteOpacity, width: 1),
       ),
       color: Color.fromARGB(69, 255, 0, 102).withOpacity(0.2),
       child: SizedBox(
@@ -128,8 +123,8 @@ class PaymentListTileOnly extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(69, 255, 0, 102).withOpacity(0.2),
-                    // : Color.fromRGBO(230, 33, 141, 0.643),
 
+                    // : Color.fromRGBO(230, 33, 141, 0.643),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(AppConstants.radius),
                       bottomLeft: Radius.circular(AppConstants.radius),
@@ -145,10 +140,9 @@ class PaymentListTileOnly extends StatelessWidget {
                       ),
                       Text(
                         'payment',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 10),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleSmall!.copyWith(fontSize: 10),
                       ),
                     ],
                   ),
@@ -171,7 +165,7 @@ class PaymentListTileOnly extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       Text(
-                        '${payment.datePaid.formatted()}',
+                        payment.datePaid.formatted(),
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ],
@@ -179,12 +173,13 @@ class PaymentListTileOnly extends StatelessWidget {
                   Row(
                     children: [
                       Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: PriceNumberZone(
-                            price: payment.paidAmount,
-                            style: Theme.of(context).textTheme.headlineMedium,
-                            withDollarSign: true,
-                          )),
+                        padding: EdgeInsets.all(4.0),
+                        child: PriceNumberZone(
+                          price: payment.paidAmount,
+                          style: Theme.of(context).textTheme.headlineMedium,
+                          withDollarSign: true,
+                        ),
+                      ),
                       const SizedBox(width: 8),
                     ],
                   ),

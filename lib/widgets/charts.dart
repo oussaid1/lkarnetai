@@ -10,7 +10,7 @@ import '../models/kitchen/kitchen_element.dart';
 class SemiPeiWidget extends ConsumerWidget {
   final List<ItemsChartData> chartData;
   final Widget widget;
-  SemiPeiWidget(this.chartData, this.widget);
+  const SemiPeiWidget(this.chartData, this.widget, {super.key});
 
   @override
   Widget build(BuildContext context, wacth) {
@@ -44,7 +44,7 @@ class SemiPeiWidget extends ConsumerWidget {
 class PeiWidget extends StatelessWidget {
   final List<ItemsChartData> chartData;
   final String? title;
-  const PeiWidget({Key? key, required this.chartData, this.title});
+  const PeiWidget({super.key, required this.chartData, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +103,7 @@ class PeiWidget extends StatelessWidget {
 class PeiWidgetForTagged extends StatelessWidget {
   final List<ShopData> chartData;
   final String? title;
-  const PeiWidgetForTagged({Key? key, required this.chartData, this.title})
-    : super(key: key);
+  const PeiWidgetForTagged({super.key, required this.chartData, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +151,7 @@ class LineChartWidgetDate extends StatelessWidget {
   final List<ItemsChartData> chartData;
   final String? title;
 
-  const LineChartWidgetDate({Key? key, required this.chartData, this.title})
-    : super(key: key);
+  const LineChartWidgetDate({super.key, required this.chartData, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +178,11 @@ class LineChartWidgetDate extends StatelessWidget {
 class ColumnChartWidget extends StatelessWidget {
   final List<Tagged> chartData;
   final String? title;
-  const ColumnChartWidget({Key? key, required this.chartData, this.title})
-    : super(key: key);
+  const ColumnChartWidget({super.key, required this.chartData, this.title});
 
   @override
   Widget build(BuildContext context) {
-    chartData..sort(
+    chartData.sort(
       (a, b) => b.shopDataCalculations.itemsSumAfterPayment.compareTo(
         a.shopDataCalculations.itemsSumAfterPayment,
       ),
@@ -205,7 +202,7 @@ class ColumnChartWidget extends StatelessWidget {
 class ColumnChartKitchenElWidget extends ConsumerWidget {
   final List<KitchenElementModel> kitchenData;
 
-  ColumnChartKitchenElWidget(this.kitchenData);
+  const ColumnChartKitchenElWidget(this.kitchenData, {super.key});
 
   @override
   Widget build(BuildContext context, wacth) {

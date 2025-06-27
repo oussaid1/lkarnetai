@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import '../const/constents.dart';
 
 class MyAppBar extends StatelessWidget {
-  const MyAppBar({
-    Key? key,
-    this.title,
-    this.actions,
-    this.leading,
-  }) : super(key: key);
+  const MyAppBar({super.key, this.title, this.actions, this.leading});
   final Widget? title;
   final Widget? leading;
   final List<Widget>? actions;

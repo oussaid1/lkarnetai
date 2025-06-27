@@ -10,8 +10,7 @@ import '../models/kitchen/kitchen_item.dart';
 import '../screens/lists/unavailiable_elements.dart';
 
 class NotificationsIconButton extends StatefulWidget {
-  const NotificationsIconButton({Key? key, required this.ref})
-      : super(key: key);
+  const NotificationsIconButton({super.key, required this.ref});
   final WidgetRef ref;
   @override
   State<NotificationsIconButton> createState() =>
@@ -22,52 +21,52 @@ class _NotificationsIconBottonutate extends State<NotificationsIconButton> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<KitchenItemBloc, KitchenItemState>(
-        builder: (context, kItemsState) {
-      return BlocBuilder<KitchenElementBloc, KitchenElementState>(
+      builder: (context, kItemsState) {
+        return BlocBuilder<KitchenElementBloc, KitchenElementState>(
           builder: (context, kElmntsState) {
-        List<KitchenElementModel> _kitchenElements =
-            kElmntsState.kitchenElements;
-        List<KitchenItemModel> _kitchenItems = kItemsState.kitchenItems;
-        KitchenElementsData _kitchenElementsData = KitchenElementsData(
-          kitchenElementList: _kitchenElements,
-          kitchenItems: _kitchenItems,
+            List<KitchenElementModel> kitchenElements =
+                kElmntsState.kitchenElements;
+            List<KitchenItemModel> kitchenItems = kItemsState.kitchenItems;
+            KitchenElementsData kitchenElementsData = KitchenElementsData(
+              kitchenElementList: kitchenElements,
+              kitchenItems: kitchenItems,
+            );
+
+            // _kitchenElementData = _kitchenElements
+            //     .map((element) => KitchenElementDataModel(
+            //           kitchenElement: element,
+            //           kitchenItemList: _kitchenItems
+            //               .where((item) =>
+            //                   item.kitchenElementId == element.id)
+            //               .toList(),
+            //         ))
+            //     .toList();
+
+            return NotificationBadgeWidget(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UnAvailiableElements(
+                      elementData: kitchenElementsData.unavaliableElements,
+                    ),
+                  ),
+                );
+              },
+              count: KitchenElementsData(
+                kitchenElementList: kitchenElements,
+                kitchenItems: kitchenItems,
+              ).unavaliableElements.length,
+            );
+          },
         );
-
-        // _kitchenElementData = _kitchenElements
-        //     .map((element) => KitchenElementDataModel(
-        //           kitchenElement: element,
-        //           kitchenItemList: _kitchenItems
-        //               .where((item) =>
-        //                   item.kitchenElementId == element.id)
-        //               .toList(),
-        //         ))
-        //     .toList();
-
-        return NotificationBadgeWidget(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UnAvailiableElements(
-                      elementData: _kitchenElementsData.unavaliableElements),
-                ),
-              );
-            },
-            count: KitchenElementsData(
-              kitchenElementList: _kitchenElements,
-              kitchenItems: _kitchenItems,
-            ).unavaliableElements.length);
-      });
-    });
+      },
+    );
   }
 }
 
 class NotificationBadgeWidget extends StatelessWidget {
-  const NotificationBadgeWidget({
-    Key? key,
-    this.onTap,
-    required this.count,
-  }) : super(key: key);
+  const NotificationBadgeWidget({super.key, this.onTap, required this.count});
   final VoidCallback? onTap;
   final int count;
   @override
@@ -93,18 +92,17 @@ class NotificationBadgeWidget extends StatelessWidget {
                       child: Text(
                         '$count',
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 8),
                       ),
                     ),
                   ),
                 )
               : Container(),
           IconButton(
-            icon: Icon(Icons.notifications_active,
-                color: Color.fromARGB(193, 233, 233, 233)),
+            icon: Icon(
+              Icons.notifications_active,
+              color: Color.fromARGB(193, 233, 233, 233),
+            ),
             onPressed: onTap!,
           ),
         ],

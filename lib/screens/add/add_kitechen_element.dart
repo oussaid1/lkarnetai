@@ -12,7 +12,7 @@ import '../tabs/kitchen_element_detailed.dart';
 class AddKitchenElement extends ConsumerStatefulWidget {
   final KitchenElementModel? kitchenElement;
 
-  AddKitchenElement({this.kitchenElement});
+  const AddKitchenElement({super.key, this.kitchenElement});
 
   @override
   _AddItemState createState() => _AddItemState();
@@ -34,8 +34,8 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
   void _updatefeilds() {
     if (widget.kitchenElement != null) {
       _itemNameController.text = widget.kitchenElement!.title.toString();
-      _elementCategoryController.text =
-          widget.kitchenElement!.category.toString();
+      _elementCategoryController.text = widget.kitchenElement!.category
+          .toString();
       _availability = widget.kitchenElement!.availability!;
       _priorityRating = widget.kitchenElement!.priority!;
     }
@@ -62,72 +62,66 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
   Widget build(BuildContext context) {
     // final logger = Logger();
     return GlassMaterial(
-        circleWidgets: [
-          Positioned(
-            width: 100,
-            height: 100,
-            left: 10,
-            top: 120,
-            child: AppAssets.pinkCircleWidget,
-          ),
-          Positioned(
-            width: 180,
-            height: 180,
-            right: 80,
-            top: 200,
-            child: AppAssets.purpleCircleWidget,
-          ),
-          Positioned(
-            width: 140,
-            height: 140,
-            left: 30,
-            bottom: 80,
-            child: AppAssets.blueCircleWidget,
+      circleWidgets: [
+        Positioned(
+          width: 100,
+          height: 100,
+          left: 10,
+          top: 120,
+          child: AppAssets.pinkCircleWidget,
+        ),
+        Positioned(
+          width: 180,
+          height: 180,
+          right: 80,
+          top: 200,
+          child: AppAssets.purpleCircleWidget,
+        ),
+        Positioned(
+          width: 140,
+          height: 140,
+          left: 30,
+          bottom: 80,
+          child: AppAssets.blueCircleWidget,
+        ),
+      ],
+      gradientColors: AppConstants.myGradients,
+      centerWidget: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                KitchenElementBloc(GetIt.I<DatabaseOperations>())
+                  ..add(GetKitchenElementsEvent()),
           ),
         ],
-        gradientColors: AppConstants.myGradients,
-        centerWidget: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) =>
-                  KitchenElementBloc(GetIt.I<DatabaseOperations>())
-                    ..add(GetKitchenElementsEvent()),
-            ),
-          ],
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
-              shadowColor: Colors.transparent,
-              excludeHeaderSemantics: true,
-              toolbarHeight: 40,
-              backgroundColor: AppConstants.whiteOpacity,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(AppConstants.radius),
-                  bottom: Radius.circular(AppConstants.radius),
-                ),
-              ),
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              title: Text(
-                widget.kitchenElement != null ? "تعديل المادة" : "اضافة مادة",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            excludeHeaderSemantics: true,
+            toolbarHeight: 40,
+            backgroundColor: AppConstants.whiteOpacity,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(AppConstants.radius),
+                bottom: Radius.circular(AppConstants.radius),
               ),
             ),
-            body: SingleChildScrollView(
-              child: BlocBuilder<KitchenElementBloc, KitchenElementState>(
-                  builder: (context, snapshot) {
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            title: Text(
+              widget.kitchenElement != null ? "تعديل المادة" : "اضافة مادة",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: BlocBuilder<KitchenElementBloc, KitchenElementState>(
+              builder: (context, snapshot) {
                 if (snapshot.kitchenElements.isNotEmpty) {
                   _kitchenElements = snapshot.kitchenElements;
                 }
@@ -145,33 +139,33 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
                         _buildDivider(),
                         _buildAvailability(context),
                         SizedBox(height: 40),
-                        _buildSave(context)
+                        _buildSave(context),
                       ],
                     ),
                   ),
                 );
-              }),
+              },
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Padding _buildTitle(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 8),
-        child: Text('Add Kitchen Element',
-            style: Theme.of(context).textTheme.displaySmall));
+      padding: EdgeInsets.only(top: 20, bottom: 8),
+      child: Text(
+        'Add Kitchen Element',
+        style: Theme.of(context).textTheme.displaySmall,
+      ),
+    );
   }
 
   Padding _buildDivider() {
     return Padding(
       padding: EdgeInsets.only(top: 18.0, bottom: 18),
-      child: Divider(
-        height: 3,
-        indent: 12,
-        color: Colors.amber,
-        endIndent: 12,
-      ),
+      child: Divider(height: 3, indent: 12, color: Colors.amber, endIndent: 12),
     );
   }
 
@@ -180,36 +174,34 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(
-                'Cancel',
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: MThemeData.raisedButtonStyleCancel),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: MThemeData.raisedButtonStyleCancel,
+            child: Text('Cancel'),
+          ),
         ),
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(
-                widget.kitchenElement == null ? 'Save' : 'Update',
-              ),
-              onPressed: !_canSave
-                  ? null
-                  : () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            onPressed: !_canSave
+                ? null
+                : () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
                         duration: Duration(seconds: 1),
                         content: Text('Saving...'),
-                      ));
+                      ),
+                    );
 
-                      widget.kitchenElement == null
-                          ? _save(bloc)
-                          : _update(bloc);
-                    },
-              style: MThemeData.raisedButtonStyleSave),
+                    widget.kitchenElement == null ? _save(bloc) : _update(bloc);
+                  },
+            style: MThemeData.raisedButtonStyleSave,
+            child: Text(widget.kitchenElement == null ? 'Save' : 'Update'),
+          ),
         ),
       ],
     );
@@ -243,8 +235,10 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                Text('Priority', style: Theme.of(context).textTheme.bodyLarge),
+            child: Text(
+              'Priority',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ),
           PiorityRatingWidget(
             initialRating: _priorityRating,
@@ -279,18 +273,15 @@ class _AddItemState extends ConsumerState<AddKitchenElement> {
                 color: Color.fromARGB(117, 212, 211, 211),
               ),
               suffix: IconButton(
-                icon: Icon(
-                  Icons.clear_outlined,
-                  size: 18,
-                ),
+                icon: Icon(Icons.clear_outlined, size: 18),
                 onPressed: () {
                   _itemNameController.clear();
                 },
               ),
               hintText: 'element name',
-              hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.grey,
-                  ),
+              hintStyle: Theme.of(
+                context,
+              ).textTheme.bodyLarge!.copyWith(color: Colors.grey),
 
               fillColor: AppConstants.whiteOpacity,
               filled: true,

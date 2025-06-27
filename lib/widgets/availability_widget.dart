@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import '../components.dart';
 
 class ProgressWidget extends StatelessWidget {
-  const ProgressWidget({
-    Key? key,
-    required this.availability,
-  }) : super(key: key);
+  const ProgressWidget({super.key, required this.availability});
   final double availability;
 
   @override
@@ -21,8 +18,10 @@ class ProgressWidget extends StatelessWidget {
             labelFormat: '$availability',
             labelOffset: 15,
             labelsPosition: ElementsPosition.inside,
-            axisLabelStyle:
-                GaugeTextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+            axisLabelStyle: GaugeTextStyle(
+              fontSize: 8,
+              fontWeight: FontWeight.bold,
+            ),
             minimum: 0,
             maximum: 10,
             showLabels: true,
@@ -41,9 +40,9 @@ class ProgressWidget extends StatelessWidget {
                 width: 0.95,
                 pointerOffset: 0.05,
                 sizeUnit: GaugeSizeUnit.factor,
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

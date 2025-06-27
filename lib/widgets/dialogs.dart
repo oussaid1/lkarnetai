@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import '../const/constents.dart';
 
 class Dialogs {
-  static Future<bool> confirmDialogue(context,
-      {String? title,
-      String? message,
-      VoidCallback? onOK,
-      VoidCallback? onCancel}) async {
+  static Future<bool> confirmDialogue(
+    context, {
+    String? title,
+    String? message,
+    VoidCallback? onOK,
+    VoidCallback? onCancel,
+  }) async {
     return await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -41,23 +43,30 @@ class Dialogs {
     });
   }
 
-  static Future<void> dialogSimple(BuildContext context,
-      {List<Widget>? widgets, String? title}) {
+  static Future<void> dialogSimple(
+    BuildContext context, {
+    List<Widget>? widgets,
+    String? title,
+  }) {
     return showDialog<void>(
-        context: context,
-        barrierDismissible: true,
-        useRootNavigator: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('$title'),
-            actionsPadding: EdgeInsets.only(left: 8, right: 8),
-            actions: widgets,
-          );
-        });
+      context: context,
+      barrierDismissible: true,
+      useRootNavigator: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$title'),
+          actionsPadding: EdgeInsets.only(left: 8, right: 8),
+          actions: widgets,
+        );
+      },
+    );
   }
 
-  static Future<void> botomUpDialog(BuildContext context, Widget widget,
-      {height}) async {
+  static Future<void> botomUpDialog(
+    BuildContext context,
+    Widget widget, {
+    height,
+  }) async {
     showGeneralDialog(
       barrierLabel: "Barrier",
       barrierDismissible: true,
@@ -69,11 +78,9 @@ class Dialogs {
           alignment: Alignment.center,
           child: Container(
             height: height ?? MediaQuery.of(context).size.height * 0.7,
-            child: SizedBox.expand(child: widget),
             margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
+            child: SizedBox.expand(child: widget),
           ),
         );
       },
@@ -86,10 +93,8 @@ class Dialogs {
     );
   }
 
-  static snackBar(String text) => SnackBar(
-        content: Text('$text'),
-        backgroundColor: AppConstants.greenOpacity,
-      );
+  static snackBar(String text) =>
+      SnackBar(content: Text(text), backgroundColor: AppConstants.greenOpacity);
   static snackBarError(String text) =>
-      SnackBar(content: Text('$text'), backgroundColor: Colors.red);
+      SnackBar(content: Text(text), backgroundColor: Colors.red);
 }

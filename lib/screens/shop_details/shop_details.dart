@@ -9,7 +9,7 @@ import '../lists/items.dart';
 import '../lists/payments.dart';
 
 class ShopDetails extends StatefulWidget {
-  const ShopDetails({Key? key, this.shopData}) : super(key: key);
+  const ShopDetails({super.key, this.shopData});
   final ShopData? shopData;
   @override
   _ShopDetailsState createState() => _ShopDetailsState();
@@ -52,14 +52,11 @@ class _ShopDetailsState extends State<ShopDetails> {
     );
   }
 
-// build custom listTile
+  // build custom listTile
 }
 
 class ShopsDetailsBody extends StatelessWidget {
-  const ShopsDetailsBody({
-    Key? key,
-    required this.shopsData,
-  }) : super(key: key);
+  const ShopsDetailsBody({super.key, required this.shopsData});
 
   final ShopData shopsData;
 
@@ -115,9 +112,7 @@ class ShopsDetailsBody extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddShop(
-                              shop: shopsData.shop,
-                            ),
+                            builder: (context) => AddShop(shop: shopsData.shop),
                           ),
                         );
                       },
@@ -138,10 +133,7 @@ class ShopsDetailsBody extends StatelessWidget {
 }
 
 class ShopItemsDetailsWidget extends StatefulWidget {
-  const ShopItemsDetailsWidget({
-    Key? key,
-    required this.shopsData,
-  }) : super(key: key);
+  const ShopItemsDetailsWidget({super.key, required this.shopsData});
 
   final ShopData shopsData;
 
@@ -157,112 +149,114 @@ class _ShopItemsDetailsWidgetState extends State<ShopItemsDetailsWidget> {
       // mainAxisSize: MainAxisSize.min,
       children: [
         ExpansionPanelList(
-            elevation: 0,
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                _isExpanded = !isExpanded;
-              });
-            },
-            animationDuration: Duration(milliseconds: 800),
-            children: [
-              ExpansionPanel(
-                isExpanded: _isExpanded,
-                canTapOnHeader: false,
-                backgroundColor: AppConstants.whiteOpacity,
-                headerBuilder: (context, isExpanded) {
-                  return ListTile(
-                    onTap: () {
-                      setState(() {
-                        _isExpanded = !_isExpanded;
-                      });
-                    },
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          'Items',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
+          elevation: 0,
+          expansionCallback: (int index, bool isExpanded) {
+            setState(() {
+              _isExpanded = !isExpanded;
+            });
+          },
+          animationDuration: Duration(milliseconds: 800),
+          children: [
+            ExpansionPanel(
+              isExpanded: _isExpanded,
+              canTapOnHeader: false,
+              backgroundColor: AppConstants.whiteOpacity,
+              headerBuilder: (context, isExpanded) {
+                return ListTile(
+                  onTap: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
+                  },
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'Items',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium!.copyWith(color: Colors.white),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
                               text: 'count :',
-                              style: Theme.of(context).textTheme.titleSmall!),
-                          TextSpan(
+                              style: Theme.of(context).textTheme.titleSmall!,
+                            ),
+                            TextSpan(
                               text:
                                   ' ${widget.shopsData.shopDataCalculations.countItems}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
+                              style: Theme.of(context).textTheme.bodyMedium!
                                   .copyWith(
-                                      color:
-                                          Color.fromARGB(189, 255, 255, 255))),
-                        ])),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
+                                    color: Color.fromARGB(189, 255, 255, 255),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
                               text: 'total :',
-                              style: Theme.of(context).textTheme.titleSmall!),
-                          TextSpan(
+                              style: Theme.of(context).textTheme.titleSmall!,
+                            ),
+                            TextSpan(
                               text:
                                   ' ${widget.shopsData.shopDataCalculations.itemsSum}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
+                              style: Theme.of(context).textTheme.bodyMedium!
                                   .copyWith(
-                                      color:
-                                          Color.fromARGB(189, 255, 255, 255))),
-                        ])),
-                      ],
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                    leading: IconButton(
-                      icon: Icon(Icons.menu_sharp,
-                          color: Color.fromARGB(106, 255, 255, 255)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ItemsList(
-                              lista: widget.shopsData.items,
+                                    color: Color.fromARGB(189, 255, 255, 255),
+                                  ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-                body: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 400,
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return ItemTileWidget(
-                        item: widget.shopsData.items[index],
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 0,
+                  ),
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.menu_sharp,
+                      color: Color.fromARGB(106, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ItemsList(lista: widget.shopsData.items),
+                        ),
                       );
                     },
-                    itemCount: widget.shopsData.items.length,
                   ),
+                );
+              },
+              body: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 400),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ItemTileWidget(item: widget.shopsData.items[index]);
+                  },
+                  itemCount: widget.shopsData.items.length,
                 ),
               ),
-            ]),
+            ),
+          ],
+        ),
       ],
     );
   }
 }
 
 class ShopPaymentsDetailWidget extends StatefulWidget {
-  const ShopPaymentsDetailWidget({
-    Key? key,
-    required this.shopsData,
-  }) : super(key: key);
+  const ShopPaymentsDetailWidget({super.key, required this.shopsData});
 
   final ShopData shopsData;
 
@@ -279,106 +273,112 @@ class _ShopPaymentsDetailWidgetState extends State<ShopPaymentsDetailWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ExpansionPanelList(
-            elevation: 0,
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                _isExpanded = !isExpanded;
-              });
-            },
-            animationDuration: Duration(milliseconds: 800),
-            children: [
-              ExpansionPanel(
-                isExpanded: _isExpanded,
-                canTapOnHeader: true,
-                backgroundColor: AppConstants.whiteOpacity,
-                headerBuilder: (context, isExpanded) {
-                  return ListTile(
-                    onTap: () {
-                      setState(() {
-                        _isExpanded = !_isExpanded;
-                      });
-                    },
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          'Payments',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.white),
-                        ),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
+          elevation: 0,
+          expansionCallback: (int index, bool isExpanded) {
+            setState(() {
+              _isExpanded = !isExpanded;
+            });
+          },
+          animationDuration: Duration(milliseconds: 800),
+          children: [
+            ExpansionPanel(
+              isExpanded: _isExpanded,
+              canTapOnHeader: true,
+              backgroundColor: AppConstants.whiteOpacity,
+              headerBuilder: (context, isExpanded) {
+                return ListTile(
+                  onTap: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
+                  },
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'Payments',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium!.copyWith(color: Colors.white),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
                               text: 'count :',
-                              style: Theme.of(context).textTheme.titleSmall!),
-                          TextSpan(
+                              style: Theme.of(context).textTheme.titleSmall!,
+                            ),
+                            TextSpan(
                               text:
                                   ' ${widget.shopsData.shopDataCalculations.countPayments}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
+                              style: Theme.of(context).textTheme.bodyMedium!
                                   .copyWith(
-                                      color:
-                                          Color.fromARGB(189, 255, 255, 255))),
-                        ])),
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
+                                    color: Color.fromARGB(189, 255, 255, 255),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
                               text: 'total :',
-                              style: Theme.of(context).textTheme.titleSmall!),
-                          TextSpan(
+                              style: Theme.of(context).textTheme.titleSmall!,
+                            ),
+                            TextSpan(
                               text:
                                   ' ${widget.shopsData.shopDataCalculations.paymentsSum}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
+                              style: Theme.of(context).textTheme.bodyMedium!
                                   .copyWith(
-                                      color:
-                                          Color.fromARGB(189, 255, 255, 255))),
-                        ])),
-                      ],
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                    leading: IconButton(
-                      icon: Icon(Icons.menu_sharp,
-                          color: Color.fromARGB(106, 255, 255, 255)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PaymentsList(lista: widget.shopsData.payments),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-                body: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: 400,
+                                    color: Color.fromARGB(189, 255, 255, 255),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      widget.shopsData.payments
-                          .sort((b, a) => a.datePaid.compareTo(b.datePaid));
-                      final PaymentModel payment =
-                          widget.shopsData.payments[index];
-                      return PaymentTile(
-                        withActions: true,
-                        payment: payment,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 0,
+                  ),
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.menu_sharp,
+                      color: Color.fromARGB(106, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PaymentsList(lista: widget.shopsData.payments),
+                        ),
                       );
                     },
-                    itemCount: widget.shopsData.payments.length,
                   ),
+                );
+              },
+              body: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 400),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    widget.shopsData.payments.sort(
+                      (b, a) => a.datePaid.compareTo(b.datePaid),
+                    );
+                    final PaymentModel payment =
+                        widget.shopsData.payments[index];
+                    return PaymentTile(withActions: true, payment: payment);
+                  },
+                  itemCount: widget.shopsData.payments.length,
                 ),
               ),
-            ]),
+            ),
+          ],
+        ),
       ],
     );
   }

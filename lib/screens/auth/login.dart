@@ -10,6 +10,8 @@ import '../../utils.dart';
 import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -60,22 +62,13 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             /// check the state and show snackbar using GlobalFunctions according to state
             if (state.status == LoginSattus.loading) {
-              GlobalFunctions.showSnackBar(
-                context,
-                'جاري تسجيل الدخول',
-              );
+              GlobalFunctions.showSnackBar(context, 'جاري تسجيل الدخول');
             }
             if (state.status == LoginSattus.error) {
-              GlobalFunctions.showSnackBar(
-                context,
-                state.error,
-              );
+              GlobalFunctions.showSnackBar(context, state.error);
             }
             if (state.status == LoginSattus.success) {
-              GlobalFunctions.showSnackBar(
-                context,
-                'تم تسجيل الدخول بنجاح',
-              );
+              GlobalFunctions.showSnackBar(context, 'تم تسجيل الدخول بنجاح');
             }
           },
           child: BlocBuilder<LoginBloc, LoginState>(
@@ -84,13 +77,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 15),
-                    Text('Login', style: Theme.of(context).textTheme.displayLarge),
+                    Text(
+                      'Login',
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
                     const SizedBox(height: 15),
                     _buildLoginForm(context),
                     buildLoginButton(context), //button: lo
                     //  buildsignInwithGoogle(context), //button: login
                     const SizedBox(height: 15),
-                    buildDontHaveAccount(context)
+                    buildDontHaveAccount(context),
                   ],
                 ),
               );
@@ -122,9 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                 return null;
               },
               decoration: InputDecoration(
-                  labelText: 'Email',
-                  //prefixIcon: Icon(Icons.email),
-                  icon: Icon(Icons.email)),
+                labelText: 'Email',
+                //prefixIcon: Icon(Icons.email),
+                icon: Icon(Icons.email),
+              ),
             ), //text field: email
             TextFormField(
               controller: _passController,
@@ -141,17 +138,19 @@ class _LoginPageState extends State<LoginPage> {
               },
               obscureText: _obscPass,
               decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        _obscPass ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        _obscPass = !_obscPass;
-                      });
-                    },
+                labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscPass ? Icons.visibility : Icons.visibility_off,
                   ),
-                  icon: Icon(Icons.vpn_key)),
+                  onPressed: () {
+                    setState(() {
+                      _obscPass = !_obscPass;
+                    });
+                  },
+                ),
+                icon: Icon(Icons.vpn_key),
+              ),
             ), //text field: password
           ],
         ),
@@ -168,7 +167,10 @@ class _LoginPageState extends State<LoginPage> {
             margin: const EdgeInsets.only(top: 20),
             alignment: Alignment.center,
             width: double.infinity,
-            child: Text('Login', style: Theme.of(context).textTheme.displayLarge),
+            child: Text(
+              'Login',
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
           ), // title: login
           SizedBox(height: 20),
           Container(
@@ -186,9 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                 return null;
               },
               decoration: InputDecoration(
-                  labelText: 'Email',
-                  //prefixIcon: Icon(Icons.email),
-                  icon: Icon(Icons.email)),
+                labelText: 'Email',
+                //prefixIcon: Icon(Icons.email),
+                icon: Icon(Icons.email),
+              ),
             ),
           ), //text field: email
           Container(
@@ -207,18 +210,20 @@ class _LoginPageState extends State<LoginPage> {
               },
               obscureText: _obscPass,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        _obscPass ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        _obscPass = !_obscPass;
-                      });
-                    },
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscPass ? Icons.visibility : Icons.visibility_off,
                   ),
-                  icon: Icon(Icons.vpn_key)),
+                  onPressed: () {
+                    setState(() {
+                      _obscPass = !_obscPass;
+                    });
+                  },
+                ),
+                icon: Icon(Icons.vpn_key),
+              ),
             ),
           ), //text field: password
         ],
@@ -232,13 +237,7 @@ class _LoginPageState extends State<LoginPage> {
       child: MaterialButton(
         minWidth: 300,
         color: MThemeData.primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(
-          'Login',
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         onPressed: _isLoading
             ? null
             : () {
@@ -246,12 +245,17 @@ class _LoginPageState extends State<LoginPage> {
                   setState(() {
                     _isLoading = false;
                   });
-                  BlocProvider.of<LoginBloc>(context).add(LoginRequestedEvent(
+                  BlocProvider.of<LoginBloc>(context).add(
+                    LoginRequestedEvent(
                       loginCredentials: LoginCredentials(
-                          username: _emailController.text,
-                          password: _passController.text)));
+                        username: _emailController.text,
+                        password: _passController.text,
+                      ),
+                    ),
+                  );
                 }
               },
+        child: Text('Login', style: Theme.of(context).textTheme.labelLarge),
       ),
     );
   }
@@ -267,10 +271,9 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextSpan(
                 text: "Sign up",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium!
-                    .copyWith(color: Theme.of(context).primaryColor),
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).primaryColor,
+                ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.push(
@@ -292,8 +295,9 @@ class _LoginPageState extends State<LoginPage> {
       width: 300,
       height: 45,
       decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(50)),
+        color: Colors.white.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(50),
+      ),
       child: InkWell(
         child: Row(
           //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,7 +305,10 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: SizedBox(
-                  height: 35, width: 35, child: AppAssets.googleSvgIcon),
+                height: 35,
+                width: 35,
+                child: AppAssets.googleSvgIcon,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4.0),

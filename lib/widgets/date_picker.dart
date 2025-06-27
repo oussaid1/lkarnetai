@@ -5,8 +5,7 @@ import '../../extensions/extensions.dart';
 import 'glasswidget.dart';
 
 class SelectDate extends StatefulWidget {
-  const SelectDate({Key? key, required this.onDateSelected, this.initialDate})
-    : super(key: key);
+  const SelectDate({super.key, required this.onDateSelected, this.initialDate});
   final void Function(DateTime) onDateSelected;
   final DateTime? initialDate;
   @override
@@ -44,7 +43,7 @@ class _SelectDateState extends State<SelectDate> {
         width: 200,
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 45,
               width: 45,
               child: IconButton(
@@ -69,8 +68,11 @@ class _SelectDateState extends State<SelectDate> {
 }
 
 class SelectDate2 extends StatefulWidget {
-  const SelectDate2({Key? key, required this.onDateSelected, this.initialDate})
-    : super(key: key);
+  const SelectDate2({
+    super.key,
+    required this.onDateSelected,
+    this.initialDate,
+  });
   final ValueSetter<DateTime> onDateSelected;
   final DateTime? initialDate;
   @override
@@ -124,7 +126,7 @@ class _SelectDate2State extends State<SelectDate2> {
         width: 300,
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 45,
               width: 45,
               child: IconButton(

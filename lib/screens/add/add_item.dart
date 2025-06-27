@@ -17,7 +17,7 @@ import '../../widgets/number_incrementer.dart';
 
 class AddItem extends ConsumerStatefulWidget {
   final ItemModel? item;
-  const AddItem({Key? key, this.item});
+  const AddItem({super.key, this.item});
   @override
   _AddItemState createState() => _AddItemState();
 }
@@ -29,9 +29,9 @@ class _AddItemState extends ConsumerState<AddItem>
   final GlobalKey<FormState> _formKeyPrice = GlobalKey<FormState>();
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _itemPriceController = TextEditingController();
-  FocusNode _itemNameFocusNode = FocusNode();
+  final FocusNode _itemNameFocusNode = FocusNode();
   DateTime _dateBought = DateTime.now();
-//  KitchenElement? _kitchenElement;
+  //  KitchenElement? _kitchenElement;
   String? _quantifier = 'واحدة';
   String _shop = 'unknown';
   bool _isUpdate = false, _canSave = false;
@@ -74,11 +74,12 @@ class _AddItemState extends ConsumerState<AddItem>
     super.dispose();
   }
 
-  final _itmBloc =
-      ItemsBloc(databaseOperations: GetIt.I.get<DatabaseOperations>());
+  final _itmBloc = ItemsBloc(
+    databaseOperations: GetIt.I.get<DatabaseOperations>(),
+  );
   @override
   Widget build(BuildContext context) {
-    _itmBloc..add(GetItemsEvent());
+    _itmBloc.add(GetItemsEvent());
     // Iterable<ItemModel> _kOptions = _itmBloc.state.items;
     // var items = GetIt.instance.get<ItemsBloc>().state.items;
     return GlassMaterial(
@@ -121,20 +122,14 @@ class _AddItemState extends ConsumerState<AddItem>
             ),
           ),
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           title: Text(
             widget.item != null ? "تعديل المادة" : "اضافة مادة",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
         body: SingleChildScrollView(
@@ -179,38 +174,40 @@ class _AddItemState extends ConsumerState<AddItem>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(
-                'Cancel',
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: MThemeData.raisedButtonStyleCancel),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: MThemeData.raisedButtonStyleCancel,
+            child: Text('Cancel'),
+          ),
         ),
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(_isUpdate ? 'Update' : 'Add'),
-              onPressed: !_canSave
-                  ? null
-                  : () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            onPressed: !_canSave
+                ? null
+                : () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
                         duration: Duration(seconds: 1),
                         content: Text(_isUpdate ? 'updating...' : 'Saving...'),
-                      ));
+                      ),
+                    );
 
-                      if (_formKeyName.currentState!.validate() &&
-                          _formKeyPrice.currentState!.validate()) {
-                        setState(() {
-                          _canSave = false;
-                        });
-                        _isUpdate ? update() : save(context);
-                      }
-                    },
-              style: MThemeData.raisedButtonStyleSave),
+                    if (_formKeyName.currentState!.validate() &&
+                        _formKeyPrice.currentState!.validate()) {
+                      setState(() {
+                        _canSave = false;
+                      });
+                      _isUpdate ? update() : save(context);
+                    }
+                  },
+            style: MThemeData.raisedButtonStyleSave,
+            child: Text(_isUpdate ? 'Update' : 'Add'),
+          ),
         ),
       ],
     );
@@ -223,33 +220,28 @@ class _AddItemState extends ConsumerState<AddItem>
     // required Widget child,
   }) {
     showModalBottomSheet(
-        transitionAnimationController: controller,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(25.0),
+      transitionAnimationController: controller,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
+      backgroundColor: Colors.white.withOpacity(0.5),
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      builder: (_) {
+        return Container(
+          decoration: BoxDecoration(
+            //color: Color.fromARGB(255, 189, 110, 110),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
           ),
-        ),
-        backgroundColor: Colors.white.withOpacity(0.5),
-        context: context,
-        isScrollControlled: true,
-        isDismissible: true,
-        builder: (_) {
-          return Container(
-            decoration: BoxDecoration(
-              //color: Color.fromARGB(255, 189, 110, 110),
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25.0),
-              ),
-            ),
-            height: 160,
-            child: Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: AddToKitchenFromItem(
-                item: _localItem!,
-              ),
-            ),
-          );
-        });
+          height: 160,
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: AddToKitchenFromItem(item: _localItem!),
+          ),
+        );
+      },
+    );
   }
 
   Row _buildQuantityFier() {
@@ -314,7 +306,7 @@ class _AddItemState extends ConsumerState<AddItem>
     );
   }
 
-  Padding _buildItemName(BuildContext context, Iterable<ItemModel> _kOptions) {
+  Padding _buildItemName(BuildContext context, Iterable<ItemModel> kOptions) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Form(
@@ -350,17 +342,14 @@ class _AddItemState extends ConsumerState<AddItem>
                   fillColor: AppConstants.whiteOpacity,
                   filled: true,
                   hintText: 'title',
-                  //alignLabelWithHint: true,
 
+                  //alignLabelWithHint: true,
                   prefixIcon: Icon(
                     Icons.shopping_basket,
                     color: Color.fromARGB(117, 212, 211, 211),
                   ),
                   suffix: IconButton(
-                    icon: Icon(
-                      Icons.clear_outlined,
-                      size: 18,
-                    ),
+                    icon: Icon(Icons.clear_outlined, size: 18),
                     onPressed: () {
                       setState(() {
                         _itemNameController.clear();
@@ -373,11 +362,12 @@ class _AddItemState extends ConsumerState<AddItem>
             },
             suggestionsCallback: (pattern) async {
               if (_itemNameController.text.length > 1) {
-                return _kOptions
-                    .where((item) => item.itemName
-                        .trim()
-                        .toLowerCase()
-                        .startsWith(pattern.trim().toLowerCase()))
+                return kOptions
+                    .where(
+                      (item) => item.itemName.trim().toLowerCase().startsWith(
+                        pattern.trim().toLowerCase(),
+                      ),
+                    )
                     .toList(growable: true);
               }
               return [];
@@ -387,9 +377,7 @@ class _AddItemState extends ConsumerState<AddItem>
               return SizedBox(
                 width: 200,
                 //height: 200,
-                child: ItemTileWidget(
-                  item: suggestion,
-                ),
+                child: ItemTileWidget(item: suggestion),
               );
             },
             onSelected: (suggestion) {
@@ -443,17 +431,12 @@ class _AddItemState extends ConsumerState<AddItem>
               hintStyle: GoogleFonts.robotoSlab(),
               contentPadding: EdgeInsets.only(top: 4),
               suffix: IconButton(
-                icon: Icon(
-                  Icons.clear_outlined,
-                  size: 18,
-                ),
+                icon: Icon(Icons.clear_outlined, size: 18),
                 onPressed: () {
                   _itemPriceController.clear();
                 },
               ),
-              prefixIcon: Icon(
-                Icons.monetization_on_outlined,
-              ),
+              prefixIcon: Icon(Icons.monetization_on_outlined),
               fillColor: AppConstants.whiteOpacity,
               filled: true,
               labelText: 'Price',
@@ -503,6 +486,8 @@ class _AddItemState extends ConsumerState<AddItem>
 }
 
 class MyAutocomplete extends StatefulWidget {
+  const MyAutocomplete({super.key});
+
   @override
   _MyAutocompleteState createState() => _MyAutocompleteState();
 }
@@ -514,7 +499,7 @@ class _MyAutocompleteState extends State<MyAutocomplete> {
     'Cherry',
     'Date',
     'Fig',
-    'Grape'
+    'Grape',
   ];
   late TextEditingController _textEditingController;
 
@@ -528,55 +513,63 @@ class _MyAutocompleteState extends State<MyAutocomplete> {
   Widget build(BuildContext context) {
     return Autocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
-        return suggestions.where((String option) =>
-            option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+        return suggestions.where(
+          (String option) => option.toLowerCase().contains(
+            textEditingValue.text.toLowerCase(),
+          ),
+        );
       },
       onSelected: (String selection) {
         print('You just selected $selection');
       },
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted) {
-        return TextField(
-          controller: _textEditingController,
-          focusNode: focusNode,
-          onSubmitted: (String value) {
-            onFieldSubmitted();
-          },
-          decoration: InputDecoration(
-            labelText: 'Type a fruit',
-            border: OutlineInputBorder(),
-          ),
-        );
-      },
-      optionsViewBuilder: (BuildContext context,
-          AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-        return Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            elevation: 4.0,
-            child: Container(
-              width: 200,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: options.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final String option = options.elementAt(index);
-                  return GestureDetector(
-                    onTap: () {
-                      onSelected(option);
-                    },
-                    child: ListTile(
-                      title: Text(option),
-                    ),
-                  );
-                },
+      fieldViewBuilder:
+          (
+            BuildContext context,
+            TextEditingController textEditingController,
+            FocusNode focusNode,
+            VoidCallback onFieldSubmitted,
+          ) {
+            return TextField(
+              controller: _textEditingController,
+              focusNode: focusNode,
+              onSubmitted: (String value) {
+                onFieldSubmitted();
+              },
+              decoration: InputDecoration(
+                labelText: 'Type a fruit',
+                border: OutlineInputBorder(),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+      optionsViewBuilder:
+          (
+            BuildContext context,
+            AutocompleteOnSelected<String> onSelected,
+            Iterable<String> options,
+          ) {
+            return Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                elevation: 4.0,
+                child: SizedBox(
+                  width: 200,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final String option = options.elementAt(index);
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(title: Text(option)),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
     );
   }
 }

@@ -11,7 +11,7 @@ abstract class PaymentsEvent extends Equatable {
 class LoadPaymentsEvent extends PaymentsEvent {
   final List<PaymentModel> payments;
 
-  LoadPaymentsEvent(this.payments);
+  const LoadPaymentsEvent(this.payments);
 
   @override
   List<Object> get props => [payments];
@@ -24,7 +24,7 @@ class GetPaymentsEvent extends PaymentsEvent {}
 class AddPaymentEvent extends PaymentsEvent {
   final PaymentModel payment;
 
-  AddPaymentEvent(this.payment);
+  const AddPaymentEvent(this.payment);
 
   @override
   List<Object> get props => [payment];
@@ -34,7 +34,7 @@ class AddPaymentEvent extends PaymentsEvent {
 class DeletePaymentEvent extends PaymentsEvent {
   final PaymentModel payment;
 
-  DeletePaymentEvent(this.payment);
+  const DeletePaymentEvent(this.payment);
 
   @override
   List<Object> get props => [payment];
@@ -44,7 +44,7 @@ class DeletePaymentEvent extends PaymentsEvent {
 class UpdatePaymentEvent extends PaymentsEvent {
   final PaymentModel payment;
 
-  UpdatePaymentEvent(this.payment);
+  const UpdatePaymentEvent(this.payment);
 
   @override
   List<Object> get props => [payment];

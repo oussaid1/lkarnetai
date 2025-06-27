@@ -26,9 +26,9 @@ class UserModelCubit extends Cubit<UserModel?> {
   late String uid = '';
 
   void loadUser() async {
-    var _db = DatabaseOperations(_database);
+    var db = DatabaseOperations(_database);
     // log("loadUser token: $token");
-    await _db.getUser().then((retVal) {
+    await db.getUser().then((retVal) {
       if (retVal != null) {
         log("loadUser success : ${retVal.email}");
         emit(retVal);

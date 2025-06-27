@@ -11,7 +11,7 @@ import '../../models/login_credentials.dart';
 import 'login.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,8 @@ class SignUpPage extends StatelessWidget {
 }
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -67,17 +69,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ],
       centerWidget: GlassContainer(
-          child: SizedBox(
-              width: 380,
-              height: 420,
-              child: BlocListener<SignUpBloc, SignUpState>(
-                listener: (context, state) {},
-                child: BlocBuilder<SignUpBloc, SignUpState>(
-                  builder: (context, state) {
-                    return _getWidgetRegistrationCard(context);
-                  },
-                ),
-              ))),
+        child: SizedBox(
+          width: 380,
+          height: 420,
+          child: BlocListener<SignUpBloc, SignUpState>(
+            listener: (context, state) {},
+            child: BlocBuilder<SignUpBloc, SignUpState>(
+              builder: (context, state) {
+                return _getWidgetRegistrationCard(context);
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -98,9 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: double.infinity,
                   child: Text(
                     'Register',
-                    style: GoogleFonts.sansita(
-                      fontSize: 24,
-                    ),
+                    style: GoogleFonts.sansita(fontSize: 24),
                   ),
                 ), // title: login
                 Container(
@@ -118,9 +120,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        labelText: 'Username',
-                        //prefixIcon: Icon(Icons.email),
-                        icon: Icon(Icons.perm_identity)),
+                      labelText: 'Username',
+                      //prefixIcon: Icon(Icons.email),
+                      icon: Icon(Icons.perm_identity),
+                    ),
                   ),
                 ), //text field : user name
                 Container(
@@ -143,9 +146,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                        labelText: 'Email',
-                        //prefixIcon: Icon(Icons.email),
-                        icon: Icon(Icons.email)),
+                      labelText: 'Email',
+                      //prefixIcon: Icon(Icons.email),
+                      icon: Icon(Icons.email),
+                    ),
                   ),
                 ), //text field: email
                 Container(
@@ -164,47 +168,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                     obscureText: _obscPass,
                     decoration: InputDecoration(
-                        labelText: 'Password',
-                        suffixIcon: IconButton(
-                          icon: Icon(_obscPass
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _obscPass = !_obscPass;
-                            });
-                          },
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscPass ? Icons.visibility : Icons.visibility_off,
                         ),
-                        icon: Icon(Icons.vpn_key)),
+                        onPressed: () {
+                          setState(() {
+                            _obscPass = !_obscPass;
+                          });
+                        },
+                      ),
+                      icon: Icon(Icons.vpn_key),
+                    ),
                   ),
                 ), //text field: password
                 Container(
                   child: TextFormField(
-                      controller: _confirmPassController,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      validator: (text) {
-                        if (text!.trim().isEmpty) {
-                          return "Please insert a valid password";
-                        } else if (text.trim() != text.trim()) {
-                          return "The Passwords dont match !";
-                        }
-                        return null;
-                      },
-                      obscureText: _obscConfirmPass,
-                      decoration: InputDecoration(
-                          labelText: "Confirm Password",
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscConfirmPass
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _obscConfirmPass = !_obscConfirmPass;
-                              });
-                            },
-                          ),
-                          icon: Icon(Icons.vpn_key))),
+                    controller: _confirmPassController,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    validator: (text) {
+                      if (text!.trim().isEmpty) {
+                        return "Please insert a valid password";
+                      } else if (text.trim() != text.trim()) {
+                        return "The Passwords dont match !";
+                      }
+                      return null;
+                    },
+                    obscureText: _obscConfirmPass,
+                    decoration: InputDecoration(
+                      labelText: "Confirm Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscConfirmPass
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscConfirmPass = !_obscConfirmPass;
+                          });
+                        },
+                      ),
+                      icon: Icon(Icons.vpn_key),
+                    ),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 32.0),
@@ -212,10 +221,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 45,
                   child: ElevatedButton(
                     style: MThemeData.raisedButtonStyleSave,
-                    child: Text(
-                      'Register',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
                     onPressed: _isLoading
                         ? null
                         : () {
@@ -234,36 +239,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               );
                             }
                           },
+                    child: Text('Register', style: TextStyle(fontSize: 20.0)),
                   ),
                 ), //button: login
                 Container(
-                    margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Already Registered? ',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        InkWell(
-                          splashColor:
-                              Theme.of(context).primaryColor.withOpacity(0.5),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
-                          },
-                          child: Text(
-                            ' Sign in',
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold),
+                  margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Already Registered? ',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      InkWell(
+                        splashColor: Theme.of(
+                          context,
+                        ).primaryColor.withOpacity(0.5),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          ' Sign in',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
-                      ],
-                    ))
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

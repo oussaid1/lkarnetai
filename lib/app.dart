@@ -12,7 +12,7 @@ import 'root.dart';
 import 'settings/theme.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.authService}) : super(key: key);
+  const MyApp({super.key, required this.authService});
   final AuthService authService;
   //final Database database;
   @override

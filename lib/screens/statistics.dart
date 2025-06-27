@@ -10,7 +10,7 @@ import '../models/shop/shops_data.dart';
 import '../widgets/item_listtile.dart';
 
 class StatisticsWidget extends StatefulWidget {
-  const StatisticsWidget({Key? key, this.shopsData}) : super(key: key);
+  const StatisticsWidget({super.key, this.shopsData});
   final ShopData? shopsData;
   @override
   _StatisticsWidgetState createState() => _StatisticsWidgetState();
@@ -93,26 +93,30 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                            '${widget.shopsData!.shop.shopName}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .displayMedium),
+                                          '${widget.shopsData!.shop.shopName}',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.displayMedium,
+                                        ),
                                         Container(
                                           width: 100,
                                           height: 40,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
+                                            color: Colors.white.withOpacity(
+                                              0.5,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              50,
+                                            ),
                                           ),
                                           child: Center(
-                                            child: Text('Today',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .displaySmall!
-                                                // .copyWith(color: Colors.white),
-                                                ),
+                                            child: Text(
+                                              'Today',
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.displaySmall!,
+                                              // .copyWith(color: Colors.white),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -126,29 +130,33 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                                         children: [
                                           SizedBox(
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(
+                                                8.0,
+                                              ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text('Items',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .displaySmall!
-                                                      // .copyWith(color: Colors.white),
-                                                      ),
                                                   Text(
-                                                      'count :${widget.shopsData!.shopDataCalculations.countItems} ',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineMedium),
+                                                    'Items',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.displaySmall!,
+                                                    // .copyWith(color: Colors.white),
+                                                  ),
                                                   Text(
-                                                      'total : ${widget.shopsData!.shopDataCalculations.itemsSum} ',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineMedium),
+                                                    'count :${widget.shopsData!.shopDataCalculations.countItems} ',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineMedium,
+                                                  ),
+                                                  Text(
+                                                    'total : ${widget.shopsData!.shopDataCalculations.itemsSum} ',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineMedium,
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -157,11 +165,15 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                                             child: ListView.builder(
                                               itemBuilder: (context, index) {
                                                 return ItemTileWidget(
-                                                    item: widget.shopsData!
-                                                        .items[index]);
+                                                  item: widget
+                                                      .shopsData!
+                                                      .items[index],
+                                                );
                                               },
                                               itemCount: widget
-                                                  .shopsData!.items.length,
+                                                  .shopsData!
+                                                  .items
+                                                  .length,
                                             ),
                                           ),
                                         ],
@@ -177,29 +189,33 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                                         children: [
                                           SizedBox(
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(
+                                                8.0,
+                                              ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text('Payments',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .displaySmall!
-                                                      // .copyWith(color: Colors.white),
-                                                      ),
                                                   Text(
-                                                      'count :${widget.shopsData!.shopDataCalculations.countPayments} ',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineMedium),
+                                                    'Payments',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.displaySmall!,
+                                                    // .copyWith(color: Colors.white),
+                                                  ),
                                                   Text(
-                                                      'total : ${widget.shopsData!.shopDataCalculations.paymentsSum} ',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineMedium),
+                                                    'count :${widget.shopsData!.shopDataCalculations.countPayments} ',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineMedium,
+                                                  ),
+                                                  Text(
+                                                    'total : ${widget.shopsData!.shopDataCalculations.paymentsSum} ',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineMedium,
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -208,11 +224,15 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                                             child: ListView.builder(
                                               itemBuilder: (context, index) {
                                                 return buildShopPaymentTile(
-                                                    widget.shopsData!
-                                                        .payments[index]);
+                                                  widget
+                                                      .shopsData!
+                                                      .payments[index],
+                                                );
                                               },
                                               itemCount: widget
-                                                  .shopsData!.payments.length,
+                                                  .shopsData!
+                                                  .payments
+                                                  .length,
                                             ),
                                           ),
                                         ],
@@ -236,7 +256,7 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
     );
   }
 
-// build custom listTile
+  // build custom listTile
   Widget buildShopPaymentTile(PaymentModel payment) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -276,7 +296,7 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${payment.datePaid.formatted()}',
+                    payment.datePaid.formatted(),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Row(
@@ -288,10 +308,7 @@ class _StatisticsWidgetState extends State<StatisticsWidget> {
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ),
-                      Text(
-                        'DH',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
+                      Text('DH', style: Theme.of(context).textTheme.titleSmall),
                       const SizedBox(width: 8),
                     ],
                   ),

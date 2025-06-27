@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'date_picker.dart';
 
 class ExpiredSwitch extends StatefulWidget {
-  const ExpiredSwitch({Key? key, required this.onChanged}) : super(key: key);
+  const ExpiredSwitch({super.key, required this.onChanged});
   final void Function(Map<String, dynamic>) onChanged;
   @override
   State<ExpiredSwitch> createState() => _ExpiredSwitchState();
@@ -28,14 +28,18 @@ class _ExpiredSwitchState extends State<ExpiredSwitch> {
                   setState(() {
                     _isExpired = true;
                   });
-                  widget.onChanged(
-                      {'isExpired': _isExpired, 'expiryDate': _expiryDate});
+                  widget.onChanged({
+                    'isExpired': _isExpired,
+                    'expiryDate': _expiryDate,
+                  });
                 } else {
                   setState(() {
                     _isExpired = false;
                   });
-                  widget
-                      .onChanged({'isExpired': _isExpired, 'expiryDate': null});
+                  widget.onChanged({
+                    'isExpired': _isExpired,
+                    'expiryDate': null,
+                  });
                 }
 
                 //_isExpired = !value;
@@ -58,24 +62,30 @@ class _ExpiredSwitchState extends State<ExpiredSwitch> {
                         });
                         widget.onChanged({
                           'isExpired': _isExpired,
-                          'expiryDate': _expiryDate
+                          'expiryDate': _expiryDate,
                         });
                       } else {
                         setState(() {
                           _isExpired = false;
                         });
-                        widget.onChanged(
-                            {'isExpired': _isExpired, 'expiryDate': null});
+                        widget.onChanged({
+                          'isExpired': _isExpired,
+                          'expiryDate': null,
+                        });
                       }
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('$date' + '\n' + '$_isExpired'),
+                          content: Text(
+                            '$date'
+                                    '\n' +
+                                '$_isExpired',
+                          ),
                         ),
                       );
                       //  _isLoading = false;
                     },
-                  )
+                  ),
                 ],
               )
             : SizedBox.shrink(),

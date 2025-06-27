@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:lkarnet/models/besoin/besoin.dart';
 import 'package:lkarnet/models/item/item.dart';
 import 'package:lkarnet/models/payment/payment_model.dart';
@@ -30,11 +31,11 @@ class DBTables {
 class Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   User? get user {
-    final FirebaseAuthService _firebaseAuth = FirebaseAuthService();
-    return _firebaseAuth.currentUser ?? null;
+    final FirebaseAuthService firebaseAuth = FirebaseAuthService();
+    return firebaseAuth.currentUser;
   }
 
-  var _setOptions = SetOptions(merge: true);
+  final _setOptions = SetOptions(merge: true);
   final String _collectionKitchenElements = "KitchenElements";
   final String _collectionKitchenItems = "KitchenItems";
 
@@ -50,81 +51,80 @@ class Database {
 
   // create user in firebase
   Future<bool> createNewUser(UserModel user) async {
-    bool _done = false;
+    bool done = false;
     await _firestore
         .collection(DBTables.users)
         .doc(user.id)
         .set(user.toMap(), _setOptions)
-        .then((value) => _done = true)
+        .then((value) => done = true)
         .catchError((error) {
-      print("Failed to add user: $error");
-      return _done = false;
-    });
-    return _done;
+          print("Failed to add user: $error");
+          return done = false;
+        });
+    return done;
   }
 
   // insert token in firebase
   Future<bool> insertToken(String token) async {
-    bool _done = false;
+    bool done = false;
     await _firestore
         .collection(DBTables.users)
         .doc(uid)
         .set({'token': token}, _setOptions)
-        .then((value) => _done = true)
+        .then((value) => done = true)
         .catchError((error) {
           print("Failed to add token: $error");
-          return _done = false;
+          return done = false;
         });
-    return _done;
+    return done;
   }
 
   Future<UserModel?> getUser() async {
-    UserModel? _user;
-    await _users.get().then((value) =>
-        _user = UserModel.fromDocumentSnapshot(documentSnapshot: value));
-    return _user;
+    UserModel? user;
+    await _users.get().then(
+      (value) => user = UserModel.fromDocumentSnapshot(documentSnapshot: value),
+    );
+    return user;
   }
 
   /// update user in firebase
   Future<bool> updateUser(UserModel user) async {
-    bool _done = false;
+    bool done = false;
     await _firestore
         .collection(DBTables.users)
         .doc(user.id)
         .set(user.toMap(), _setOptions)
-        .then((value) => _done = true)
+        .then((value) => done = true)
         .catchError((error) {
-      print("Failed to update user: $error");
-      return _done = false;
-    });
-    return _done;
+          print("Failed to update user: $error");
+          return done = false;
+        });
+    return done;
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////// get / read  //////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
   Stream<List<BesoinModel>> besoinStream(String uid) {
-    return _users
-        .collection(DBTables.besoins)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _users.collection(DBTables.besoins).snapshots().map((
+      QuerySnapshot query,
+    ) {
       List<BesoinModel> retVal = [];
-      query.docs.forEach((element) {
+      for (var element in query.docs) {
         retVal.add(BesoinModel.fromDocumentSnapshot(element));
-      });
+      }
       return retVal;
     });
   }
 
   Stream<List<ShopModel>> shopsStream() {
-    return _users
-        .collection(DBTables.shops)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _users.collection(DBTables.shops).snapshots().map((
+      QuerySnapshot query,
+    ) {
       List<ShopModel> retVal = [];
-      query.docs.forEach((element) {
+      for (var element in query.docs) {
         retVal.add(ShopModel.fromDocumentSnapShot(element));
-      });
+      }
       return retVal;
     });
   }
@@ -142,51 +142,54 @@ class Database {
         .collection(DBTables.goods)
         .orderBy("dateBought", descending: true)
         .snapshots()
-        .map((QuerySnapshot query) => query.docs
-            .map((element) => ItemModel.fromDocumentSnapshot(element))
-            .toList());
+        .map(
+          (QuerySnapshot query) => query.docs
+              .map((element) => ItemModel.fromDocumentSnapshot(element))
+              .toList(),
+        );
   }
 
-// get kitchenElements
+  // get kitchenElements
   Stream<List<KitchenElementModel>> kitchenElementsStream() {
-    return _users
-        .collection(DBTables.kitchenElements)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _users.collection(DBTables.kitchenElements).snapshots().map((
+      QuerySnapshot query,
+    ) {
       List<KitchenElementModel> retVal = [];
-      query.docs.forEach((element) {
+      for (var element in query.docs) {
         retVal.add(KitchenElementModel.fromDocumentSnapShot(element));
-      });
+      }
       return retVal;
     });
   }
 
   // get kitchenItems
   Stream<List<KitchenItemModel>> kitchenItemsStream() {
-    return _users
-        .collection(_collectionKitchenItems)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _users.collection(_collectionKitchenItems).snapshots().map((
+      QuerySnapshot query,
+    ) {
       List<KitchenItemModel> retVal = [];
-      query.docs.forEach((element) {
+      for (var element in query.docs) {
         retVal.add(KitchenItemModel.fromDocumentSnapShot(element));
-      });
+      }
       return retVal;
     });
   }
 
   Stream<List<ItemModel>> archiveItemStream() {
-    return _users.collection(DBTables.archiveGoods).snapshots().map(
-        (QuerySnapshot query) => query.docs
-            .map((element) => ItemModel.fromDocumentSnapshot(element))
-            .toList());
+    return _users
+        .collection(DBTables.archiveGoods)
+        .snapshots()
+        .map(
+          (QuerySnapshot query) => query.docs
+              .map((element) => ItemModel.fromDocumentSnapshot(element))
+              .toList(),
+        );
   }
 
   Stream<List<PaymentModel>> paymentsStream() {
-    return _users
-        .collection(DBTables.payments)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    return _users.collection(DBTables.payments).snapshots().map((
+      QuerySnapshot query,
+    ) {
       List<PaymentModel> retVal = [];
       for (var element in query.docs) {
         // logger.d(element.data());
@@ -198,7 +201,7 @@ class Database {
     });
   }
 
-///////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
   ///////// ADD / Create  //////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
   Future<void> addBesoin(BesoinModel besoin, String uid) async {
@@ -210,9 +213,7 @@ class Database {
     }
   }
 
-  Future<void> addShop(
-    ShopModel shop,
-  ) async {
+  Future<void> addShop(ShopModel shop) async {
     try {
       await _users.collection(DBTables.shops).add(shop.toMap());
     } catch (e) {
@@ -221,9 +222,7 @@ class Database {
     }
   }
 
-  Future<void> addItem(
-    ItemModel item,
-  ) async {
+  Future<void> addItem(ItemModel item) async {
     try {
       _users.collection(DBTables.goods).add(item.toMap());
     } catch (e) {
@@ -231,9 +230,7 @@ class Database {
     }
   }
 
-  Future<void> addPayment(
-    PaymentModel payment,
-  ) async {
+  Future<void> addPayment(PaymentModel payment) async {
     try {
       await _users.collection(DBTables.payments).add(payment.toMap());
     } catch (e) {
@@ -242,10 +239,8 @@ class Database {
     }
   }
 
-// add KitchenElement to the kitchen
-  Future<void> addKitchenElement(
-    KitchenElementModel kitchenElement,
-  ) async {
+  // add KitchenElement to the kitchen
+  Future<void> addKitchenElement(KitchenElementModel kitchenElement) async {
     try {
       await _users
           .collection(_collectionKitchenElements)
@@ -256,7 +251,7 @@ class Database {
     }
   }
 
-// add KitchenItem to the kitchen
+  // add KitchenItem to the kitchen
   Future<void> addKitchenItem(KitchenItemModel kitchenItem) async {
     try {
       await _users.collection(_collectionKitchenItems).add(kitchenItem.toMap());
@@ -266,13 +261,11 @@ class Database {
     }
   }
 
-////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
   ///////// Update  //////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
-// update KitchenElement
-  Future<void> updateKitchenElement(
-    KitchenElementModel kitchenElement,
-  ) async {
+  // update KitchenElement
+  Future<void> updateKitchenElement(KitchenElementModel kitchenElement) async {
     try {
       await _users
           .collection(_collectionKitchenElements)
@@ -284,10 +277,8 @@ class Database {
     }
   }
 
-// update KitchenItem
-  Future<void> updateKitchenItem(
-    KitchenItemModel kitchenItem,
-  ) async {
+  // update KitchenItem
+  Future<void> updateKitchenItem(KitchenItemModel kitchenItem) async {
     try {
       await _users
           .collection(_collectionKitchenItems)
@@ -299,9 +290,7 @@ class Database {
     }
   }
 
-  Future<void> updateShop(
-    ShopModel shopToUpdate,
-  ) async {
+  Future<void> updateShop(ShopModel shopToUpdate) async {
     try {
       _users
           .collection(DBTables.shops)
@@ -313,15 +302,11 @@ class Database {
     }
   }
 
-  Future<void> updateItem(
-    ItemModel itemToUpdate,
-  ) async {
+  Future<void> updateItem(ItemModel itemToUpdate) async {
     try {
       _users
           .collection(DBTables.goods)
-          .doc(
-            itemToUpdate.id,
-          )
+          .doc(itemToUpdate.id)
           .update(itemToUpdate.toMap());
     } catch (e) {
       Exception(e);
@@ -329,9 +314,7 @@ class Database {
     }
   }
 
-  Future<void> updatePayment(
-    PaymentModel itemToUpdate,
-  ) async {
+  Future<void> updatePayment(PaymentModel itemToUpdate) async {
     try {
       _users
           .collection(DBTables.payments)
@@ -343,10 +326,7 @@ class Database {
     }
   }
 
-  Future<void> updateBesoin(
-    BesoinModel itemToUpdate,
-    String uid,
-  ) async {
+  Future<void> updateBesoin(BesoinModel itemToUpdate, String uid) async {
     try {
       _users
           .collection(DBTables.besoins)
@@ -358,13 +338,11 @@ class Database {
     }
   }
 
-///////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
   ///////// Delete  //////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////
-// delete KitchenElement
-  Future<void> deleteKitchenElement(
-    KitchenElementModel kitchenElement,
-  ) async {
+  // delete KitchenElement
+  Future<void> deleteKitchenElement(KitchenElementModel kitchenElement) async {
     try {
       await _users
           .collection(_collectionKitchenElements)
@@ -377,9 +355,7 @@ class Database {
   }
 
   // delete KitchenItem
-  Future<void> deleteKitchenItem(
-    KitchenItemModel kitchenItem,
-  ) async {
+  Future<void> deleteKitchenItem(KitchenItemModel kitchenItem) async {
     try {
       await _users
           .collection(_collectionKitchenItems)
@@ -458,21 +434,74 @@ class Database {
 
   Future<void> deleteShopData(ShopData shopsData) async {
     /// delete all the items of the shop
-    for (var item in shopsData.items)
+    for (var item in shopsData.items) {
       try {
         _users.collection(DBTables.shops).doc(item.id).delete();
       } catch (e) {
         Exception(e);
         rethrow;
       }
+    }
 
     /// delete all the payments of the shop
-    for (var payment in shopsData.payments)
+    for (var payment in shopsData.payments) {
       try {
         _users.collection(DBTables.payments).doc(payment.id).delete();
       } catch (e) {
         Exception(e);
         rethrow;
       }
+    }
+  }
+
+  /// Delete user and all their data (collections and document)
+  Future<void> deleteUserAndData(BuildContext context) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final userDoc = firestore.collection(DBTables.users).doc(uid);
+      // List of subcollections to delete
+      final subcollections = [
+        DBTables.variables,
+        DBTables.shops,
+        DBTables.items,
+        DBTables.goods,
+        DBTables.kitchenItems,
+        DBTables.kitchenElements,
+        DBTables.besoins,
+        DBTables.kitchen,
+        DBTables.payments,
+        DBTables.archiveGoods,
+        DBTables.categories,
+        DBTables.incomes,
+      ];
+      // Delete all documents in each subcollection
+      for (final sub in subcollections) {
+        final colRef = userDoc.collection(sub);
+        final snap = await colRef.get();
+        for (final doc in snap.docs) {
+          await doc.reference.delete();
+        }
+      }
+      // Delete user document
+      await userDoc.delete();
+      // Optionally, delete from Firebase Auth
+      try {
+        await FirebaseAuth.instance.currentUser?.delete();
+      } catch (e) {
+        // If not signed in or re-auth required, ignore
+      }
+      if (context.mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Account and all data deleted.')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete account: \$e')),
+        );
+      }
+    }
   }
 }

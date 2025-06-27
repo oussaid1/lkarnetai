@@ -20,17 +20,18 @@ class PaymentModel {
   }
 
   String get formattedDate {
-    final df.DateFormat _formatter = df.DateFormat('MMMEd');
-    return _formatter.format(datePaid).toString();
+    final df.DateFormat formatter = df.DateFormat('MMMEd');
+    return formatter.format(datePaid).toString();
   }
 
-  PaymentModel(
-      {this.id,
-      this.besoinTitle,
-      this.paidAmount = 0.0,
-      this.paidShopName,
-      required this.datePaid,
-      this.count = 1});
+  PaymentModel({
+    this.id,
+    this.besoinTitle,
+    this.paidAmount = 0.0,
+    this.paidShopName,
+    required this.datePaid,
+    this.count = 1,
+  });
   Map<String, dynamic> toMap() {
     return {
       'paidAmount': paidAmount,
@@ -42,18 +43,18 @@ class PaymentModel {
   }
 
   String get toMMYY {
-    final df.DateFormat _formatter = df.DateFormat('MM-yy');
-    return _formatter.format(datePaid);
+    final df.DateFormat formatter = df.DateFormat('MM-yy');
+    return formatter.format(datePaid);
   }
 
   String get toYY {
-    final df.DateFormat _formatter = df.DateFormat('yy');
-    return _formatter.format(datePaid);
+    final df.DateFormat formatter = df.DateFormat('yy');
+    return formatter.format(datePaid);
   }
 
   String get toDDMMYY {
-    final df.DateFormat _formatter = df.DateFormat('dd-MM-yy');
-    return _formatter.format(datePaid);
+    final df.DateFormat formatter = df.DateFormat('dd-MM-yy');
+    return formatter.format(datePaid);
   }
 
   PaymentModel.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {

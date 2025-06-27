@@ -6,7 +6,7 @@ import 'shop_stats.dart';
 
 class ShopDetailsTab extends StatelessWidget {
   final ShopData? shopData;
-  const ShopDetailsTab({Key? key, required this.shopData}) : super(key: key);
+  const ShopDetailsTab({super.key, required this.shopData});
   @override
   Widget build(BuildContext context) {
     return GlassMaterial(
@@ -41,37 +41,32 @@ class ShopDetailsTab extends StatelessWidget {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               elevation: 8,
-              title: Text(
-                '',
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
+              title: Text('', style: Theme.of(context).textTheme.displaySmall),
               //leading: Container(),
               backgroundColor: Colors.transparent,
               bottom: TabBar(
                 unselectedLabelColor: Theme.of(context).dividerColor,
                 tabs: [
                   Tab(
-                      child: Text(
-                    'Items & Payments',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  )),
+                    child: Text(
+                      'Items & Payments',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
+                  ),
                   Tab(
-                      child: Text(
-                    'Stats',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  )),
+                    child: Text(
+                      'Stats',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
+                  ),
                 ],
               ),
             ),
             body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                ShopsDetailsBody(
-                  shopsData: shopData!,
-                ),
-                ShopStatsPage(
-                  shopData: shopData,
-                ),
+                ShopsDetailsBody(shopsData: shopData!),
+                ShopStatsPage(shopData: shopData),
               ],
             ),
           ),

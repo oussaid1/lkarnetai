@@ -27,7 +27,7 @@ import '../lists/items.dart';
 import '../shop_details/shop_details_tab.dart';
 
 class DashBoardPage extends StatefulWidget {
-  const DashBoardPage({Key? key}) : super(key: key);
+  const DashBoardPage({super.key});
 
   @override
   State<DashBoardPage> createState() => _DashBoardPageState();
@@ -179,33 +179,33 @@ class _DashBoardPageState extends State<DashBoardPage>
 
                                 //////////////////////////////////////////////////////
                                 /// filtered items
-                                ItemsFiltered _filteredItems = ItemsFiltered(
+                                ItemsFiltered filteredItems = ItemsFiltered(
                                   items: itemsState.items,
                                 );
 
                                 /// filtered payments
-                                PaymentsFiltered _filteredPayments =
+                                PaymentsFiltered filteredPayments =
                                     PaymentsFiltered(
                                       payments: paymentsState.payments,
                                     );
                                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                 //  List<ItemModel> _items =
-                                _filteredItems.itemsByDateFilter;
+                                filteredItems.itemsByDateFilter;
                                 //////////////////////////////////////////////////////
                                 //  List<PaymentModel> _payments =
-                                _filteredPayments.paymentsByDateFilter;
-                                List<ShopModel> _shops = shopsState.shops;
+                                filteredPayments.paymentsByDateFilter;
+                                List<ShopModel> shops = shopsState.shops;
                                 //////////////////////////////////////////////////////
                                 var dataSink = DataSink(
                                   items: itemsState.items,
                                   payments: paymentsState.payments,
-                                  shops: _shops,
+                                  shops: shops,
                                 );
                                 //////////////////////////////////////////////////////
                                 List<ShopData> allShopsData =
                                     dataSink.allShopsData;
                                 ///////////////////////////////////////////////////////
-                                ShopDataCalculations _shopDataCalculations =
+                                ShopDataCalculations shopDataCalculations =
                                     ShopDataCalculations(
                                       items: itemsState.items,
                                       payments: paymentsState.payments,
@@ -217,7 +217,7 @@ class _DashBoardPageState extends State<DashBoardPage>
                                   children: [
                                     SizedBox(height: 8),
                                     buildTopWidget(
-                                      _shopDataCalculations,
+                                      shopDataCalculations,
                                       items: itemsState.items,
                                     ),
                                     buildShopsWidget(context, allShopsData),
@@ -268,7 +268,7 @@ class _DashBoardPageState extends State<DashBoardPage>
     );
   }
 
-  buildShopsWidget(BuildContext context, List<ShopData> _shopsDataList) {
+  buildShopsWidget(BuildContext context, List<ShopData> shopsDataList) {
     //_shopsDataList..removeWhere((e) => e.shopDataCalculations.itemsSumAfterPayment <= 0);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -326,7 +326,7 @@ class _DashBoardPageState extends State<DashBoardPage>
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  final ShopData shopsData = _shopsDataList[index];
+                  final ShopData shopsData = shopsDataList[index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ShopSquareTile(
@@ -343,7 +343,7 @@ class _DashBoardPageState extends State<DashBoardPage>
                     ),
                   );
                 },
-                itemCount: _shopsDataList.length,
+                itemCount: shopsDataList.length,
               ),
             ),
           ],
@@ -498,7 +498,7 @@ class _DashBoardPageState extends State<DashBoardPage>
       radius: 50.0,
       lineWidth: 6.0,
       percent: dataSink.spendingsUnitinterval,
-      center: new Text(
+      center: Text(
         "${dataSink.spendingsPecentage} %",
         style: Theme.of(context).textTheme.titleLarge,
       ),
@@ -561,7 +561,7 @@ class _DashBoardPageState extends State<DashBoardPage>
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      '${operation.date!.formatted()}',
+                      operation.date!.formatted(),
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
@@ -577,10 +577,7 @@ class _DashBoardPageState extends State<DashBoardPage>
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
-                Text(
-                  '$currency',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
+                Text(currency, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(width: 8),
               ],
             ),
@@ -593,7 +590,7 @@ class _DashBoardPageState extends State<DashBoardPage>
 
 class AddStuffWidget extends StatelessWidget {
   final BuildContext context;
-  const AddStuffWidget({Key? key, required this.context}) : super(key: key);
+  const AddStuffWidget({super.key, required this.context});
 
   @override
   Widget build(BuildContext cxt) {

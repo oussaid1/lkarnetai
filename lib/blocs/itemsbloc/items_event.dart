@@ -13,7 +13,7 @@ class GetItemsEvent extends ItemsEvent {}
 /// load items event
 class LoadItemsEvent extends ItemsEvent {
   final List<ItemModel> items;
-  LoadItemsEvent(this.items);
+  const LoadItemsEvent(this.items);
   @override
   List<Object> get props => [items];
 }
@@ -22,7 +22,7 @@ class LoadItemsEvent extends ItemsEvent {
 class AddItemEvent extends ItemsEvent {
   final ItemModel item;
 
-  AddItemEvent(this.item);
+  const AddItemEvent(this.item);
 
   @override
   List<Object> get props => [item];
@@ -32,7 +32,7 @@ class AddItemEvent extends ItemsEvent {
 class DeleteItemEvent extends ItemsEvent {
   final ItemModel item;
 
-  DeleteItemEvent(this.item);
+  const DeleteItemEvent(this.item);
 
   @override
   List<Object> get props => [item];
@@ -42,7 +42,7 @@ class DeleteItemEvent extends ItemsEvent {
 class UpdateItemEvent extends ItemsEvent {
   final ItemModel item;
 
-  UpdateItemEvent(this.item);
+  const UpdateItemEvent(this.item);
 
   @override
   List<Object> get props => [item];

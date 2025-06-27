@@ -18,7 +18,7 @@ import 'stats/stats_all.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +34,33 @@ class HomePage extends StatelessWidget {
               ShopsBloc(GetIt.I<DatabaseOperations>())..add(GetShopsEvent()),
         ),
         BlocProvider(
-          create: (context) => PaymentsBloc(GetIt.I<DatabaseOperations>())
-            ..add(GetPaymentsEvent()),
+          create: (context) =>
+              PaymentsBloc(GetIt.I<DatabaseOperations>())
+                ..add(GetPaymentsEvent()),
         ),
+
         //////////////////////////////////////////////////////
         /// //////////////////////////////////////////////////////
         /// Kitchen Blocs
         /// //////////////////////////////////////////////////////
-
         BlocProvider(
-          create: (context) => KitchenElementBloc(GetIt.I<DatabaseOperations>())
-            ..add(GetKitchenElementsEvent()),
+          create: (context) =>
+              KitchenElementBloc(GetIt.I<DatabaseOperations>())
+                ..add(GetKitchenElementsEvent()),
         ),
         BlocProvider(
-          create: (context) => KitchenItemBloc(GetIt.I<DatabaseOperations>())
-            ..add(GetKitchenItemsEvent()),
+          create: (context) =>
+              KitchenItemBloc(GetIt.I<DatabaseOperations>())
+                ..add(GetKitchenItemsEvent()),
         ),
         BlocProvider<DateFilterBloc>(
-          create: (context) => DateFilterBloc()
-            ..add(ChangeDateFilterEvent(dateFilter: DateFilter.all)),
+          create: (context) =>
+              DateFilterBloc()
+                ..add(ChangeDateFilterEvent(dateFilter: DateFilter.all)),
         ),
 
         /// userCubit
-        BlocProvider(
-          create: (context) => UserModelCubit()..loadUser(),
-        ),
+        BlocProvider(create: (context) => UserModelCubit()..loadUser()),
       ],
       child: HomeWidget(),
     );
@@ -66,9 +68,7 @@ class HomePage extends StatelessWidget {
 }
 
 class HomeWidget extends StatefulWidget {
-  HomeWidget({
-    Key? key,
-  }) : super(key: key);
+  const HomeWidget({super.key});
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
 }
@@ -116,30 +116,25 @@ class _HomeWidgetState extends State<HomeWidget> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: ExpandableFab(
           distance: 0,
-          children: [
-            AddStuffWidget(
-              context: context,
-            )
-          ],
+          children: [AddStuffWidget(context: context)],
         ),
-        bottomNavigationBar:
-            buildNavigationBar(context, _selectedPageIndex, _pageController),
-        backgroundColor: Colors.transparent,
-        body: buildPageView(
+        bottomNavigationBar: buildNavigationBar(
+          context,
+          _selectedPageIndex,
           _pageController,
         ),
+        backgroundColor: Colors.transparent,
+        body: buildPageView(_pageController),
       ),
     );
   }
 
-  buildPageView(
-    PageController _pageController,
-  ) {
+  buildPageView(PageController pageController) {
     return Column(
       children: [
         Expanded(
           child: PageView(
-            controller: _pageController,
+            controller: pageController,
             physics: NeverScrollableScrollPhysics(),
             onPageChanged: (index) {
               setState(() {
@@ -163,16 +158,19 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   buildNavigationBar(
-      context, int _selectedPageIndex, PageController _pageController) {
+    context,
+    int selectedPageIndex,
+    PageController pageController,
+  ) {
     return BottomNavigationBar(
       backgroundColor: Colors.transparent,
       type: BottomNavigationBarType.shifting,
-      currentIndex: _selectedPageIndex,
+      currentIndex: selectedPageIndex,
       elevation: 8,
       onTap: (index) {
-        _pageController.jumpToPage(index);
+        pageController.jumpToPage(index);
         setState(() {
-          _selectedPageIndex = index;
+          selectedPageIndex = index;
         });
       },
       items: [
@@ -192,7 +190,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         //   backgroundColor: Color.fromARGB(136, 224, 101, 121),
         // ),
         const BottomNavigationBarItem(
-          icon: const Icon(Icons.add_chart),
+          icon: Icon(Icons.add_chart),
           label: 'Stats',
           backgroundColor: Color.fromARGB(123, 224, 101, 183),
         ),

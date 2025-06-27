@@ -11,7 +11,7 @@ abstract class ShopsEvent extends Equatable {
 class LoadShopsEvent extends ShopsEvent {
   final List<ShopModel> shops;
 
-  LoadShopsEvent(this.shops);
+  const LoadShopsEvent(this.shops);
 
   @override
   List<Object> get props => [shops];
@@ -24,7 +24,7 @@ class GetShopsEvent extends ShopsEvent {}
 class AddShopEvent extends ShopsEvent {
   final ShopModel shop;
 
-  AddShopEvent(this.shop);
+  const AddShopEvent(this.shop);
 
   @override
   List<Object> get props => [shop];
@@ -34,7 +34,7 @@ class AddShopEvent extends ShopsEvent {
 class DeleteShopEvent extends ShopsEvent {
   final ShopModel shop;
 
-  DeleteShopEvent(this.shop);
+  const DeleteShopEvent(this.shop);
 
   @override
   List<Object> get props => [shop];
@@ -44,7 +44,7 @@ class DeleteShopEvent extends ShopsEvent {
 class UpdateShopEvent extends ShopsEvent {
   final ShopModel shop;
 
-  UpdateShopEvent(this.shop);
+  const UpdateShopEvent(this.shop);
 
   @override
   List<Object> get props => [shop];

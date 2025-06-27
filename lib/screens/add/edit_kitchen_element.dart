@@ -3,12 +3,12 @@ import '../../components.dart';
 import '../tabs/kitchen_element_detailed.dart';
 
 class UpdateKitchenElement extends ConsumerStatefulWidget {
-  const UpdateKitchenElement(
-      {Key? key,
-      required this.onUpdate,
-      this.radius = 35,
-      this.initialValue = 0})
-      : super(key: key);
+  const UpdateKitchenElement({
+    super.key,
+    required this.onUpdate,
+    this.radius = 35,
+    this.initialValue = 0,
+  });
   final Function(double) onUpdate;
   final double radius;
   final double initialValue;

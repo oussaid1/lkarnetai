@@ -4,15 +4,15 @@ import 'package:lkarnet/settings/theme/theme_provider.dart';
 import '../components.dart';
 
 class NotificationsSwitch extends ConsumerWidget {
-  const NotificationsSwitch({Key? key}) : super(key: key);
+  const NotificationsSwitch({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
-    var _notify = ref.watch(notificationStateNotifier);
+    var notify = ref.watch(notificationStateNotifier);
     return Switch(
-      value: _notify.shouldNotify,
+      value: notify.shouldNotify,
       onChanged: (value) {
-        _notify.toggleChangeTheme();
+        notify.toggleChangeTheme();
         if (value) {
           _showNotifications(context);
         } else {
@@ -45,28 +45,15 @@ class NotificationsSwitch extends ConsumerWidget {
 
   void _cancelNotification(BuildContext context) async {
     AwesomeNotifications().cancelAll();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
-      content: Text('Notifications disabled'),
-      duration: Duration(seconds: 1),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red,
+        content: Text('Notifications disabled'),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:flutter/material.dart';
 

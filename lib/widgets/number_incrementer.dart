@@ -8,12 +8,12 @@ class NumberIncrementer extends StatefulWidget {
   final Function(double) onIncrement;
   final double initialValue;
 
-  NumberIncrementer({
-    Key? key,
+  const NumberIncrementer({
+    super.key,
     required this.onDecrement,
     required this.onIncrement,
     required this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   _NumberIncrementerState createState() => _NumberIncrementerState();
@@ -35,7 +35,7 @@ class _NumberIncrementerState extends State<NumberIncrementer> {
       children: [
         Card(
           color: AppConstants.whiteOpacity,
-          child: Container(
+          child: SizedBox(
             height: 45,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

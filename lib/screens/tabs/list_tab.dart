@@ -6,6 +6,8 @@ import 'package:lkarnet/screens/lists/shops.dart';
 import 'package:lkarnet/widgets/glasswidget.dart';
 
 class ListTab extends ConsumerWidget {
+  const ListTab({super.key});
+
   @override
   Widget build(BuildContext context, ref) {
     return DefaultTabController(
@@ -19,15 +21,14 @@ class ListTab extends ConsumerWidget {
             elevation: 0,
             leading: Container(),
             leadingWidth: 10,
-            actions: [
-              IconButton(icon: Icon(Icons.search), onPressed: () {}),
-            ],
+            actions: [IconButton(icon: Icon(Icons.search), onPressed: () {})],
             bottom: TabBar(
               overlayColor: WidgetStateColor.resolveWith(
-                  (Set<WidgetState> states) =>
-                      states.contains(WidgetState.selected)
-                          ? Colors.white
-                          : Colors.transparent),
+                (Set<WidgetState> states) =>
+                    states.contains(WidgetState.selected)
+                    ? Colors.white
+                    : Colors.transparent,
+              ),
               indicatorColor: Colors.white,
               unselectedLabelColor: Theme.of(context).dividerColor,
               tabs: [

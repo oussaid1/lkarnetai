@@ -9,14 +9,14 @@ class SearchByWidget extends StatefulWidget {
 
   //final String searchText;
   const SearchByWidget({
-    Key? key,
+    super.key,
     this.withCategory = false,
     required this.listOfCategories,
     required this.onChanged,
 
     /// required this.searchText,
     this.initialCategoryValue,
-  }) : super(key: key);
+  });
 
   @override
   State<SearchByWidget> createState() => _SearchByWidgetState();

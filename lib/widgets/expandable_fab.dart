@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 @immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
-    Key? key,
+    super.key,
     this.initialOpen,
     required this.distance,
     required this.children,
-  }) : super(key: key);
+  });
 
   final bool? initialOpen;
   final double distance;
@@ -68,7 +68,9 @@ class ExpandableFabState extends State<ExpandableFab>
             maxDistance: widget.distance,
             progress: _expandAnimation,
             child: IgnorePointer(
-                ignoring: !_isAnimating, child: widget.children[0]),
+              ignoring: !_isAnimating,
+              child: widget.children[0],
+            ),
           ),
           const SizedBox(height: 30),
           _buildTapToOpenFab(),
@@ -110,12 +112,12 @@ class ExpandableFabState extends State<ExpandableFab>
 @immutable
 class _ExpandingActionButton extends StatelessWidget {
   const _ExpandingActionButton({
-    Key? key,
+    super.key,
     required this.directionInDegrees,
     required this.maxDistance,
     required this.progress,
     required this.child,
-  }) : super(key: key);
+  });
 
   final double directionInDegrees;
   final double maxDistance;
@@ -129,21 +131,10 @@ class _ExpandingActionButton extends StatelessWidget {
       builder: (context, child) {
         return child!;
       },
-      child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
+      child: FadeTransition(opacity: progress, child: child),
     );
   }
 }
-
-
-
-
-
-
-
-
 
 // import 'dart:math' as math;
 

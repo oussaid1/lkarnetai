@@ -10,7 +10,7 @@ class ItemsData {
   /// a setter for the items list
   /// a getter for the items list
   List<ItemModel> get itemz => items;
-// compare two Strings and check number of matching letters
+  // compare two Strings and check number of matching letters
   int compareStrings(String a, String b) {
     int count = 0;
     for (int i = 0; i < a.length; i++) {
@@ -35,103 +35,119 @@ class ItemsData {
     List<DateTime> ddmmyyyys = [];
     for (var it in items) {
       ddmmyyyys.add(
-          DateTime(it.dateBought.year, it.dateBought.month, it.dateBought.day));
+        DateTime(it.dateBought.year, it.dateBought.month, it.dateBought.day),
+      );
     }
     return ddmmyyyys.toSet().toList();
   }
 
   // get distinct mmyyy from items
   List<DateTime> get distinctMonths {
-    var _list = <DateTime>[];
+    var list = <DateTime>[];
     for (var item in items) {
-      _list.add(DateTime(item.dateBought.year, item.dateBought.month));
+      list.add(DateTime(item.dateBought.year, item.dateBought.month));
     }
-    return _list.toSet().toList();
+    return list.toSet().toList();
   }
 
-// get distinct yyyy
+  // get distinct yyyy
   List<DateTime> get distinctYears {
-    var _list = <DateTime>[];
+    var list = <DateTime>[];
     for (var item in items) {
-      _list.add(DateTime(item.dateBought.year));
+      list.add(DateTime(item.dateBought.year));
     }
 
-    return _list.toSet().toList();
+    return list.toSet().toList();
   }
 
-// get mmyyy ItemsData
+  // get mmyyy ItemsData
   List<ItemsChartData<DateTime>> get dailyItemsChartData {
-    var _list = <ItemsChartData<DateTime>>[];
+    var list = <ItemsChartData<DateTime>>[];
     for (var date in distinctDays) {
-      _list.add(ItemsChartData<DateTime>(
+      list.add(
+        ItemsChartData<DateTime>(
           tag: date,
           items: items
               .where((element) => element.dateBought.isMatchDay(date))
-              .toList()));
+              .toList(),
+        ),
+      );
     }
-    return _list;
+    return list;
   }
 
   // get mmyyy ItemsData
   List<ItemsChartData<DateTime>> get monthlyItemsChartData {
-    var _list = <ItemsChartData<DateTime>>[];
+    var list = <ItemsChartData<DateTime>>[];
     for (var it in distinctMonths) {
-      _list.add(ItemsChartData<DateTime>(
+      list.add(
+        ItemsChartData<DateTime>(
           tag: it,
           items: items
               .where((element) => element.dateBought.isMatchMonth(it))
-              .toList()));
+              .toList(),
+        ),
+      );
     }
-    return _list;
+    return list;
   }
 
   // get yyyy ItemsData
   List<ItemsChartData<DateTime>> get yearlyItemsChartData {
-    var _list = <ItemsChartData<DateTime>>[];
+    var list = <ItemsChartData<DateTime>>[];
     for (var it in distinctYears) {
-      _list.add(ItemsChartData<DateTime>(
+      list.add(
+        ItemsChartData<DateTime>(
           tag: it,
           items: items
               .where((element) => element.dateBought.isMatchYear(it))
-              .toList()));
+              .toList(),
+        ),
+      );
     }
-    return _list;
+    return list;
   }
 
   //// get chartData for each item name
   List<ItemsChartData> get itemsByNameChartData {
-    var _list = <ItemsChartData>[];
+    var list = <ItemsChartData>[];
     for (var it in distinctItemNames) {
-      _list.add(ItemsChartData(
+      list.add(
+        ItemsChartData(
           tag: it,
           items: items
               .where((element) => element.itemName.trim() == it.trim())
-              .toList()));
+              .toList(),
+        ),
+      );
     }
-    return _list;
+    return list;
   }
 
   //// get chartData for each item name Daily
   List<ItemsChartData> get itemsByNameDailyChartData {
-    var _list = <ItemsChartData>[];
+    var list = <ItemsChartData>[];
     for (var element in distinctDays) {
       element;
     }
     for (var it in distinctItemNames) {
-      _list.add(ItemsChartData(
+      list.add(
+        ItemsChartData(
           tag: it,
           items: items
               .where((element) => element.itemName.trim() == it.trim())
-              .toList()));
+              .toList(),
+        ),
+      );
     }
-    return _list;
+    return list;
   }
 
-////////////////////////////////////////////////////
-///////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
   /// get this most recent items bought
   List<ItemModel> get mostRecentItems {
-    if (items.length == 0) {
+    if (items.isEmpty) {
       return [];
     }
     DateTime mostRecent = items[0].dateBought;

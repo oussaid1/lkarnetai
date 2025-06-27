@@ -46,10 +46,12 @@ class RecentOperation {
       list.sort((a, b) => b.dateBought.compareTo(a.dateBought));
       DateTime date = list[0].dateBought;
       list = list
-          .where((element) =>
-              element.dateBought.day == date.day &&
-              element.dateBought.month == date.month &&
-              element.dateBought.year == date.year)
+          .where(
+            (element) =>
+                element.dateBought.day == date.day &&
+                element.dateBought.month == date.month &&
+                element.dateBought.year == date.year,
+          )
           .toList();
     }
     return list;
@@ -62,10 +64,12 @@ class RecentOperation {
       list.sort((a, b) => b.datePaid.compareTo(a.datePaid));
       DateTime date = list[0].datePaid;
       list = list
-          .where((element) =>
-              element.datePaid.day == date.day &&
-              element.datePaid.month == date.month &&
-              element.datePaid.year == date.year)
+          .where(
+            (element) =>
+                element.datePaid.day == date.day &&
+                element.datePaid.month == date.month &&
+                element.datePaid.year == date.year,
+          )
           .toList();
     }
     return list;
@@ -73,15 +77,15 @@ class RecentOperation {
 
   // get a list of OperationsAdapter.fromItemsAndPayments for current shop
   List<OperationsAdapter> get recentOperationsList {
-    List<OperationsAdapter> _list = [];
-    recentItems.forEach((item) {
-      _list.add(new OperationsAdapter.fromItemsAndPayments(item: item));
-    });
-    recentPayments.forEach((payment) {
-      _list.add(OperationsAdapter.fromItemsAndPayments(payment: payment));
-    });
+    List<OperationsAdapter> list = [];
+    for (var item in recentItems) {
+      list.add(OperationsAdapter.fromItemsAndPayments(item: item));
+    }
+    for (var payment in recentPayments) {
+      list.add(OperationsAdapter.fromItemsAndPayments(payment: payment));
+    }
     // sort by date
-    _list.sort((a, b) => b.date!.compareTo(a.date!));
-    return _list;
+    list.sort((a, b) => b.date!.compareTo(a.date!));
+    return list;
   }
 }

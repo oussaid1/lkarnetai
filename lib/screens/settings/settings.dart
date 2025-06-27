@@ -1,36 +1,38 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:excel/excel.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:lkarnet/blocs/payments/payments_bloc.dart';
 import 'package:lkarnet/blocs/shopsbloc/shops_bloc.dart';
+
 import 'package:lkarnet/models/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:lkarnet/widgets/dialogs.dart';
 import 'package:lkarnet/widgets/myappbar.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import '../../blocs/itemsbloc/items_bloc.dart';
 import '../../blocs/loginbloc/login_bloc.dart';
 import '../../components.dart';
 import '../../cubits/userCubit/usermodel_cubit.dart';
-import '../../models/backup.dart';
+import '../../database/database.dart';
+
+import '../../export_data.dart';
 import '../../models/data_sink.dart';
 import '../../models/item/item.dart';
 import '../../models/shop/shop_model.dart';
 import '../../models/shop/shops_data.dart';
-import '../../utils.dart';
 import '../../widgets/notifications_switch.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<ItemModel> _items = [];
+  final List<ItemModel> _items = [];
   String? path;
   void exportAsExcel() {
     var excel =
@@ -52,7 +54,6 @@ class _SettingsPageState extends State<SettingsPage> {
       //////////////////
       var cell3 = sheetObject.cell(CellIndex.indexByString("C${i + 1}"));
       cell3.value = _items[i].itemPrice as CellValue?;
-      ;
       // cell.cellStyle = cellStyle;
       // if (i > 10) break;
     }
@@ -111,6 +112,7 @@ class _SettingsPageState extends State<SettingsPage> {
         body: BlocBuilder<UserModelCubit, UserModel?>(
           builder: (context, state) {
             if (state != null) {
+              final uid = state.id; // Get the user's UID
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -152,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     SizedBox(height: 60),
                     ListTile(
-                      leading: Container(
+                      leading: SizedBox(
                         width: 45,
                         height: 45,
                         child: Icon(Icons.account_circle_outlined, size: 35),
@@ -165,7 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       onTap: () {},
                     ),
                     ListTile(
-                      leading: Container(
+                      leading: SizedBox(
                         width: 45,
                         height: 45,
                         child: Icon(Icons.lock),
@@ -193,12 +195,12 @@ class _SettingsPageState extends State<SettingsPage> {
                             return BlocBuilder<PaymentsBloc, PaymentsState>(
                               builder: (context, paymentsState) {
                                 if (itemsState.items.isNotEmpty) {
-                                  List<ShopModel> _shops = shopsState.shops;
+                                  List<ShopModel> shops = shopsState.shops;
                                   //////////////////////////////////////////////////////
                                   var dataSink = DataSink(
                                     items: itemsState.items,
                                     payments: paymentsState.payments,
-                                    shops: _shops,
+                                    shops: shops,
                                   );
                                   //////////////////////////////////////////////////////
                                   List<ShopData> allShopsData =
@@ -212,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ///////////////////////////////////////////////////////
                                   ///////////////////////////////////////////////////////
                                   return ListTile(
-                                    leading: Container(
+                                    leading: SizedBox(
                                       width: 45,
                                       height: 45,
                                       child: Icon(Icons.backup_outlined),
@@ -241,44 +243,44 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     onTap: () async {
                                       /// show a confirmation dialogue to backup
-                                      Dialogs.confirmDialogue(
-                                        context,
-                                        title: 'Back Up',
-                                        message:
-                                            'Are you sure you want to export your database ?',
-                                      ).then((value) async {
-                                        var status = await Permission.storage
-                                            .request()
-                                            .isGranted;
-                                        if (!status) {
-                                          Dialogs.snackBar(
-                                            'Please grant storage permission',
-                                          );
-                                        }
-                                        //Directory docsDirectory = await getExternalStorageDirectories();
-                                        Directory? dir =
-                                            await getDownloadsDirectory();
-                                        setState(() {
-                                          path = dir!.path;
-                                        });
-                                        log(path ?? '');
+                                      // Dialogs.confirmDialogue(
+                                      //   context,
+                                      //   title: 'Back Up',
+                                      //   message:
+                                      //       'Are you sure you want to export your database ?',
+                                      // ).then((value) async {
+                                      //   var status = await Permission.storage
+                                      //       .request()
+                                      //       .isGranted;
+                                      //   if (!status) {
+                                      //     Dialogs.snackBar(
+                                      //       'Please grant storage permission',
+                                      //     );
+                                      //   }
+                                      //   //Directory docsDirectory = await getExternalStorageDirectories();
+                                      //   Directory? dir =
+                                      //       await getDownloadsDirectory();
+                                      //   setState(() {
+                                      //     path = dir!.path;
+                                      //   });
+                                      //   log(path ?? '');
 
-                                        if (path != null) {
-                                          // exportAsExcel();
-                                          Dialogs.snackBar(path ?? '');
-                                          final backup = Backup(
-                                            path: path,
-                                            date: DateTime.now(),
-                                            shopsDataList: allShopsData,
-                                          );
-                                          backup.exportAsExcel();
-                                          //backup.store; // .then((value) =>
-                                          GlobalFunctions.showSnackBar(
-                                            context,
-                                            'backup created',
-                                          );
-                                        }
-                                      });
+                                      //   if (path != null) {
+                                      //     // exportAsExcel();
+                                      //     Dialogs.snackBar(path ?? '');
+                                      //     final backup = Backup(
+                                      //       path: path,
+                                      //       date: DateTime.now(),
+                                      //       shopsDataList: allShopsData,
+                                      //     );
+                                      //     backup.exportAsExcel();
+                                      //     //backup.store; // .then((value) =>
+                                      //     GlobalFunctions.showSnackBar(
+                                      //       context,
+                                      //       'backup created',
+                                      //     );
+                                      //   }
+                                      //});
                                     },
                                   );
                                 }
@@ -292,7 +294,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     ListTile(
-                      leading: Container(
+                      leading: SizedBox(
                         width: 45,
                         height: 45,
                         child: Icon(Icons.share_outlined),
@@ -314,7 +316,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       onTap: () {},
                     ),
                     ListTile(
-                      leading: Container(
+                      leading: SizedBox(
                         width: 45,
                         height: 45,
                         child: Icon(Icons.notifications),
@@ -336,7 +338,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       onTap: () {},
                     ),
                     ListTile(
-                      leading: Container(
+                      leading: SizedBox(
                         width: 45,
                         height: 45,
                         child: Icon(CupertinoIcons.power),
@@ -367,6 +369,68 @@ class _SettingsPageState extends State<SettingsPage> {
                             ).add(LogOutRequestedEvent());
                           }
                         });
+                      },
+                    ),
+                    ListTile(
+                      leading: SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: Icon(Icons.download_for_offline_outlined),
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Export All Data as JSON',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                          Text(
+                            'Download your entire database as a JSON file',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded, size: 20),
+                      onTap: () async {
+                        exportAllCollections(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: Icon(Icons.delete_forever, color: Colors.red),
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Delete Account',
+                            style: Theme.of(context).textTheme.displaySmall
+                                ?.copyWith(color: Colors.red),
+                          ),
+                          Text(
+                            'Delete your account and all your data permanently',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                      onTap: () async {
+                        final confirm = await Dialogs.confirmDialogue(
+                          context,
+                          title: 'Delete Account',
+                          message:
+                              'Are you sure you want to delete your account and all your data? This action cannot be undone.',
+                        );
+                        if (confirm == true) {
+                          final uid = state.id;
+                          await Database(uid: uid).deleteUserAndData(context);
+                        }
                       },
                     ),
                   ],

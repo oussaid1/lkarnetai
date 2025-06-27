@@ -10,10 +10,7 @@ import '../../widgets/item_listtile.dart';
 
 class ItemsList extends StatefulWidget {
   final List<ItemModel> lista;
-  ItemsList({
-    Key? key,
-    required this.lista,
-  }) : super(key: key);
+  const ItemsList({super.key, required this.lista});
   @override
   State<ItemsList> createState() => _ItemsListState();
 }
@@ -26,9 +23,11 @@ class _ItemsListState extends State<ItemsList> {
     switch (_filterType) {
       case "name":
         return lista
-            .where((item) => item.itemName
-                .toLowerCase()
-                .contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.itemName.toLowerCase().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       case "price":
         return lista
@@ -36,15 +35,19 @@ class _ItemsListState extends State<ItemsList> {
             .toList();
       case "category":
         return lista
-            .where((item) => item.besoinTitle!
-                .toLowerCase()
-                .contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.besoinTitle!.toLowerCase().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       case "shop":
         return lista
-            .where((item) => item.shopName
-                .toLowerCase()
-                .contains(_filterPattern.toLowerCase()))
+            .where(
+              (item) => item.shopName.toLowerCase().contains(
+                _filterPattern.toLowerCase(),
+              ),
+            )
             .toList();
       default:
     }
@@ -131,25 +134,24 @@ class _ItemsListState extends State<ItemsList> {
                 const SizedBox(height: 15),
                 Expanded(
                   child: BluredContainer(
-                    margin:
-                        EdgeInsets.only(top: 10, left: 4, right: 4, bottom: 8),
+                    margin: EdgeInsets.only(
+                      top: 10,
+                      left: 4,
+                      right: 4,
+                      bottom: 8,
+                    ),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount:
                           _filteredList().length, // _shopsDataList.length,
                       itemBuilder: (BuildContext context, int index) {
                         ItemModel item = _filteredList()[index];
-                        return ItemTileWidget(
-                          withActions: true,
-                          item: item,
-                        );
+                        return ItemTileWidget(withActions: true, item: item);
                       },
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const SizedBox(height: 50),
               ],
             ),
           ),

@@ -13,11 +13,12 @@ class Tagged<T> extends Equatable {
   final List<ItemModel> items;
   final List<PaymentModel> payments;
   //List<ShopModel> shops;
-  Tagged(
-      {required this.tag,
-      // required this.shops,
-      required this.items,
-      required this.payments});
+  const Tagged({
+    required this.tag,
+    // required this.shops,
+    required this.items,
+    required this.payments,
+  });
 
   /// get date from tag
   DateTime get date => DateTime.tryParse(tag.toString()) ?? DateTime.now();
@@ -38,7 +39,11 @@ class Tagged<T> extends Equatable {
   /// get a random color as rgb for the tag
   Color get randomColor {
     return Color.fromARGB(
-        150, Random().nextInt(255), Random().nextInt(255), (167));
+      150,
+      Random().nextInt(255),
+      Random().nextInt(255),
+      (167),
+    );
   }
 
   /// shopDataCalculations

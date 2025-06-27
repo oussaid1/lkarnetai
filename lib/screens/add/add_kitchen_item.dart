@@ -20,12 +20,12 @@ import '../../widgets/kitchen_elements_spinner.dart';
 /// 2. - when editing existing item in kitchen
 /// 3. - when adding a normal item to to kitchen items of a selected kitchenElement
 class AddKitchenItem extends StatefulWidget {
-  AddKitchenItem({
-    Key? key,
+  const AddKitchenItem({
+    super.key,
     this.kitchenItem,
     this.kitchenElement,
     this.item,
-  }) : super(key: key);
+  });
   final ItemModel? item;
   final KitchenItemModel? kitchenItem;
   final KitchenElementModel? kitchenElement;
@@ -98,9 +98,9 @@ class _AddItemState extends State<AddKitchenItem> {
 
   @override
   Widget build(BuildContext context) {
-    final _itmBloc = context.read<KitchenItemBloc>();
-    _itmBloc..add(GetKitchenItemsEvent());
-    Iterable<ItemModel> _kOptions = context.watch<ItemsBloc>().state.items;
+    final itmBloc = context.read<KitchenItemBloc>();
+    itmBloc.add(GetKitchenItemsEvent());
+    Iterable<ItemModel> kOptions = context.watch<ItemsBloc>().state.items;
     // List<ItemModel> _kOptions = _itmBloc.state.kitchenItems;
 
     return GlassMaterial(
@@ -141,14 +141,12 @@ class _AddItemState extends State<AddKitchenItem> {
                     ? _buildKitchenElementSpinner()
                     : SizedBox.shrink(),
                 _buildShopSpinner(),
-                _buildItemNameAutoComplete(context, _kOptions),
+                _buildItemNameAutoComplete(context, kOptions),
                 _buildItemPrice(),
                 _buildSelectDateBought(),
                 _buildQuantityFier(),
-                SizedBox(
-                  height: 40,
-                ),
-                _buildSave(context, _itmBloc)
+                SizedBox(height: 40),
+                _buildSave(context, itmBloc),
               ],
             ),
           ),
@@ -171,58 +169,52 @@ class _AddItemState extends State<AddKitchenItem> {
         ),
       ),
       leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
+        icon: Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
       title: Text(
         widget.kitchenElement != null ? "تعديل المادة" : "اضافة مادة",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
+        style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }
 
-  _buildSave(BuildContext context, _itmBloc) {
+  _buildSave(BuildContext context, itmBloc) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(
-                'Cancel',
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: MThemeData.raisedButtonStyleCancel),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: MThemeData.raisedButtonStyleCancel,
+            child: Text('Cancel'),
+          ),
         ),
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(widget.item != null ? 'Update' : 'Save'),
-              onPressed: !_canSave
-                  ? null
-                  : () {
-                      GlobalFunctions.showLoadingSnackBar(context, 'Saving...');
-                      if (_formKeyName.currentState!.validate() &&
-                          _formKeyPrice.currentState!.validate()) {
-                        widget.kitchenItem == null
-                            ? _save(_itmBloc)
-                            : _update(_itmBloc);
-                        setState(() {
-                          _canSave = false;
-                        });
-                      }
-                    },
-              style: MThemeData.raisedButtonStyleSave),
+            onPressed: !_canSave
+                ? null
+                : () {
+                    GlobalFunctions.showLoadingSnackBar(context, 'Saving...');
+                    if (_formKeyName.currentState!.validate() &&
+                        _formKeyPrice.currentState!.validate()) {
+                      widget.kitchenItem == null
+                          ? _save(itmBloc)
+                          : _update(itmBloc);
+                      setState(() {
+                        _canSave = false;
+                      });
+                    }
+                  },
+            style: MThemeData.raisedButtonStyleSave,
+            child: Text(widget.item != null ? 'Update' : 'Save'),
+          ),
         ),
       ],
     );
@@ -240,44 +232,44 @@ class _AddItemState extends State<AddKitchenItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Consumer(builder: (context, ref, child) {
-              return Container(
-                height: 45,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                        icon: Icon(
-                          CupertinoIcons.minus_circle,
-                        ),
+            Consumer(
+              builder: (context, ref, child) {
+                return SizedBox(
+                  height: 45,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(CupertinoIcons.minus_circle),
                         onPressed: () {
                           setState(() {
                             if (_quantity > 1) _quantity -= 0.5;
                             _quantity = _quantity;
                           });
-                        }),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(_quantity.toString()),
+                        },
                       ),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          CupertinoIcons.plus_circle,
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(_quantity.toString()),
                         ),
+                      ),
+                      IconButton(
+                        icon: Icon(CupertinoIcons.plus_circle),
                         onPressed: () {
                           setState(() {
                             _quantity += 0.5;
                             _quantity = _quantity;
                           });
-                        }),
-                  ],
-                ),
-              );
-            }),
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
             QuantifierSpinner(
               onValueChanged: (value) {
                 setState(() {
@@ -308,7 +300,7 @@ class _AddItemState extends State<AddKitchenItem> {
                   _dateBought = date;
                 });
               },
-            )
+            ),
           ],
         ),
       ),
@@ -345,17 +337,12 @@ class _AddItemState extends State<AddKitchenItem> {
               hintStyle: GoogleFonts.robotoSlab(),
               contentPadding: EdgeInsets.only(top: 4),
               suffix: IconButton(
-                icon: Icon(
-                  Icons.clear_outlined,
-                  size: 18,
-                ),
+                icon: Icon(Icons.clear_outlined, size: 18),
                 onPressed: () {
                   _itemPriceController.clear();
                 },
               ),
-              prefixIcon: Icon(
-                Icons.monetization_on_outlined,
-              ),
+              prefixIcon: Icon(Icons.monetization_on_outlined),
               fillColor: AppConstants.whiteOpacity,
               filled: true,
               labelText: 'Price',
@@ -367,15 +354,12 @@ class _AddItemState extends State<AddKitchenItem> {
   }
 
   Padding _buildItemNameAutoComplete(
-      BuildContext context, Iterable<ItemModel> _kOptions) {
+    BuildContext context,
+    Iterable<ItemModel> kOptions,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: Form(
-        key: _formKeyName,
-        child: SizedBox(
-          height: 50,
-        ),
-      ),
+      child: Form(key: _formKeyName, child: SizedBox(height: 50)),
     );
   }
 
@@ -419,11 +403,15 @@ class _AddItemState extends State<AddKitchenItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Add Kitchen Item to :',
-                style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              'Add Kitchen Item to :',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             widget.kitchenElement != null
-                ? Text('${widget.kitchenElement!.title}',
-                    style: Theme.of(context).textTheme.headlineMedium)
+                ? Text(
+                    widget.kitchenElement!.title,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  )
                 : const SizedBox.shrink(),
           ],
         ),
@@ -432,8 +420,8 @@ class _AddItemState extends State<AddKitchenItem> {
   }
 
   /// build save function
-  _save(_itmBloc) {
-    final _kitchenItem = KitchenItemModel(
+  _save(itmBloc) {
+    final kitchenItem = KitchenItemModel(
       besoinTitle: '',
       dateBought: _dateBought,
       itemName: _itemNameController.text.trim(),
@@ -451,13 +439,13 @@ class _AddItemState extends State<AddKitchenItem> {
     setState(() {
       _canSave = true;
     });
-    _itmBloc.add(UpdateKitchenItemEvent((_kitchenItem)));
+    itmBloc.add(UpdateKitchenItemEvent((kitchenItem)));
   }
 
   /// build update function
 
-  _update(_itmBloc) {
-    final _kitchenItem = KitchenItemModel(
+  _update(itmBloc) {
+    final kitchenItem = KitchenItemModel(
       id: widget.item!.id,
       besoinTitle: '',
       dateBought: _dateBought,
@@ -475,6 +463,6 @@ class _AddItemState extends State<AddKitchenItem> {
     setState(() {
       _canSave = true;
     });
-    _itmBloc.add(UpdateKitchenItemEvent((_kitchenItem)));
+    itmBloc.add(UpdateKitchenItemEvent((kitchenItem)));
   }
 }

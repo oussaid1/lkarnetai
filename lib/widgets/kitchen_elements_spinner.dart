@@ -7,24 +7,21 @@ import 'package:lkarnet/repository/database_operations.dart';
 import '../models/kitchen/kitchen_element.dart';
 
 class KitchenElementsSpinner extends StatelessWidget {
-  const KitchenElementsSpinner({Key? key, required this.onSelected})
-      : super(key: key);
+  const KitchenElementsSpinner({super.key, required this.onSelected});
   final void Function(KitchenElementModel) onSelected;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => KitchenElementBloc(GetIt.I<DatabaseOperations>())
-        ..add(GetKitchenElementsEvent()),
-      child: KitchenElementsDropDown(
-        onSelected: onSelected,
-      ),
+      create: (context) =>
+          KitchenElementBloc(GetIt.I<DatabaseOperations>())
+            ..add(GetKitchenElementsEvent()),
+      child: KitchenElementsDropDown(onSelected: onSelected),
     );
   }
 }
 
 class KitchenElementsDropDown extends ConsumerStatefulWidget {
-  const KitchenElementsDropDown({Key? key, required this.onSelected})
-      : super(key: key);
+  const KitchenElementsDropDown({super.key, required this.onSelected});
   final void Function(KitchenElementModel) onSelected;
 
   @override
@@ -47,22 +44,23 @@ class _KitchenElementsDropDownState
       width: 160.0,
       height: 45,
       child: BlocBuilder<KitchenElementBloc, KitchenElementState>(
-          builder: (context, snapshot) {
-        if (snapshot.kitchenElements.isNotEmpty) {
-          _kitchenElements = snapshot.kitchenElements;
+        builder: (context, snapshot) {
+          if (snapshot.kitchenElements.isNotEmpty) {
+            _kitchenElements = snapshot.kitchenElements;
 
-          if (_selectedKitchenElement == null && !_kitchenElements.isEmpty) {
-            _selectedKitchenElement = _kitchenElements.first;
+            if (_selectedKitchenElement == null &&
+                _kitchenElements.isNotEmpty) {
+              _selectedKitchenElement = _kitchenElements.first;
+            }
           }
-        }
-        return DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            height: 200,
-            alignedDropdown: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: DropdownButton<KitchenElementModel>(
+          return DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              height: 200,
+              alignedDropdown: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: DropdownButton<KitchenElementModel>(
                 elevation: 4,
                 iconSize: 30,
                 icon: Icon(Icons.arrow_drop_down),
@@ -90,10 +88,12 @@ class _KitchenElementsDropDownState
                       ),
                     ),
                   );
-                }).toList()),
-          ),
-        );
-      }),
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -13,7 +13,7 @@ class GetKitchenItemsEvent extends KitchenItemEvent {}
 /// load kitchen items event
 class LoadKitchenItemsEvent extends KitchenItemEvent {
   final List<KitchenItemModel> kitchenItems;
-  LoadKitchenItemsEvent(this.kitchenItems);
+  const LoadKitchenItemsEvent(this.kitchenItems);
   @override
   List<Object> get props => [kitchenItems];
 }
@@ -21,7 +21,7 @@ class LoadKitchenItemsEvent extends KitchenItemEvent {
 /// add kitchen item event
 class AddKitchenItemEvent extends KitchenItemEvent {
   final KitchenItemModel kitchenItem;
-  AddKitchenItemEvent(this.kitchenItem);
+  const AddKitchenItemEvent(this.kitchenItem);
   @override
   List<Object> get props => [kitchenItem];
 }
@@ -29,7 +29,7 @@ class AddKitchenItemEvent extends KitchenItemEvent {
 /// update kitchen item event
 class UpdateKitchenItemEvent extends KitchenItemEvent {
   final KitchenItemModel kitchenItem;
-  UpdateKitchenItemEvent(this.kitchenItem);
+  const UpdateKitchenItemEvent(this.kitchenItem);
   @override
   List<Object> get props => [kitchenItem];
 }
@@ -37,7 +37,7 @@ class UpdateKitchenItemEvent extends KitchenItemEvent {
 /// delete kitchen item event
 class DeleteKitchenItemEvent extends KitchenItemEvent {
   final KitchenItemModel kitchenItem;
-  DeleteKitchenItemEvent(this.kitchenItem);
+  const DeleteKitchenItemEvent(this.kitchenItem);
   @override
   List<Object> get props => [kitchenItem];
 }
@@ -45,7 +45,7 @@ class DeleteKitchenItemEvent extends KitchenItemEvent {
 /// delete all kitchen items event
 class DeleteAllKitchenItems extends KitchenItemEvent {
   final List<KitchenItemModel> kitchenItems;
-  DeleteAllKitchenItems(this.kitchenItems);
+  const DeleteAllKitchenItems(this.kitchenItems);
   @override
   List<Object> get props => [kitchenItems];
 }

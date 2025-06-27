@@ -14,6 +14,8 @@ import '../../models/shop/shop_model.dart';
 import '../../widgets/glasswidget.dart';
 
 class StatsAll extends StatefulWidget {
+  const StatsAll({super.key});
+
   @override
   State<StatsAll> createState() => _StatsAllState();
 }
@@ -57,10 +59,10 @@ class _StatsAllState extends State<StatsAll> {
                       //////////////////////////////////////////////////////
 
                       /// //////////////////////////////////////////////////////
-                      final ItemsData _itemsData = ItemsData(items: _items);
+                      final ItemsData itemsData = ItemsData(items: _items);
 
                       /// //////////////////////////////////////////////////////
-                      DataSink _dataSink = DataSink(
+                      DataSink dataSink = DataSink(
                         shops: _shops,
                         items: _items,
                         payments: _payments,
@@ -80,7 +82,7 @@ class _StatsAllState extends State<StatsAll> {
                       //     : _shopData = null;
 
                       /// items by shop
-                      List<Tagged> _dataByShops = _dataSink.taggedShops;
+                      List<Tagged> dataByShops = dataSink.taggedShops;
 
                       return SingleChildScrollView(
                         child: Column(
@@ -93,7 +95,7 @@ class _StatsAllState extends State<StatsAll> {
                               width: MediaQuery.of(context).size.width,
                               height: 220,
                               child: ColumnChartWidget(
-                                chartData: _dataByShops,
+                                chartData: dataByShops,
                                 title: "Items by Shop",
                               ),
                             ),
@@ -102,23 +104,23 @@ class _StatsAllState extends State<StatsAll> {
                               width: MediaQuery.of(context).size.width,
                               height: 240,
                               child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: LineChartWidgetDate(
-                                      chartData:
-                                          _itemsData.monthlyItemsChartData,
-                                      title: "Items Sold By Month")),
+                                padding: const EdgeInsets.all(8.0),
+                                child: LineChartWidgetDate(
+                                  chartData: itemsData.monthlyItemsChartData,
+                                  title: "Items Sold By Month",
+                                ),
+                              ),
                             ),
                             BluredContainer(
-                                margin: EdgeInsets.all(8),
-                                width: MediaQuery.of(context).size.width,
-                                height: 300,
-                                child: PeiWidget(
-                                  chartData: _itemsData.itemsByNameChartData,
-                                  title: "Highest Items",
-                                )),
-                            const SizedBox(
-                              width: 100,
+                              margin: EdgeInsets.all(8),
+                              width: MediaQuery.of(context).size.width,
+                              height: 300,
+                              child: PeiWidget(
+                                chartData: itemsData.itemsByNameChartData,
+                                title: "Highest Items",
+                              ),
                             ),
+                            const SizedBox(width: 100),
                           ],
                         ),
                       );

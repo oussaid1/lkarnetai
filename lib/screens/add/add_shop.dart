@@ -10,10 +10,7 @@ import 'package:flutter/material.dart';
 
 class AddShop extends ConsumerStatefulWidget {
   final ShopModel? shop;
-  const AddShop({
-    Key? key,
-    this.shop,
-  }) : super(key: key);
+  const AddShop({super.key, this.shop});
   @override
   _AddShopState createState() => _AddShopState();
 }
@@ -100,20 +97,14 @@ class _AddShopState extends ConsumerState<AddShop> {
             ),
           ),
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           title: Text(
             widget.shop != null ? "تعديل " : "اضافة ",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
         body: SingleChildScrollView(
@@ -134,7 +125,7 @@ class _AddShopState extends ConsumerState<AddShop> {
                     buildCategory(),
                     buildLimit(),
                     SizedBox(height: 50),
-                    buildSaveButton(context)
+                    buildSaveButton(context),
                   ],
                 ),
               ),
@@ -149,36 +140,33 @@ class _AddShopState extends ConsumerState<AddShop> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-            child: Text(
-              'Cancel',
-            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
             style: MThemeData.raisedButtonStyleCancel,
+            child: Text('Cancel'),
           ),
         ),
-        Container(
+        SizedBox(
           width: 120,
           child: ElevatedButton(
-              child: Text(
-                widget.shop == null ? 'Save' : 'Update',
-              ),
-              onPressed: !_canSave
-                  ? null
-                  : () {
-                      if (_formKeyShop.currentState!.validate()) {
-                        if (widget.shop == null) {
-                          _saveShop();
-                        } else {
-                          _updateShop();
-                        }
+            onPressed: !_canSave
+                ? null
+                : () {
+                    if (_formKeyShop.currentState!.validate()) {
+                      if (widget.shop == null) {
+                        _saveShop();
+                      } else {
+                        _updateShop();
                       }
-                    },
-              style: MThemeData.raisedButtonStyleSave),
+                    }
+                  },
+            style: MThemeData.raisedButtonStyleSave,
+            child: Text(widget.shop == null ? 'Save' : 'Update'),
+          ),
         ),
       ],
     );
@@ -211,15 +199,10 @@ class _AddShopState extends ConsumerState<AddShop> {
           hintText: ' 00.00',
           hintStyle: GoogleFonts.robotoSlab(),
           contentPadding: EdgeInsets.only(top: 4),
-          prefixIcon: Icon(
-            Icons.monetization_on,
-          ),
+          prefixIcon: Icon(Icons.monetization_on),
           fillColor: AppConstants.whiteOpacity,
           filled: true,
-          label: Text(
-            'limit',
-            style: GoogleFonts.robotoSlab(),
-          ),
+          label: Text('limit', style: GoogleFonts.robotoSlab()),
         ),
       ),
     );
@@ -237,14 +220,9 @@ class _AddShopState extends ConsumerState<AddShop> {
           hintText: 'category',
           hintStyle: GoogleFonts.robotoSlab(),
           contentPadding: EdgeInsets.only(top: 4),
-          prefixIcon: Icon(
-            Icons.category,
-          ),
+          prefixIcon: Icon(Icons.category),
           filled: true,
-          label: Text(
-            'category',
-            style: GoogleFonts.robotoSlab(),
-          ),
+          label: Text('category', style: GoogleFonts.robotoSlab()),
           fillColor: AppConstants.whiteOpacity,
         ),
       ),
@@ -269,14 +247,9 @@ class _AddShopState extends ConsumerState<AddShop> {
           hintText: 'phone-number',
           hintStyle: GoogleFonts.robotoSlab(),
           contentPadding: EdgeInsets.only(top: 4),
-          prefixIcon: Icon(
-            Icons.phone,
-          ),
+          prefixIcon: Icon(Icons.phone),
           filled: true,
-          label: Text(
-            'phone',
-            style: GoogleFonts.robotoSlab(),
-          ),
+          label: Text('phone', style: GoogleFonts.robotoSlab()),
           fillColor: AppConstants.whiteOpacity,
         ),
       ),
@@ -301,14 +274,9 @@ class _AddShopState extends ConsumerState<AddShop> {
           hintText: 'email',
           hintStyle: GoogleFonts.robotoSlab(),
           contentPadding: EdgeInsets.only(top: 4),
-          prefixIcon: Icon(
-            Icons.email,
-          ),
+          prefixIcon: Icon(Icons.email),
           filled: true,
-          label: Text(
-            'email',
-            style: GoogleFonts.robotoSlab(),
-          ),
+          label: Text('email', style: GoogleFonts.robotoSlab()),
           fillColor: AppConstants.whiteOpacity,
         ),
       ),
@@ -337,14 +305,9 @@ class _AddShopState extends ConsumerState<AddShop> {
           hintText: 'shop-name',
           hintStyle: GoogleFonts.robotoSlab(),
           contentPadding: EdgeInsets.only(top: 4),
-          prefixIcon: Icon(
-            Icons.person,
-          ),
+          prefixIcon: Icon(Icons.person),
           filled: true,
-          label: Text(
-            'name',
-            style: GoogleFonts.robotoSlab(),
-          ),
+          label: Text('name', style: GoogleFonts.robotoSlab()),
           fillColor: AppConstants.whiteOpacity,
         ),
       ),

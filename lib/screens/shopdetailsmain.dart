@@ -15,9 +15,7 @@ import '../widgets/shop_square_tile.dart';
 import 'shop_details/shop_details_tab.dart';
 
 class ShopDetailsMain extends ConsumerStatefulWidget {
-  const ShopDetailsMain({
-    Key? key,
-  }) : super(key: key);
+  const ShopDetailsMain({super.key});
   //final ShopData? shopsData;
   @override
   _ShopDetailsState createState() => _ShopDetailsState();
@@ -31,7 +29,7 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
   List<ShopModel> _shops = [];
   int filter = 1;
   int groupValue = 1;
-  Map<int, String> _groupValueMap = {
+  final Map<int, String> _groupValueMap = {
     // 0: 'All',
     1: 'Daily',
     //2: 'Weekly',
@@ -45,13 +43,19 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
   }
 
   List<Tagged> _listOfTags() {
-    List<Tagged> _list = [];
-    List<DateTime> _distinctDates =
-        _items.map((item) => item.dateBought.toDate()).toSet().toList();
-    List<DateTime> _distinctMonths =
-        _items.map((item) => item.dateBought.toMonth()).toSet().toList();
-    List<DateTime> _distinctYears =
-        _items.map((item) => item.dateBought.toYear()).toSet().toList();
+    List<Tagged> list = [];
+    List<DateTime> distinctDates = _items
+        .map((item) => item.dateBought.toDate())
+        .toSet()
+        .toList();
+    List<DateTime> distinctMonths = _items
+        .map((item) => item.dateBought.toMonth())
+        .toSet()
+        .toList();
+    List<DateTime> distinctYears = _items
+        .map((item) => item.dateBought.toYear())
+        .toSet()
+        .toList();
     //////////////////////////////////////////////////////
     switch (filter) {
       // case 0:
@@ -63,45 +67,50 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
       //           ))
       //       .toList();
       case 1:
-        return _list = _distinctDates
-            .map((dstDate) => Tagged(
-                  tag: dstDate,
-                  items: _items
-                      .where((item) => item.dateBought.isMatchDay(dstDate))
-                      .toList(),
-                  payments: _payments
-                      .where((payment) => payment.datePaid.isMatchDay(dstDate))
-                      .toList(),
-                ))
+        return list = distinctDates
+            .map(
+              (dstDate) => Tagged(
+                tag: dstDate,
+                items: _items
+                    .where((item) => item.dateBought.isMatchDay(dstDate))
+                    .toList(),
+                payments: _payments
+                    .where((payment) => payment.datePaid.isMatchDay(dstDate))
+                    .toList(),
+              ),
+            )
             .toList();
       case 3:
-        return _list = _distinctMonths
-            .map((dstDate) => Tagged(
-                  tag: dstDate,
-                  items: _items
-                      .where((item) => item.dateBought.isMatchMonth(dstDate))
-                      .toList(),
-                  payments: _payments
-                      .where(
-                          (payment) => payment.datePaid.isMatchMonth(dstDate))
-                      .toList(),
-                ))
+        return list = distinctMonths
+            .map(
+              (dstDate) => Tagged(
+                tag: dstDate,
+                items: _items
+                    .where((item) => item.dateBought.isMatchMonth(dstDate))
+                    .toList(),
+                payments: _payments
+                    .where((payment) => payment.datePaid.isMatchMonth(dstDate))
+                    .toList(),
+              ),
+            )
             .toList();
       case 4:
-        return _list = _distinctYears
-            .map((dstDate) => Tagged(
-                  tag: dstDate,
-                  items: _items
-                      .where((item) => item.dateBought.isMatchYear(dstDate))
-                      .toList(),
-                  payments: _payments
-                      .where((payment) => payment.datePaid.isMatchYear(dstDate))
-                      .toList(),
-                ))
+        return list = distinctYears
+            .map(
+              (dstDate) => Tagged(
+                tag: dstDate,
+                items: _items
+                    .where((item) => item.dateBought.isMatchYear(dstDate))
+                    .toList(),
+                payments: _payments
+                    .where((payment) => payment.datePaid.isMatchYear(dstDate))
+                    .toList(),
+              ),
+            )
             .toList();
       default:
     }
-    return _list;
+    return list;
   }
 
   @override
@@ -132,9 +141,11 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                 //////////////////////////////////////////////////////
                 ////////////////////////////////////////////////
                 //////////////////////////////////////////////////////
-                var _shopDataList = shopsDataList(_shops, _tagged)
-                  ..removeWhere((element) =>
-                      element.shopDataCalculations.itemsSumAfterPayment == 0);
+                var shopDataList = shopsDataList(_shops, _tagged)
+                  ..removeWhere(
+                    (element) =>
+                        element.shopDataCalculations.itemsSumAfterPayment == 0,
+                  );
                 //////////////////////////////////////////////////////
                 // _tagged == null ? _listOfTagged[0] : _tagged;
                 return BluredContainer(
@@ -148,9 +159,7 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                     //     FloatingActionButtonLocation.endFloat,
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
-                      flexibleSpace: MyAppBar(
-                        title: Text('Shop Details'),
-                      ),
+                      flexibleSpace: MyAppBar(title: Text('Shop Details')),
                     ),
 
                     // Next, create a SliverList
@@ -158,7 +167,7 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                       child: Column(
                         children: [
                           buildSelectFilter(),
-                          Container(
+                          SizedBox(
                             height: 235,
                             width: double.infinity,
                             // color: Color.fromARGB(94, 255, 193, 7),
@@ -171,7 +180,8 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                                 Positioned(
                                   top: 195,
                                   width: 360,
-                                  left: MediaQuery.of(context).size.width / 2 -
+                                  left:
+                                      MediaQuery.of(context).size.width / 2 -
                                       180,
                                   child: _buildSelector(),
                                 ),
@@ -188,11 +198,12 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                                   child: GridView.builder(
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 1.5,
-                                            mainAxisSpacing: 10,
-                                            crossAxisSpacing: 10),
-                                    itemCount: _shopDataList.length,
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 1.5,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                        ),
+                                    itemCount: shopDataList.length,
                                     itemBuilder: (context, index) {
                                       return SimpleShopSquareTile(
                                         onTap: () => Navigator.push(
@@ -200,11 +211,11 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 ShopDetailsTab(
-                                              shopData: _shopDataList[index],
-                                            ),
+                                                  shopData: shopDataList[index],
+                                                ),
                                           ),
                                         ),
-                                        shopData: _shopDataList[index],
+                                        shopData: shopDataList[index],
                                       );
                                     },
                                   ),
@@ -234,9 +245,7 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
             /// a dropDownButton
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  10.0,
-                ),
+                borderRadius: BorderRadius.circular(10.0),
                 color: Color.fromARGB(157, 255, 255, 255),
               ),
               child: DropdownButtonHideUnderline(
@@ -256,15 +265,17 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                     });
                   },
                   items: _groupValueMap.keys
-                      .map<DropdownMenuItem<int>>((int value) =>
-                          DropdownMenuItem<int>(
-                            value: value,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18.0),
-                              child: Text(_groupValueMap[value] ?? ''),
+                      .map<DropdownMenuItem<int>>(
+                        (int value) => DropdownMenuItem<int>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0,
                             ),
-                          ))
+                            child: Text(_groupValueMap[value] ?? ''),
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -293,7 +304,7 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
     }
     return shopsDataList;
   }
-// build custom listTile
+  // build custom listTile
 
   Widget _buildSelector() {
     // _tagged = _taggedList[filter];
@@ -357,10 +368,11 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   PriceNumberZone(
-                      right: const SizedBox.shrink(),
-                      withDollarSign: true,
-                      price: tagged.shopDataCalculations.itemsSumAfterPayment,
-                      style: Theme.of(context).textTheme.displaySmall!),
+                    right: const SizedBox.shrink(),
+                    withDollarSign: true,
+                    price: tagged.shopDataCalculations.itemsSumAfterPayment,
+                    style: Theme.of(context).textTheme.displaySmall!,
+                  ),
                 ],
               ),
             ),
@@ -371,18 +383,17 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                 children: [
                   Text(
                     'Total sum of items',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: AppConstants.whiteOpacity),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppConstants.whiteOpacity,
+                    ),
                   ),
                   PriceNumberZone(
                     right: const SizedBox.shrink(),
                     withDollarSign: true,
                     price: tagged.shopDataCalculations.itemsSum,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppConstants.hintColor,
-                        ),
+                      color: AppConstants.hintColor,
+                    ),
                   ),
                 ],
               ),
@@ -394,18 +405,17 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                 children: [
                   Text(
                     'Total sum of payments',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: AppConstants.whiteOpacity),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppConstants.whiteOpacity,
+                    ),
                   ),
                   PriceNumberZone(
                     right: const SizedBox.shrink(),
                     withDollarSign: true,
                     price: tagged.shopDataCalculations.paymentsSum,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppConstants.hintColor,
-                        ),
+                      color: AppConstants.hintColor,
+                    ),
                   ),
                 ],
               ),
@@ -417,18 +427,17 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                 children: [
                   Text(
                     'Total number of items',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: AppConstants.whiteOpacity),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppConstants.whiteOpacity,
+                    ),
                   ),
                   PriceNumberZone(
                     right: const SizedBox.shrink(),
                     withDollarSign: true,
                     price: tagged.shopDataCalculations.countItems.toDouble(),
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppConstants.hintColor,
-                        ),
+                      color: AppConstants.hintColor,
+                    ),
                   ),
                 ],
               ),
@@ -440,18 +449,17 @@ class _ShopDetailsState extends ConsumerState<ShopDetailsMain> {
                 children: [
                   Text(
                     'Total number of payments',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: AppConstants.whiteOpacity),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: AppConstants.whiteOpacity,
+                    ),
                   ),
                   PriceNumberZone(
                     right: const SizedBox.shrink(),
                     withDollarSign: true,
                     price: tagged.shopDataCalculations.countPayments.toDouble(),
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppConstants.hintColor,
-                        ),
+                      color: AppConstants.hintColor,
+                    ),
                   ),
                 ],
               ),

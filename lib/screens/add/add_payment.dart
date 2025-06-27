@@ -17,7 +17,7 @@ import '../../repository/database_operations.dart';
 class AddPayment extends ConsumerStatefulWidget {
   final PaymentModel? payment;
 
-  const AddPayment({Key? key, this.payment}) : super(key: key);
+  const AddPayment({super.key, this.payment});
   @override
   _AddPaymentState createState() => _AddPaymentState();
 }
@@ -93,20 +93,14 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
             ),
           ),
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           title: Text(
             widget.payment != null ? "تعديل " : "اضافة ",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
         body: SingleChildScrollView(
@@ -133,47 +127,48 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
   }
 
   Row _buildSaveButton(BuildContext context, pmntBloc) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      ElevatedButton(
-        child: Text(
-          'Cancel',
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          style: MThemeData.raisedButtonStyleCancel,
+          child: Text('Cancel'),
         ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        style: MThemeData.raisedButtonStyleCancel,
-      ),
-      ElevatedButton(
-        child: Text(
-          widget.payment == null ? 'Save' : 'Update',
-        ),
-        onPressed: !_canSave
-            ? null
-            : () {
-                final _payment = PaymentModel(
-                  id: _id,
-                  paidAmount: double.parse(_paidAmountController.text),
-                  datePaid: _datePaid,
-                  paidShopName: _shopName!, // ref.read(pickedShop.state).state,
-                );
-                if (_formKeyPaidAmount.currentState!.validate()) {
-                  if (widget.payment == null) {
-                    _addPayment(context, _payment, pmntBloc);
+        ElevatedButton(
+          onPressed: !_canSave
+              ? null
+              : () {
+                  final payment = PaymentModel(
+                    id: _id,
+                    paidAmount: double.parse(_paidAmountController.text),
+                    datePaid: _datePaid,
+                    paidShopName:
+                        _shopName!, // ref.read(pickedShop.state).state,
+                  );
+                  if (_formKeyPaidAmount.currentState!.validate()) {
+                    if (widget.payment == null) {
+                      _addPayment(context, payment, pmntBloc);
+                    } else {
+                      _updatePayment(context, payment, pmntBloc);
+                    }
+                    setState(() {
+                      _canSave = false;
+                    });
                   } else {
-                    _updatePayment(context, _payment, pmntBloc);
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(Dialogs.snackBar('error'));
                   }
-                  setState(() {
-                    _canSave = false;
-                  });
-                } else {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(Dialogs.snackBar('error'));
-                }
-                //
-              },
-        style: MThemeData.raisedButtonStyleSave,
-      ),
-    ]);
+                  //
+                },
+          style: MThemeData.raisedButtonStyleSave,
+          child: Text(widget.payment == null ? 'Save' : 'Update'),
+        ),
+      ],
+    );
   }
 
   _buildDatePaid() {
@@ -222,13 +217,8 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
               // prefixIcon: Icon(Icons.qr_code),
               fillColor: AppConstants.whiteOpacity,
               filled: true,
-              label: Text(
-                'Paid Amount',
-                style: GoogleFonts.robotoSlab(),
-              ),
-              prefixIcon: Icon(
-                Icons.monetization_on_outlined,
-              ),
+              label: Text('Paid Amount', style: GoogleFonts.robotoSlab()),
+              prefixIcon: Icon(Icons.monetization_on_outlined),
             ),
           ),
         ),

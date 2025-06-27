@@ -8,20 +8,19 @@ import '../repository/database_operations.dart';
 
 class ShopSpinner extends StatelessWidget {
   const ShopSpinner({
-    Key? key,
+    super.key,
     required this.onShopSelected,
     this.focusNode,
     this.initialValue,
-  }) : super(key: key);
+  });
   final void Function(ShopModel?) onShopSelected;
   final FocusNode? focusNode;
   final String? initialValue;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShopsBloc(
-        GetIt.I<DatabaseOperations>(),
-      )..add(GetShopsEvent()),
+      create: (context) =>
+          ShopsBloc(GetIt.I<DatabaseOperations>())..add(GetShopsEvent()),
       child: ShopDropDown(
         onShopSelected: onShopSelected,
         focusNode: focusNode,
@@ -33,11 +32,11 @@ class ShopSpinner extends StatelessWidget {
 
 class ShopDropDown extends StatefulWidget {
   const ShopDropDown({
-    Key? key,
+    super.key,
     required this.onShopSelected,
     this.focusNode,
     this.initialValue,
-  }) : super(key: key);
+  });
   final void Function(ShopModel?) onShopSelected;
   final FocusNode? focusNode;
   final String? initialValue;
@@ -58,9 +57,7 @@ class _ShopDropDownState extends State<ShopDropDown> {
           if (widget.initialValue != null &&
               _shops.any((shop) => shop.shopName == widget.initialValue)) {
             _selectedShop = _shops
-                .where(
-                  (shop) => shop.shopName == widget.initialValue,
-                )
+                .where((shop) => shop.shopName == widget.initialValue)
                 .toList()[0];
           }
           // else {
@@ -86,14 +83,16 @@ class _ShopDropDownState extends State<ShopDropDown> {
             child: DropdownButtonFormField<ShopModel>(
               alignment: Alignment.center,
               borderRadius: BorderRadius.circular(AppConstants.radius),
-              dropdownColor:
-                  Color.fromARGB(108, 255, 255, 255).withOpacity(0.6),
+              dropdownColor: Color.fromARGB(
+                108,
+                255,
+                255,
+                255,
+              ).withOpacity(0.6),
               autofocus: true,
               autovalidateMode: AutovalidateMode.onUserInteraction,
 
-              decoration: InputDecoration(
-                border: InputBorder.none,
-              ),
+              decoration: InputDecoration(border: InputBorder.none),
               elevation: 4,
               iconSize: 30,
               validator: (value) {
@@ -114,9 +113,7 @@ class _ShopDropDownState extends State<ShopDropDown> {
               onChanged: (value) {
                 widget.onShopSelected(value);
 
-                widget.focusNode != null
-                    ? widget.focusNode!.requestFocus()
-                    : null;
+                widget.focusNode?.requestFocus();
               },
               items: _shops.map((shop) {
                 return DropdownMenuItem<ShopModel>(

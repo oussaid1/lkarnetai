@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class PriceNumberZone extends StatelessWidget {
   const PriceNumberZone({
-    Key? key,
+    super.key,
     required this.price,
     this.style = const TextStyle(
       fontSize: 16,
@@ -12,7 +12,7 @@ class PriceNumberZone extends StatelessWidget {
     ),
     this.withDollarSign = true,
     this.right,
-  }) : super(key: key);
+  });
   final bool withDollarSign;
   final double price;
   final TextStyle? style;
@@ -26,20 +26,19 @@ class PriceNumberZone extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            '${price.toPrecision(2)} ',
-            style: style,
-          ),
+          Text('${price.toPrecision(2)} ', style: style),
           withDollarSign
-              ? Consumer(builder: (context, ref, _) {
-                  final _currency = ref.watch(currencyProvider.notifier);
-                  return Text(
-                    _currency.state.toString(),
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontSize: 8,
-                        ),
-                  );
-                })
+              ? Consumer(
+                  builder: (context, ref, _) {
+                    final currency = ref.watch(currencyProvider.notifier);
+                    return Text(
+                      currency.state.toString(),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleSmall!.copyWith(fontSize: 8),
+                    );
+                  },
+                )
               : const SizedBox.shrink(),
           right ?? const SizedBox.shrink(),
         ],

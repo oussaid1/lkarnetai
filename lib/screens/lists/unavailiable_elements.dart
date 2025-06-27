@@ -8,10 +8,7 @@ import '../tabs/kitchen_element_detailed.dart';
 
 class UnAvailiableElements extends ConsumerStatefulWidget {
   final List<KitchenElementDataModel>? elementData;
-  UnAvailiableElements({
-    Key? key,
-    this.elementData,
-  }) : super(key: key);
+  const UnAvailiableElements({super.key, this.elementData});
   @override
   ConsumerState<UnAvailiableElements> createState() => _ItemsListState();
 }
@@ -22,10 +19,10 @@ class _ItemsListState extends ConsumerState<UnAvailiableElements> {
   @override
   void initState() {
     if (widget.elementData != null) {
-      widget.elementData!.forEach((element) {
+      for (var element in widget.elementData!) {
         _total += element.totalPrice;
         _count += element.kitchenItems.length;
-      });
+      }
     }
     super.initState();
   }
@@ -104,10 +101,11 @@ class _ItemsListState extends ConsumerState<UnAvailiableElements> {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.4,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10),
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.4,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
                     itemCount: widget.elementData!.length,
                     itemBuilder: (context, index) {
                       final KitchenElementDataModel kitchenElement =
@@ -156,12 +154,10 @@ class _ItemsListState extends ConsumerState<UnAvailiableElements> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     //
-
                     Text(
                       'To be bought',
-                      style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                          ),
+                      style: Theme.of(context).textTheme.displayMedium!
+                          .copyWith(color: Color.fromRGBO(255, 255, 255, 1)),
                     ),
                     Spacer(),
                     PriceNumberZone(
@@ -180,8 +176,8 @@ class _ItemsListState extends ConsumerState<UnAvailiableElements> {
                     Text(
                       'with a total of',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          // color: Color.fromRGBO(255, 255, 255, 1),
-                          ),
+                        // color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
                     ),
                     Spacer(),
                     PriceNumberZone(

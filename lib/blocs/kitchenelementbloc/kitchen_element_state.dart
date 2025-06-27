@@ -15,7 +15,7 @@ class KitchenElementState extends Equatable {
   final List<KitchenElementModel> kitchenElements;
   final KitchenElementModel? kitchenElement;
   final String error;
-  KitchenElementState({
+  const KitchenElementState({
     required this.status,
     required this.kitchenElements,
     this.kitchenElement,

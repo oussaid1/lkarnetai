@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lkarnet/settings/theme.dart';
 
 class AddCategory extends StatelessWidget {
+  const AddCategory({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -14,23 +16,15 @@ class AddCategory extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        top: 8,
-                      ),
-                      child: Text(
-                        'category',
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                      child: Text('category', overflow: TextOverflow.ellipsis),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
@@ -38,11 +32,12 @@ class AddCategory extends StatelessWidget {
                       width: 240,
                       child: TextField(
                         decoration: InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(6.0),
-                            borderSide: new BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                style: BorderStyle.none),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              style: BorderStyle.none,
+                            ),
                           ),
                           hintText: 'shopping',
                           hintStyle: GoogleFonts.robotoSlab(),
@@ -62,21 +57,13 @@ class AddCategory extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        top: 8,
-                      ),
-                      child: Text(
-                        'item-price',
-                      ),
+                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                      child: Text('item-price'),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                        ),
+                        SizedBox(width: 50, height: 50),
                         Container(
                           margin: EdgeInsets.only(left: 4, right: 4),
                           height: 45,
@@ -84,55 +71,44 @@ class AddCategory extends StatelessWidget {
                           child: TextField(
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(6.0),
-                                borderSide: new BorderSide(),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6.0),
+                                borderSide: BorderSide(),
                               ),
                               hintText: '00.00',
                               hintStyle: GoogleFonts.robotoSlab(),
                               contentPadding: EdgeInsets.only(top: 4),
-                              // prefixIcon: Icon(Icons.qr_code),
 
+                              // prefixIcon: Icon(Icons.qr_code),
                               filled: true,
                             ),
                           ),
                         ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                        ),
+                        SizedBox(width: 50, height: 50),
                       ],
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-              ),
-              SizedBox(
-                height: 50,
-              ),
+              Padding(padding: const EdgeInsets.all(4.0)),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      child: Text(
-                        'Cancel',
-                      ),
                       onPressed: () {},
                       style: MThemeData.raisedButtonStyleCancel,
+                      child: Text('Cancel'),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      child: Text(
-                        'Save',
-                      ),
                       onPressed: () {},
                       style: MThemeData.raisedButtonStyleSave,
+                      child: Text('Save'),
                     ),
                   ),
                 ],

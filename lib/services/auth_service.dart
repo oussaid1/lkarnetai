@@ -25,14 +25,15 @@ class AuthService implements AuthServiceInterface {
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(
-      {required LoginCredentials loginCredentials}) async {
+  Future<User> signInWithEmailAndPassword({
+    required LoginCredentials loginCredentials,
+  }) async {
     User? user = await _firebaseAuth.signIn(loginCredentials: loginCredentials);
-    log('signIn AuthService' + user.toString());
+    log('signIn AuthService$user');
     if (user != null) {
       GetIt.I<Database>().setUserUid(user.uid);
       var db = GetIt.I<Database>();
-      log('signIn AuthService Db uid :' + db.uid.toString());
+      log('signIn AuthService Db uid :${db.uid}');
       _databaseOperations = DatabaseOperations(db);
       await _databaseOperations.createUser(UserModel.fromUserCredential(user));
     }
@@ -51,8 +52,9 @@ class AuthService implements AuthServiceInterface {
   }
 
   @override
-  Future<User?> signUpWithEmailAndPassword(
-      {required SignUpCredentials signUpCredentials}) {
+  Future<User?> signUpWithEmailAndPassword({
+    required SignUpCredentials signUpCredentials,
+  }) {
     return _firebaseAuth.signUp(signUpCredentials: signUpCredentials);
   }
 

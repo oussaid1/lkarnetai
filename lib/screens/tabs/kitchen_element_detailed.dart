@@ -19,8 +19,7 @@ import '../../widgets/expired_switch.dart';
 import '../../widgets/kitchen_item_listtile.dart';
 
 class KitchenElementDetailsScreen extends StatefulWidget {
-  const KitchenElementDetailsScreen({Key? key, required this.kitchenElement})
-      : super(key: key);
+  const KitchenElementDetailsScreen({super.key, required this.kitchenElement});
   final KitchenElementDataModel kitchenElement;
   @override
   State<KitchenElementDetailsScreen> createState() =>
@@ -36,8 +35,8 @@ class _KitchenItemDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final _kelmbloc = KitchenElementBloc(GetIt.I<DatabaseOperations>());
-    final _kitmbloc = KitchenItemBloc(GetIt.I<DatabaseOperations>());
+    final kelmbloc = KitchenElementBloc(GetIt.I<DatabaseOperations>());
+    final kitmbloc = KitchenItemBloc(GetIt.I<DatabaseOperations>());
     return Scaffold(
       body: GlassMaterial(
         circleWidgets: [
@@ -90,14 +89,14 @@ class _KitchenItemDetailsScreenState
                     builder: (context) => MultiBlocProvider(
                       providers: [
                         BlocProvider(
-                          create: (context) => KitchenItemBloc(
-                            GetIt.I<DatabaseOperations>(),
-                          )..add(GetKitchenItemsEvent()),
+                          create: (context) =>
+                              KitchenItemBloc(GetIt.I<DatabaseOperations>())
+                                ..add(GetKitchenItemsEvent()),
                         ),
                         BlocProvider(
                           create: (context) => ItemsBloc(
-                              databaseOperations: GetIt.I<DatabaseOperations>())
-                            ..add(GetItemsEvent()),
+                            databaseOperations: GetIt.I<DatabaseOperations>(),
+                          )..add(GetItemsEvent()),
                         ),
                       ],
                       child: AddKitchenItem(
@@ -110,7 +109,7 @@ class _KitchenItemDetailsScreenState
               child: Icon(Icons.add),
             ),
             appBar: AppBar(
-              title: Text('${widget.kitchenElement.kitchenElement.title}'),
+              title: Text(widget.kitchenElement.kitchenElement.title),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.edit),
@@ -132,21 +131,27 @@ class _KitchenItemDetailsScreenState
                       context,
                       title: 'Delete',
                       message: 'Are you sure you want to delete this item?',
-                    ).then((value) => {
-                          if (value)
-                            {
-                              ///  delete kitchen element
-                              _kelmbloc.add(DeleteKitchenElementEvent(
-                                  kitchenElement:
-                                      widget.kitchenElement.kitchenElement)),
+                    ).then(
+                      (value) => {
+                        if (value)
+                          {
+                            ///  delete kitchen element
+                            kelmbloc.add(
+                              DeleteKitchenElementEvent(
+                                kitchenElement:
+                                    widget.kitchenElement.kitchenElement,
+                              ),
+                            ),
 
-                              /// then loop over all the items in the kitchen element and delete them
-
-                              _kitmbloc.add(DeleteAllKitchenItems(
+                            /// then loop over all the items in the kitchen element and delete them
+                            kitmbloc.add(
+                              DeleteAllKitchenItems(
                                 widget.kitchenElement.kitchenItems,
-                              )),
-                            }
-                        });
+                              ),
+                            ),
+                          },
+                      },
+                    );
                     Navigator.pop(context);
                   },
                 ),
@@ -158,7 +163,7 @@ class _KitchenItemDetailsScreenState
               child: Column(
                 children: [
                   SizedBox(height: 20),
-                  _buildTopContainer(context, _kelmbloc, _kitmbloc),
+                  _buildTopContainer(context, kelmbloc, kitmbloc),
                   SizedBox(height: 10),
                   Row(
                     children: [
@@ -182,7 +187,7 @@ class _KitchenItemDetailsScreenState
                     ],
                   ),
                   SizedBox(height: 10),
-                  _buildBottomContainer(context, _kelmbloc, _kitmbloc),
+                  _buildBottomContainer(context, kelmbloc, kitmbloc),
                 ],
               ),
             ),
@@ -193,99 +198,102 @@ class _KitchenItemDetailsScreenState
   }
 
   /// this is the bottom container of the screen that contains the kitchen items
-  _buildBottomContainer(BuildContext context, _kelmbloc, _kitmbloc) {
+  _buildBottomContainer(BuildContext context, kelmbloc, kitmbloc) {
     return BluredContainer(
       margin: EdgeInsets.symmetric(horizontal: 8),
       // height: 340,
       width: MediaQuery.of(context).size.width,
       child: BlocBuilder<KitchenItemBloc, KitchenItemState>(
-          builder: (context, kitchenItemsState) {
-        if (kitchenItemsState.kitchenItems.isNotEmpty) {
-          _kitchenItems = kitchenItemsState.kitchenItems;
+        builder: (context, kitchenItemsState) {
+          if (kitchenItemsState.kitchenItems.isNotEmpty) {
+            _kitchenItems = kitchenItemsState.kitchenItems;
 
-          final KitchenElementDataModel _singleKitchenElementData =
-              KitchenElementDataModel(
-            kitchenElement: widget.kitchenElement.kitchenElement,
-            kitchenItemList: _kitchenItems,
-          );
-          return ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: _singleKitchenElementData.kitchenItems
-                .length, //widget.kitchenElement.sortedItems.length,
-            itemBuilder: (context, index) {
-              final KitchenItemModel _kitchenItem =
-                  _singleKitchenElementData.kitchenItems[index];
-              return KitchenItemTileWidget(
-                onDoubleTap: () {
-                  setState(() {
-                    _expiryDate = null;
-                  });
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: ExpiredSwitch(
-                        onChanged: (value) {
-                          /// if the item is not expired, then set the expiry date to null
-                          /// else set the expiry date to the picked date as expiry date
-                          setState(() {
-                            if (value['isExpired']) {
-                              setState(() {
-                                //  _isLoading = false;
-                                _expiryDate = value['expiryDate'];
-                              });
-                            } else {
-                              setState(() {
-                                _expiryDate = null;
-                                //_isLoading = false;
-                              });
-                            }
-                          });
-                        },
-                      ),
-                      //content:
-                      actions: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              child: Text(
-                                'Cancel',
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-
-                            //const Spacer(),
-                            ElevatedButton(
-                              child: Text('Ok'),
-                              onPressed: () {
-                                _kitmbloc.add(UpdateKitchenItemEvent(
-                                    _kitchenItem.copyWith(
-                                  dateExpired: _expiryDate,
-                                )));
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+            final KitchenElementDataModel singleKitchenElementData =
+                KitchenElementDataModel(
+                  kitchenElement: widget.kitchenElement.kitchenElement,
+                  kitchenItemList: _kitchenItems,
+                );
+            return ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: singleKitchenElementData
+                  .kitchenItems
+                  .length, //widget.kitchenElement.sortedItems.length,
+              itemBuilder: (context, index) {
+                final KitchenItemModel kitchenItem =
+                    singleKitchenElementData.kitchenItems[index];
+                return KitchenItemTileWidget(
+                  onDoubleTap: () {
+                    setState(() {
+                      _expiryDate = null;
+                    });
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: ExpiredSwitch(
+                          onChanged: (value) {
+                            /// if the item is not expired, then set the expiry date to null
+                            /// else set the expiry date to the picked date as expiry date
+                            setState(() {
+                              if (value['isExpired']) {
+                                setState(() {
+                                  //  _isLoading = false;
+                                  _expiryDate = value['expiryDate'];
+                                });
+                              } else {
+                                setState(() {
+                                  _expiryDate = null;
+                                  //_isLoading = false;
+                                });
+                              }
+                            });
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
-                kitchenItem: _kitchenItem,
-              );
-            },
-          );
-        } else
-          return Center(child: Text('something went wrong'));
-      }),
+                        //content:
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+
+                              //const Spacer(),
+                              ElevatedButton(
+                                child: Text('Ok'),
+                                onPressed: () {
+                                  kitmbloc.add(
+                                    UpdateKitchenItemEvent(
+                                      kitchenItem.copyWith(
+                                        dateExpired: _expiryDate,
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  kitchenItem: kitchenItem,
+                );
+              },
+            );
+          } else {
+            return Center(child: Text('something went wrong'));
+          }
+        },
+      ),
     );
   }
 
-  BluredContainer _buildTopContainer(
-      BuildContext context, _kelmbloc, _kitmbloc) {
+  BluredContainer _buildTopContainer(BuildContext context, kelmbloc, kitmbloc) {
     return BluredContainer(
       margin: EdgeInsets.symmetric(horizontal: 8),
       height: 200,
@@ -304,9 +312,12 @@ class _KitchenItemDetailsScreenState
                     initialValue:
                         widget.kitchenElement.kitchenElement.availability!,
                     onSaved: (newVal) {
-                      _kelmbloc.add(UpdateKitchenElementEvent(
+                      kelmbloc.add(
+                        UpdateKitchenElementEvent(
                           kitchenElement: widget.kitchenElement.kitchenElement
-                              .copyWith(availability: newVal)));
+                              .copyWith(availability: newVal),
+                        ),
+                      );
                     },
                   ),
                   Column(
@@ -361,17 +372,16 @@ class _KitchenItemDetailsScreenState
               children: [
                 Text(
                   'Last bought: ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.white.withOpacity(0.3)),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
                 ),
                 Text(
-                  '${widget.kitchenElement.lastTimeBought}',
+                  widget.kitchenElement.lastTimeBought,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'Montserrat',
-                        color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
-                      ),
+                    fontFamily: 'Montserrat',
+                    color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
+                  ),
                 ),
               ],
             ),
@@ -383,17 +393,16 @@ class _KitchenItemDetailsScreenState
               children: [
                 Text(
                   'Date expired : ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white.withOpacity(0.3)),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
                 ),
                 Text(
-                  '${widget.kitchenElement.timeExpired}',
+                  widget.kitchenElement.timeExpired,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'Montserrat',
-                        color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
-                      ),
+                    fontFamily: 'Montserrat',
+                    color: Color.fromARGB(104, 36, 35, 35).withOpacity(0.6),
+                  ),
                 ),
               ],
             ),
@@ -406,10 +415,10 @@ class _KitchenItemDetailsScreenState
 
 class AvailabilityChangeWidget extends StatefulWidget {
   const AvailabilityChangeWidget({
-    Key? key,
+    super.key,
     required this.onSaved,
     required this.initialValue,
-  }) : super(key: key);
+  });
   final void Function(double) onSaved;
   final double initialValue;
 
@@ -427,65 +436,65 @@ class _AvailabilityChangeWidgetState extends State<AvailabilityChangeWidget> {
       child: GestureDetector(
         onTap: () {
           showDialog<double>(
-              barrierDismissible: true,
-              context: context,
-              builder: (mctx) => Dialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0)),
-                  child: Stack(
-                    //overflow: Overflow.visible,
-                    clipBehavior: Clip.none,
-                    fit: StackFit.passthrough,
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Container(
-                        height: 130,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                style: MThemeData.raisedButtonStyleSave,
-                                onPressed: () {
-                                  widget.onSaved(availability);
-                                  Navigator.of(context).pop(availability);
-                                },
-                                child: Text(
-                                  'Save',
-                                ),
-                              ),
-                              // const SizedBox(width: 10),
-                              ElevatedButton(
-                                style: MThemeData.raisedButtonStyleCancel,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'Cancel',
-                                ),
-                              ),
-                            ],
+            barrierDismissible: true,
+            context: context,
+            builder: (mctx) => Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: Stack(
+                //overflow: Overflow.visible,
+                clipBehavior: Clip.none,
+                fit: StackFit.passthrough,
+                alignment: Alignment.topCenter,
+                children: [
+                  SizedBox(
+                    height: 130,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            style: MThemeData.raisedButtonStyleSave,
+                            onPressed: () {
+                              widget.onSaved(availability);
+                              Navigator.of(context).pop(availability);
+                            },
+                            child: Text('Save'),
                           ),
-                        ),
+                          // const SizedBox(width: 10),
+                          ElevatedButton(
+                            style: MThemeData.raisedButtonStyleCancel,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel'),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                          top: -60,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 60,
-                            child: Availibility(
-                              radius: 120,
-                              initialValue: widget.initialValue,
-                              onChanged: (newVal) {
-                                setState(() {
-                                  availability = newVal;
-                                });
-                              },
-                            ),
-                          )),
-                    ],
-                  ))).then((value) => value);
+                    ),
+                  ),
+                  Positioned(
+                    top: -60,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 60,
+                      child: Availibility(
+                        radius: 120,
+                        initialValue: widget.initialValue,
+                        onChanged: (newVal) {
+                          setState(() {
+                            availability = newVal;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ).then((value) => value);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -493,21 +502,16 @@ class _AvailabilityChangeWidgetState extends State<AvailabilityChangeWidget> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ProgressWidget(
-                  availability: widget.initialValue,
-                ),
-              ],
+              children: [ProgressWidget(availability: widget.initialValue)],
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Status: ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white.withOpacity(0.3)),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
                 ),
                 Text(
                   'tap here to change status ... ! ',
@@ -524,12 +528,12 @@ class _AvailabilityChangeWidgetState extends State<AvailabilityChangeWidget> {
 
 class PiorityRatingWidget extends StatelessWidget {
   const PiorityRatingWidget({
-    Key? key,
+    super.key,
     required this.onRatingChanged,
     this.initialRating = 0,
     this.itemSize = 18,
     this.ignoreGestures = false,
-  }) : super(key: key);
+  });
   final void Function(double) onRatingChanged;
   final double itemSize;
   final double initialRating;
@@ -540,16 +544,17 @@ class PiorityRatingWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         RatingBar.builder(
-            ignoreGestures: ignoreGestures,
-            initialRating:
-                initialRating, //ref.watch(priorityRatingProvider.state).state,
-            itemSize: itemSize,
-            minRating: 0,
-            direction: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (context, _) =>
-                Icon(Icons.star_border_purple500, color: Colors.amber),
-            onRatingUpdate: onRatingChanged),
+          ignoreGestures: ignoreGestures,
+          initialRating:
+              initialRating, //ref.watch(priorityRatingProvider.state).state,
+          itemSize: itemSize,
+          minRating: 0,
+          direction: Axis.horizontal,
+          itemCount: 3,
+          itemBuilder: (context, _) =>
+              Icon(Icons.star_border_purple500, color: Colors.amber),
+          onRatingUpdate: onRatingChanged,
+        ),
       ],
     );
   }
@@ -557,12 +562,12 @@ class PiorityRatingWidget extends StatelessWidget {
 
 // ignore: must_be_immutable
 class Availibility extends StatefulWidget {
-  Availibility(
-      {Key? key,
-      required this.onChanged,
-      this.initialValue = 0,
-      this.radius = 35})
-      : super(key: key);
+  Availibility({
+    super.key,
+    required this.onChanged,
+    this.initialValue = 0,
+    this.radius = 35,
+  });
   final void Function(double) onChanged;
   final double radius;
 
@@ -593,7 +598,6 @@ class _AvailibilityState extends State<Availibility> {
         },
         child: SfRadialGauge(
           // backgroundColor: Colors.white,
-
           axes: <RadialAxis>[
             RadialAxis(
               useRangeColorForAxis: true,
@@ -602,9 +606,10 @@ class _AvailibilityState extends State<Availibility> {
               labelOffset: 45,
               labelsPosition: ElementsPosition.inside,
               axisLabelStyle: GaugeTextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 115, 0)),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 255, 115, 0),
+              ),
               minimum: 0,
               maximum: 10,
               showLabels: true,
@@ -623,9 +628,9 @@ class _AvailibilityState extends State<Availibility> {
                   width: 0.95,
                   // pointerOffset: 0.05,
                   sizeUnit: GaugeSizeUnit.factor,
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

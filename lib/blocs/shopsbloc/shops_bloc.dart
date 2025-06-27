@@ -14,12 +14,8 @@ class ShopsBloc extends Bloc<ShopsEvent, ShopsState> {
   // ignore: unused_field
   StreamSubscription<List<ShopModel>>? _itemsSubscription;
   ShopsBloc(DatabaseOperations databaseOperations)
-      : super(ShopsState(
-          status: ShopsStatus.initial,
-          shops: [],
-          error: '',
-        )) {
-    this._databaseOperations = databaseOperations;
+    : super(ShopsState(status: ShopsStatus.initial, shops: [], error: '')) {
+    _databaseOperations = databaseOperations;
 
     on<GetShopsEvent>(_onGetShops);
     on<LoadShopsEvent>(_onLoadShops);
@@ -38,9 +34,9 @@ class ShopsBloc extends Bloc<ShopsEvent, ShopsState> {
 
   /// on get shops event
   Future<void> _onGetShops(ShopsEvent event, Emitter<ShopsState> emit) async {
-    _itemsSubscription = _databaseOperations
-        .shopsStream()
-        .listen((shops) => add(LoadShopsEvent(shops)));
+    _itemsSubscription = _databaseOperations.shopsStream().listen(
+      (shops) => add(LoadShopsEvent(shops)),
+    );
   }
 
   /// on add shop event
@@ -55,7 +51,9 @@ class ShopsBloc extends Bloc<ShopsEvent, ShopsState> {
 
   /// on update shop event
   Future<void> _onUpdateShop(
-      UpdateShopEvent event, Emitter<ShopsState> emit) async {
+    UpdateShopEvent event,
+    Emitter<ShopsState> emit,
+  ) async {
     try {
       await _databaseOperations.updateShop(event.shop);
       emit(state.copyWith(status: ShopsStatus.updated));
@@ -66,7 +64,9 @@ class ShopsBloc extends Bloc<ShopsEvent, ShopsState> {
 
   /// on delete shop event
   Future<void> _onDeleteShop(
-      DeleteShopEvent event, Emitter<ShopsState> emit) async {
+    DeleteShopEvent event,
+    Emitter<ShopsState> emit,
+  ) async {
     try {
       await _databaseOperations.deleteShop(event.shop);
       emit(state.copyWith(status: ShopsStatus.deleted));

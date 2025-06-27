@@ -12,20 +12,19 @@ class KitchenItemTileWidget extends StatelessWidget {
   final VoidCallback? onDoubleTap;
 
   const KitchenItemTileWidget({
-    Key? key,
+    super.key,
     required this.kitchenItem,
     this.onDoubleTap,
-  }) : super(key: key);
+  });
 
   final KitchenItemModel kitchenItem;
 
   @override
   Widget build(BuildContext context) {
-    final _kitmBloc = KitchenItemBloc(GetIt.I<DatabaseOperations>());
+    final kitmBloc = KitchenItemBloc(GetIt.I<DatabaseOperations>());
     return Slidable(
       //actionPane: SlidableDrawerActionPane(),
       //  actionExtentRatio: 0.25,
-
       startActionPane: ActionPane(
         // dismissible: DismissiblePane(onDismissed: () {}),
         motion: const ScrollMotion(),
@@ -37,9 +36,8 @@ class KitchenItemTileWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (contexta) => AddKitchenItem(
-                    kitchenItem: kitchenItem,
-                  ),
+                  builder: (contexta) =>
+                      AddKitchenItem(kitchenItem: kitchenItem),
                 ),
               );
             },
@@ -54,20 +52,22 @@ class KitchenItemTileWidget extends StatelessWidget {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-              key: const Key('action-12'),
-              backgroundColor: Colors.transparent,
-              label: 'Delete',
-              onPressed: (context) {
-                Dialogs.confirmDialogue(context,
-                        title: 'Delete',
-                        message: 'Are you sure you want to delete this item?')
-                    .then((confirmed) {
-                  if (confirmed) {
-                    _kitmBloc.add(DeleteKitchenItemEvent(kitchenItem));
-                  }
-                });
-              },
-              icon: Icons.delete),
+            key: const Key('action-12'),
+            backgroundColor: Colors.transparent,
+            label: 'Delete',
+            onPressed: (context) {
+              Dialogs.confirmDialogue(
+                context,
+                title: 'Delete',
+                message: 'Are you sure you want to delete this item?',
+              ).then((confirmed) {
+                if (confirmed) {
+                  kitmBloc.add(DeleteKitchenItemEvent(kitchenItem));
+                }
+              });
+            },
+            icon: Icons.delete,
+          ),
         ],
       ),
 
@@ -76,10 +76,7 @@ class KitchenItemTileWidget extends StatelessWidget {
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConstants.radius),
-            side: BorderSide(
-              color: AppConstants.whiteOpacity,
-              width: 1,
-            ),
+            side: BorderSide(color: AppConstants.whiteOpacity, width: 1),
           ),
           color: !kitchenItem.isExpired
               ? AppConstants.whiteOpacity
@@ -96,8 +93,12 @@ class KitchenItemTileWidget extends StatelessWidget {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color:
-                            Color.fromARGB(255, 224, 2, 253).withOpacity(0.2),
+                        color: Color.fromARGB(
+                          255,
+                          224,
+                          2,
+                          253,
+                        ).withOpacity(0.2),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(AppConstants.radius),
                           bottomLeft: Radius.circular(AppConstants.radius),
@@ -147,12 +148,13 @@ class KitchenItemTileWidget extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: PriceNumberZone(
-                          price: kitchenItem.itemPrice,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                          withDollarSign: true,
-                        )),
+                      padding: EdgeInsets.all(4.0),
+                      child: PriceNumberZone(
+                        price: kitchenItem.itemPrice,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        withDollarSign: true,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                   ],
                 ),

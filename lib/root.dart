@@ -10,6 +10,8 @@ import 'database/database.dart';
 import 'utils.dart';
 
 class Root extends StatelessWidget {
+  const Root({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthenticationState>(

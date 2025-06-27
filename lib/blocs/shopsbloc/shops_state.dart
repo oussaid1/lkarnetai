@@ -1,21 +1,13 @@
 part of 'shops_bloc.dart';
 
-enum ShopsStatus {
-  initial,
-  loading,
-  loaded,
-  added,
-  updated,
-  deleted,
-  error,
-}
+enum ShopsStatus { initial, loading, loaded, added, updated, deleted, error }
 
 class ShopsState extends Equatable {
   final ShopsStatus status;
   final List<ShopModel> shops;
   final ShopModel? shop;
   final String error;
-  ShopsState({
+  const ShopsState({
     required this.status,
     required this.shops,
     this.shop,

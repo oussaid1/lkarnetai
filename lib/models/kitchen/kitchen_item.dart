@@ -34,7 +34,7 @@ class KitchenItemModel {
   });
   DateTime dateBought = DateTime.now();
   DateTime? dateExpired; // double get itemPrix => itemPrice * quantity;
-// is expired
+  // is expired
   bool get isExpired {
     return dateExpired != null; // && dateExpired!.isBefore(DateTime.now());
   }
@@ -54,17 +54,18 @@ class KitchenItemModel {
     String? kitchenElementId,
   }) {
     return KitchenItemModel(
-        id: id ?? this.id,
-        besoinTitle: besoinTitle ?? this.besoinTitle,
-        shopName: shopName ?? this.shopName,
-        itemName: itemName ?? this.itemName,
-        quantifier: quantifier ?? this.quantifier,
-        quantity: quantity ?? this.quantity,
-        itemPrice: itemPrice ?? this.itemPrice,
-        count: count ?? this.count,
-        dateBought: dateBought ?? this.dateBought,
-        dateExpired: dateExpired,
-        kitchenElementId: kitchenElementId ?? this.kitchenElementId);
+      id: id ?? this.id,
+      besoinTitle: besoinTitle ?? this.besoinTitle,
+      shopName: shopName ?? this.shopName,
+      itemName: itemName ?? this.itemName,
+      quantifier: quantifier ?? this.quantifier,
+      quantity: quantity ?? this.quantity,
+      itemPrice: itemPrice ?? this.itemPrice,
+      count: count ?? this.count,
+      dateBought: dateBought ?? this.dateBought,
+      dateExpired: dateExpired,
+      kitchenElementId: kitchenElementId ?? this.kitchenElementId,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -83,20 +84,23 @@ class KitchenItemModel {
   }
 
   KitchenItemModel.fromItem(
-      ItemModel item, KitchenElementModel kitchenElement) {
-    this.besoinTitle = item.besoinTitle;
-    this.shopName = item.shopName;
-    this.itemName = item.itemName;
-    this.quantifier = item.quantifier;
-    this.quantity = item.quantity;
-    this.itemPrice = item.itemPrice;
-    this.count = item.count;
-    this.dateBought = item.dateBought;
-    this.dateExpired = null;
-    this.kitchenElementId = kitchenElement.id!;
+    ItemModel item,
+    KitchenElementModel kitchenElement,
+  ) {
+    besoinTitle = item.besoinTitle;
+    shopName = item.shopName;
+    itemName = item.itemName;
+    quantifier = item.quantifier;
+    quantity = item.quantity;
+    itemPrice = item.itemPrice;
+    count = item.count;
+    dateBought = item.dateBought;
+    dateExpired = null;
+    kitchenElementId = kitchenElement.id!;
   }
   KitchenItemModel.fromDocumentSnapShot(
-      QueryDocumentSnapshot documentSnapshot) {
+    QueryDocumentSnapshot documentSnapshot,
+  ) {
     id = documentSnapshot.id;
     besoinTitle = documentSnapshot['besoinTitle'];
     itemName = documentSnapshot['itemName'].trim();
@@ -135,7 +139,7 @@ class KitchenItemModel {
     print('-------------------------------');
   }
 
-// from map
+  // from map
   factory KitchenItemModel.fromMap(Map<String, dynamic> map) {
     return KitchenItemModel(
       id: map['id'],

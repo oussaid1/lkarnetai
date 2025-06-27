@@ -19,15 +19,14 @@ class Backup {
 
   /// the constructor for the backup class
   Backup({this.path, required this.date, required this.shopsDataList}) {
-    this.path =
-        '/storage/emulated/0/Android/data/com.dev.bourheem.Lkarnet/files';
+    path = '/storage/emulated/0/Android/data/com.dev.bourheem.Lkarnet/files';
   }
 
   /// the toJson method for the backup class
   /// this method is used to convert the backup to a json format
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date.toIso8601String();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date.toIso8601String();
     // data['items'] = this.items.map((x) => x.toJson()).toList();
     return data;
   }
@@ -45,8 +44,8 @@ class Backup {
     path = '$path/backup/oussaid.json';
     log('path: $path');
     final File file = File(path!);
-    log('file: ${file}');
-    await file.writeAsString(json.encode(this.toJson()));
+    log('file: $file');
+    await file.writeAsString(json.encode(toJson()));
     // File("$path/backup${DateFormat.yMMMd().format(this.date)}.xlsx")
     // file..createSync(recursive: true)
     // ..writeAsString(json.encode(this.toJson()));
@@ -196,7 +195,7 @@ class Backup {
 
   void saveToFile({required List<int> bytes}) {
     if (path != null) {
-      File("$path/backup${DateFormat.yMMMd().format(this.date)}.xlsx")
+      File("$path/backup${DateFormat.yMMMd().format(date)}.xlsx")
         ..createSync(recursive: true)
         ..writeAsBytesSync(bytes);
     }

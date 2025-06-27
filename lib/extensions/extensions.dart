@@ -124,8 +124,8 @@ extension DtExtension on DateTime {
 /// extension on [List<T>] to limit the list size to [limit]
 extension ListExtension<T> on List<T> {
   List<T> limit(int limit) {
-    if (this.length > limit) {
-      return this.sublist(0, limit);
+    if (length > limit) {
+      return sublist(0, limit);
     }
     return this;
   }

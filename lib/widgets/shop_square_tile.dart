@@ -5,10 +5,10 @@ import 'price_curency_widget.dart';
 
 class ShopSquareTile extends StatelessWidget {
   const ShopSquareTile({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.shopData,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final ShopData shopData;
@@ -74,9 +74,7 @@ class ShopSquareTile extends StatelessWidget {
                         text: '${shopData.shop.dailyLimit}',
                         style: Theme.of(context).textTheme.bodyLarge,
                         children: <TextSpan>[
-                          TextSpan(
-                            text: ' => ',
-                          ),
+                          TextSpan(text: ' => '),
                           TextSpan(
                             text: '${shopData.shop.limit}',
                             style: Theme.of(context).textTheme.titleSmall,
@@ -100,10 +98,10 @@ class ShopSquareTile extends StatelessWidget {
 
 class SimpleShopSquareTile extends StatelessWidget {
   const SimpleShopSquareTile({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.shopData,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final ShopData shopData;
@@ -137,8 +135,8 @@ class SimpleShopSquareTile extends StatelessWidget {
               withDollarSign: true,
               price: shopData.shopDataCalculations.itemsSumAfterPayment,
               style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                    color: AppConstants.hintColor,
-                  ),
+                color: AppConstants.hintColor,
+              ),
             ),
             const SizedBox(height: 8),
           ],

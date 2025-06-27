@@ -30,10 +30,7 @@ class LoginCredentials {
     return null;
   }
 
-  LoginCredentials({
-    this.username,
-    this.password,
-  });
+  LoginCredentials({this.username, this.password});
 
   /// check if the credentials are valid
   bool get isValid {
@@ -42,24 +39,21 @@ class LoginCredentials {
 
   /// validate username
   bool get isValidUsername {
-    bool _isValid = false;
-    _isValid = password != null && password!.isNotEmpty;
-    return _isValid;
+    bool isValid = false;
+    isValid = password != null && password!.isNotEmpty;
+    return isValid;
   }
 
   /// validate password
   bool get isValidPassword {
-    bool _isValid = false;
-    _isValid = password != null && password!.isNotEmpty;
-    return _isValid;
+    bool isValid = false;
+    isValid = password != null && password!.isNotEmpty;
+    return isValid;
   }
 
   // to map
   Map<String, dynamic> toMap() {
-    return {
-      'username': username,
-      'password': password,
-    };
+    return {'username': username, 'password': password};
   } // to map
 
   // from map
@@ -75,18 +69,10 @@ class SignUpCredentials {
   String? email;
   String? password;
 
-  SignUpCredentials({
-    this.username,
-    this.email,
-    this.password,
-  });
+  SignUpCredentials({this.username, this.email, this.password});
   // to map
   Map<String, dynamic> toMap() {
-    return {
-      'username': username,
-      'email': email,
-      'password': password,
-    };
+    return {'username': username, 'email': email, 'password': password};
   } // to map
 
   // from map
@@ -103,22 +89,22 @@ class SignUpCredentials {
 
   /// validate username
   bool get isValidUsername {
-    bool _isValid = false;
-    _isValid = username != null && username!.isNotEmpty;
-    return _isValid;
+    bool isValid = false;
+    isValid = username != null && username!.isNotEmpty;
+    return isValid;
   }
 
   /// validate password
   bool get isValidPassword {
-    bool _isValid = false;
-    _isValid = password != null && password!.isNotEmpty;
-    return _isValid;
+    bool isValid = false;
+    isValid = password != null && password!.isNotEmpty;
+    return isValid;
   }
 
   /// validate email
   bool get isValidEmail {
-    bool _isValid = false;
-    _isValid = email != null && email!.isNotEmpty;
-    return _isValid;
+    bool isValid = false;
+    isValid = email != null && email!.isNotEmpty;
+    return isValid;
   }
 }

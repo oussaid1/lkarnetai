@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lkarnet/widgets/glasswidget.dart';
 
 class SplashPage extends StatelessWidget {
+  const SplashPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GlassMaterial(
@@ -69,10 +71,7 @@ class SplashPage extends StatelessWidget {
           MaterialPageRoute(builder: (context) => LoginPage()),
         );
       },
-      icon: Icon(
-        Icons.arrow_forward_ios,
-        color: Colors.white,
-      ),
+      icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
     );
   }
 

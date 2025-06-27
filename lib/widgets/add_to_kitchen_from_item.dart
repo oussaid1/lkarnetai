@@ -10,10 +10,7 @@ import '../settings/theme.dart';
 import 'kitchen_elements_spinner.dart';
 
 class AddToKitchenFromItem extends StatefulWidget {
-  const AddToKitchenFromItem({
-    Key? key,
-    required this.item,
-  }) : super(key: key);
+  const AddToKitchenFromItem({super.key, required this.item});
   final ItemModel item;
 
   @override
@@ -31,8 +28,10 @@ class _StateAddToKitchenFromItem extends State<AddToKitchenFromItem> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Select kitchen Element to add item to',
-                style: Theme.of(context).textTheme.titleSmall),
+            child: Text(
+              'Select kitchen Element to add item to',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ),
           const SizedBox(height: 10),
           Row(
@@ -45,23 +44,28 @@ class _StateAddToKitchenFromItem extends State<AddToKitchenFromItem> {
                   });
                 },
               ),
-              Container(
+              SizedBox(
                 width: 120,
                 child: ElevatedButton(
-                    child: Text(
-                      'Save',
-                    ),
-                    onPressed: _kitchenElement == null
-                        ? null
-                        : () {
-                            final kElBloc =
-                                KitchenItemBloc(GetIt.I<DatabaseOperations>());
-                            kElBloc.add(AddKitchenItemEvent(
-                                KitchenItemModel.fromItem(
-                                    widget.item, _kitchenElement!)));
-                            Navigator.of(context).pop();
-                          },
-                    style: MThemeData.raisedButtonStyleSave),
+                  onPressed: _kitchenElement == null
+                      ? null
+                      : () {
+                          final kElBloc = KitchenItemBloc(
+                            GetIt.I<DatabaseOperations>(),
+                          );
+                          kElBloc.add(
+                            AddKitchenItemEvent(
+                              KitchenItemModel.fromItem(
+                                widget.item,
+                                _kitchenElement!,
+                              ),
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                        },
+                  style: MThemeData.raisedButtonStyleSave,
+                  child: Text('Save'),
+                ),
               ),
               // const SizedBox(width: 4),
             ],

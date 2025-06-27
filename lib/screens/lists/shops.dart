@@ -19,9 +19,7 @@ import '../../models/payment/payment_model.dart';
 import '../../settings/theme.dart';
 
 class ShopsList extends ConsumerWidget {
-  ShopsList({
-    Key? key,
-  }) : super(key: key);
+  const ShopsList({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -73,20 +71,14 @@ class ShopsList extends ConsumerWidget {
             ),
           ),
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           title: Text(
             'Shops',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
         body: BlocBuilder<ItemsBloc, ItemsState>(
@@ -99,192 +91,204 @@ class ShopsList extends ConsumerWidget {
                       builder: (context, filterState) {
                         //////////////////////////////////////////////////////
                         //////////////////////////////////////////////////////
-                        List<ItemModel> _items = itemsState.items;
-                        List<PaymentModel> _payments = paymentsState.payments;
-                        List<ShopModel> _shops = shopsState.shops;
+                        List<ItemModel> items = itemsState.items;
+                        List<PaymentModel> payments = paymentsState.payments;
+                        List<ShopModel> shops = shopsState.shops;
                         //////////////////////////////////////////////////////
 
-                        DataSink _dataSink = DataSink(
-                            items: _items, payments: _payments, shops: _shops);
-                        List<ShopData> _shopsDataList = _dataSink.allShopsData;
+                        DataSink dataSink = DataSink(
+                          items: items,
+                          payments: payments,
+                          shops: shops,
+                        );
+                        List<ShopData> shopsDataList = dataSink.allShopsData;
 
                         return SingleChildScrollView(
                           child: Column(
                             children: [
                               SizedBox(
-                                  height: 60,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Shops",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .displaySmall),
-                                            Text(
-                                                "see all the shops, add new ones, edit them, delete them, etc.",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall),
-                                          ],
-                                        ),
+                                height: 60,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Shops",
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.displaySmall,
+                                          ),
+                                          Text(
+                                            "see all the shops, add new ones, edit them, delete them, etc.",
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleSmall,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  )),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               BluredContainer(
                                 margin: EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 8),
+                                  left: 8,
+                                  right: 8,
+                                  bottom: 8,
+                                ),
                                 child: ListView.builder(
-                                  itemCount: _shopsDataList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    ShopData shopsData = _shopsDataList[index];
+                                  itemCount: shopsDataList.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    ShopData shopsData = shopsDataList[index];
                                     return Slidable(
-                                        startActionPane: ActionPane(
-                                          motion: ScrollMotion(),
-                                          children: [
-                                            IconButton(
-                                                icon: Icon(
-                                                  Icons.mode_edit,
-                                                  size: 30,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
-                                                ),
-                                                color: Colors.transparent,
-                                                onPressed: () {
-                                                  Dialogs.botomUpDialog(
-                                                      context,
-                                                      AddShop(
-                                                          shop:
-                                                              shopsData.shop));
-                                                }),
-                                          ],
-                                        ),
-                                        endActionPane: ActionPane(
-                                          motion: ScrollMotion(),
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.delete_forever,
-                                                size: 30,
-                                                color: Theme.of(context)
-                                                    .colorScheme.error,
-                                              ),
-                                              color: Colors.transparent,
-                                              onPressed: () {
-                                                Dialogs.dialogSimple(context,
-                                                    title: 'Are you sure !!?',
-                                                    widgets: [
-                                                      Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Container(
-                                                              width: 120,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                child: Text(
-                                                                  'Cancel',
+                                      startActionPane: ActionPane(
+                                        motion: ScrollMotion(),
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.mode_edit,
+                                              size: 30,
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.secondary,
+                                            ),
+                                            color: Colors.transparent,
+                                            onPressed: () {
+                                              Dialogs.botomUpDialog(
+                                                context,
+                                                AddShop(shop: shopsData.shop),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      endActionPane: ActionPane(
+                                        motion: ScrollMotion(),
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.delete_forever,
+                                              size: 30,
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.error,
+                                            ),
+                                            color: Colors.transparent,
+                                            onPressed: () {
+                                              Dialogs.dialogSimple(
+                                                context,
+                                                title: 'Are you sure !!?',
+                                                widgets: [
+                                                  Container(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 120,
+                                                          child: ElevatedButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                  context,
                                                                 ),
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        context),
-                                                                style: MThemeData
-                                                                    .raisedButtonStyleCancel,
-                                                              ),
+                                                            style: MThemeData
+                                                                .raisedButtonStyleCancel,
+                                                            child: Text(
+                                                              'Cancel',
                                                             ),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Container(
-                                                              width: 120,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                child: Text(
-                                                                  'Ok',
-                                                                  style: Theme.of(
-                                                                          context)
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 20),
+                                                        SizedBox(
+                                                          width: 120,
+                                                          child: ElevatedButton(
+                                                            onPressed: () {},
+                                                            style: MThemeData
+                                                                .raisedButtonStyleSave,
+                                                            child: Text(
+                                                              'Ok',
+                                                              style:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
                                                                       .textTheme
                                                                       .displaySmall,
-                                                                ),
-                                                                onPressed:
-                                                                    () {},
-                                                                style: MThemeData
-                                                                    .raisedButtonStyleSave,
-                                                              ),
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ]);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: BluredContainer(
-                                            height: 60,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Card(
-                                              color: Colors.transparent,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              child: ListTile(
-                                                dense: true,
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                leading: Container(
-                                                  height: 45,
-                                                  width: 45,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: AppConstants
-                                                        .whiteOpacity,
+                                                      ],
+                                                    ),
                                                   ),
-                                                  child: Icon(Icons.person),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: BluredContainer(
+                                          height: 60,
+                                          width: MediaQuery.of(
+                                            context,
+                                          ).size.width,
+                                          child: Card(
+                                            color: Colors.transparent,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: ListTile(
+                                              dense: true,
+                                              contentPadding: EdgeInsets.only(
+                                                left: 8,
+                                                right: 8,
+                                              ),
+                                              leading: Container(
+                                                height: 45,
+                                                width: 45,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      AppConstants.whiteOpacity,
                                                 ),
-                                                title: Text(
-                                                  ' ${shopsData.shop.shopName}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineMedium,
-                                                ),
-                                                trailing: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      '${(shopsData.shop.limit)}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineMedium,
-                                                    ),
-                                                    Text(
-                                                      'limit',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleSmall,
-                                                    ),
-                                                  ],
-                                                ),
+                                                child: Icon(Icons.person),
+                                              ),
+                                              title: Text(
+                                                ' ${shopsData.shop.shopName}',
+                                                style: Theme.of(
+                                                  context,
+                                                ).textTheme.headlineMedium,
+                                              ),
+                                              trailing: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${(shopsData.shop.limit)}',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.headlineMedium,
+                                                  ),
+                                                  Text(
+                                                    'limit',
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.titleSmall,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        ));
+                                        ),
+                                      ),
+                                    );
                                   },
                                 ),
                               ),

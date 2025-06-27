@@ -55,9 +55,9 @@ class FirebaseAuthService {
       if (e.code == 'wrong-password') {
         return null;
       }
-      throw e;
+      rethrow;
     } on PlatformException catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -77,9 +77,9 @@ class FirebaseAuthService {
       if (e.code == 'wrong-password') {
         return null;
       }
-      throw e;
+      rethrow;
     } on PlatformException catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -90,16 +90,16 @@ class FirebaseAuthService {
   }
 
   Future<bool> createNewUser(UserModel user) async {
-    bool _done = false;
+    bool done = false;
     await users
         .doc(user.id)
         .set(user.toMap())
-        .then((value) => _done = true)
+        .then((value) => done = true)
         .catchError((error) {
-      print("Failed to add user: $error");
-      return _done = false;
-    });
-    return _done;
+          print("Failed to add user: $error");
+          return done = false;
+        });
+    return done;
   }
 
   Future<UserModel> getUser(String uid) async {
@@ -107,14 +107,17 @@ class FirebaseAuthService {
         .doc(uid)
         .get()
         .then(
-            (value) => UserModel.fromDocumentSnapshot(documentSnapshot: value))
+          (value) => UserModel.fromDocumentSnapshot(documentSnapshot: value),
+        )
         // ignore: return_of_invalid_type_from_catch_error
         .catchError((e) => print(e));
   }
 
   static Future<void> pop() async {
-    await SystemChannels.platform
-        .invokeMethod<void>('SystemNavigator.pop', true);
+    await SystemChannels.platform.invokeMethod<void>(
+      'SystemNavigator.pop',
+      true,
+    );
   }
 
   /// send password reset email
