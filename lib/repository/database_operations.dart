@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:lkarnet/database/database.dart';
 import 'package:lkarnet/models/shop/shops_data.dart';
 import 'package:lkarnet/models/shop/shop_model.dart';
@@ -180,4 +181,10 @@ class DatabaseOperations implements Database {
   @override
   // TODO: implement user
   User? get user => throw UnimplementedError();
+
+  @override
+  Future<void> deleteUserAndData(BuildContext context) {
+    // TODO: implement deleteUserAndData
+    throw UnimplementedError();
+  }
 }
